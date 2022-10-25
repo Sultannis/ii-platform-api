@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ChatMessageDao } from './chat-message.dao';
 
 @Entity('users')
 export class UserDao {
@@ -38,4 +40,7 @@ export class UserDao {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
   deletedAt?: string;
+
+  @OneToMany(() => ChatMessageDao, (message) => message.user)
+  messages: ChatMessageDao[];
 }
