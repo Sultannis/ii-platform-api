@@ -4,7 +4,7 @@ export class User {
   firstName: string;
   lastName: string;
   role: number;
-  password?: string;
+  password: string;
   createdAt: string;
   updatedAt: string;
   confirmedAt?: string | null;

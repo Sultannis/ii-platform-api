@@ -6,7 +6,7 @@ import { PresenterRegisterUserDto } from './dto/presenter-register-user.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 
-@Controller('v1/users')
+@Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
