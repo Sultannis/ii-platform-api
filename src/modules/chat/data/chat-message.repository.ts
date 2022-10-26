@@ -50,11 +50,11 @@ export class ChatMessageRepository {
     return updatedMessage ? mapChatMessageDaoToEntity(updatedMessage) : null;
   }
 
-  async softDeleteAndFetch(chatId: string): Promise<ChatMessage | null> {
-    await this.chatMessageRepository.softDelete(chatId);
+  async softDeleteAndFetch(messageId: string): Promise<ChatMessage | null> {
+    await this.chatMessageRepository.softDelete(messageId);
 
     const deletedChatMessage = await this.chatMessageRepository.findOne({
-      where: { id: chatId },
+      where: { id: messageId },
       withDeleted: true,
     });
 

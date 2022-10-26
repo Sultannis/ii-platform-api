@@ -3,8 +3,9 @@ import { Module } from '@nestjs/common';
 import { ChatMessageDao } from 'src/common/dao/chat-message.dao';
 import { ChatRoomDao } from 'src/common/dao/chat-room.dao';
 import { UserDao } from 'src/common/dao/user.dao';
-import { ChatService } from './chat.service';
 import { ChatGateway } from './gateway/chat.gateway';
+import { ChatMessageService } from './domain/chat-message.service';
+import { ChatRoomService } from './domain/chat-room.service';
 import { ChatRoomRepository } from './data/chat-room.repository';
 import { ChatMessageRepository } from './data/chat-message.repository';
 
@@ -12,7 +13,8 @@ import { ChatMessageRepository } from './data/chat-message.repository';
   imports: [TypeOrmModule.forFeature([ChatMessageDao, ChatRoomDao, UserDao])],
   providers: [
     ChatGateway,
-    ChatService,
+    ChatMessageService,
+    ChatRoomService,
     ChatMessageRepository,
     ChatRoomRepository,
   ],
