@@ -21,6 +21,9 @@ export class UserDao {
   @Column({ name: 'email', type: 'varchar', length: 255 })
   email: string;
 
+  @Column({ name: 'occupation', type: 'varchar', length: 255 })
+  occupation: string;
+
   @Column({ name: 'password', type: 'varchar', length: 255 })
   password: string;
 
