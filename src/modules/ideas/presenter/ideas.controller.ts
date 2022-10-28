@@ -9,6 +9,7 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { RequestUser } from 'src/modules/auth/entities/request-user';
@@ -93,6 +94,20 @@ export class IdeasController {
     };
 
     const idea = await this.ideasService.update(ideaId, payload);
+
+    return {
+      idea: this.ideaResource.convert(idea),
+    };
+  }
+
+  @Delete(':idea_id')
+  async delete(
+    @Param('idea_id', ParseIntPipe) ideaId: number,
+    @Req() request: Request,
+  ) {
+    const requestUser = request.user;
+
+    const idea = await this.ideasService.softDelete(ideaId);
 
     return {
       idea: this.ideaResource.convert(idea),

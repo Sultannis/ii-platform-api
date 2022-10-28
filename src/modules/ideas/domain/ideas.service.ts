@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Idea } from 'src/common/entities/idea';
+import { RequestUser } from 'src/modules/auth/entities/request-user';
 import { IdeasRepository } from '../data/ideas.repository';
 import { CreateIdeaDto } from '../dto/create-idea.dto';
 import { FindAllIdeasDto } from '../dto/find-all-ideas.dto';
@@ -33,5 +34,14 @@ export class IdeasService {
     }
 
     return this.ideasRepository.updateAndFetchById(ideaId, payload);
+  }
+
+  async softDelete(ideaId: number): Promise<Idea> {
+    const idea = await this.ideasRepository.findOneById(ideaId);
+    if (!idea) {
+      throw new NotFoundException('Idea does not exist');
+    }
+
+    return this.ideasRepository.softDeleteAndFetchById(ideaId);
   }
 }

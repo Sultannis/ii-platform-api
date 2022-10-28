@@ -48,4 +48,15 @@ export class IdeasRepository {
       id: ideaId,
     });
   }
+
+  async softDeleteAndFetchById(ideaId: number): Promise<Idea> {
+    await this.ideasRepository.softDelete(ideaId);
+
+    return this.ideasRepository.findOne({
+      where: {
+        id: ideaId,
+      },
+      withDeleted: true,
+    });
+  }
 }
