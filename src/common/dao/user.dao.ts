@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IdeaDao } from './idea.dao';
 
 @Entity('users')
 export class UserDao {
@@ -41,4 +44,7 @@ export class UserDao {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
   deletedAt?: string;
+
+  @OneToMany(() => IdeaDao, (idea) => idea.user)
+  ideas: IdeaDao[];
 }

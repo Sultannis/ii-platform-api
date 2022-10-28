@@ -3,14 +3,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserDao } from './user.dao';
 
-@Entity()
-export class PostDao {
+@Entity('ideas')
+export class IdeaDao {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
+
+  @Column({ name: 'user_id', type: 'bigint' })
+  userId: number;
 
   @Column({ name: 'title', type: 'varchar' })
   title: string;
@@ -18,8 +23,12 @@ export class PostDao {
   @Column({ name: 'description', type: 'text' })
   description: string;
 
-  @Column({ name: 'required_financial_support', type: 'varchar' })
-  requiredFinancialSupport: string;
+  @Column({
+    name: 'required_financial_support',
+    type: 'varchar',
+    nullable: true,
+  })
+  requiredFinancialSupport?: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: string;
@@ -29,4 +38,7 @@ export class PostDao {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
   deletedAt?: string;
+
+  @ManyToOne(() => UserDao, (user) => user.ideas)
+  user: UserDao;
 }

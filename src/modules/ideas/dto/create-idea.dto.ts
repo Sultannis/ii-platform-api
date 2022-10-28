@@ -1,4 +1,4 @@
-export class CreatePostDto {
+export class CreateIdeaDto {
   userId: number;
   title: string;
   description: string;

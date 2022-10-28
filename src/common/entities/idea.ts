@@ -1,8 +1,9 @@
-export class Post {
+export class Idea {
   id: number;
+  userId: number;
   title: string;
   description: string;
-  requiredFinancialSupport: string;
+  requiredFinancialSupport?: number;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
