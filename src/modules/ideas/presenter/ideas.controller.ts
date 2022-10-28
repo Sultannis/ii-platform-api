@@ -8,14 +8,17 @@ import {
   Query,
   Param,
   ParseIntPipe,
+  Patch,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { RequestUser } from 'src/modules/auth/entities/request-user';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { IdeasService } from '../domain/ideas.service';
 import { CreateIdeaDto } from '../dto/create-idea.dto';
+import { UpdateIdeaDto } from '../dto/update-idea.dto';
 import { PresenterCreateIdeaDto } from './dto/presenter-create-idea.dto';
 import { PresenterFindAllIdeasDto } from './dto/presenter-find-all-ideas.dto';
+import { PresenterUpdateIdeaDto } from './dto/presenter-update-idea.dto';
 import { IdeaResource } from './resources/idea.resource';
 
 @Controller('ideas')
@@ -71,6 +74,25 @@ export class IdeasController {
   @Get(':idea_id')
   async findOne(@Param('idea_id', ParseIntPipe) ideaId: number) {
     const idea = await this.ideasService.findOne(ideaId);
+
+    return {
+      idea: this.ideaResource.convert(idea),
+    };
+  }
+
+  @Patch(':idea_id')
+  async update(
+    @Param('idea_id', ParseIntPipe) ideaId: number,
+    @Body() presenterUpdateIdeaDto: PresenterUpdateIdeaDto,
+  ) {
+    const payload: UpdateIdeaDto = {
+      title: presenterUpdateIdeaDto.title,
+      description: presenterUpdateIdeaDto.description,
+      requiredFinancialSupport:
+        presenterUpdateIdeaDto.required_financial_support,
+    };
+
+    const idea = await this.ideasService.update(ideaId, payload);
 
     return {
       idea: this.ideaResource.convert(idea),

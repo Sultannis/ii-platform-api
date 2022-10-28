@@ -5,6 +5,7 @@ import { Idea } from 'src/common/entities/idea';
 import { Repository } from 'typeorm';
 import { CreateIdeaDto } from '../dto/create-idea.dto';
 import { FindAllIdeasDto } from '../dto/find-all-ideas.dto';
+import { UpdateIdeaDto } from '../dto/update-idea.dto';
 
 @Injectable()
 export class IdeasRepository {
@@ -32,6 +33,17 @@ export class IdeasRepository {
   }
 
   findOneById(ideaId: number): Promise<Idea> {
+    return this.ideasRepository.findOneBy({
+      id: ideaId,
+    });
+  }
+
+  async updateAndFetchById(
+    ideaId: number,
+    payload: UpdateIdeaDto,
+  ): Promise<Idea> {
+    await this.ideasRepository.update(ideaId, payload);
+
     return this.ideasRepository.findOneBy({
       id: ideaId,
     });
