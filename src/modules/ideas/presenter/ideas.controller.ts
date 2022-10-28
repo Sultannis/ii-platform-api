@@ -6,6 +6,8 @@ import {
   UseGuards,
   Get,
   Query,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { RequestUser } from 'src/modules/auth/entities/request-user';
@@ -63,6 +65,15 @@ export class IdeasController {
 
     return {
       ideas: ideas.map(this.ideaResource.convert),
+    };
+  }
+
+  @Get(':idea_id')
+  async findOne(@Param('idea_id', ParseIntPipe) ideaId: number) {
+    const idea = await this.ideasService.findOne(ideaId);
+
+    return {
+      idea: this.ideaResource.convert(idea),
     };
   }
 }

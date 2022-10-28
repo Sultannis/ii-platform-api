@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Idea } from 'src/common/entities/idea';
 import { IdeasRepository } from '../data/ideas.repository';
 import { CreateIdeaDto } from '../dto/create-idea.dto';
@@ -14,5 +14,14 @@ export class IdeasService {
 
   findAll(payload: FindAllIdeasDto): Promise<Idea[]> {
     return this.ideasRepository.findAll(payload);
+  }
+
+  async findOne(ideaId: number): Promise<Idea> {
+    const idea = await this.ideasRepository.findOneById(ideaId);
+    if (!idea) {
+      throw new NotFoundException('Idea does not exist');
+    }
+
+    return idea;
   }
 }

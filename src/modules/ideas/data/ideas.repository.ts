@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IdeaDao } from 'src/common/dao/idea.dao';
 import { Idea } from 'src/common/entities/idea';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateIdeaDto } from '../dto/create-idea.dto';
 import { FindAllIdeasDto } from '../dto/find-all-ideas.dto';
 
@@ -29,5 +29,11 @@ export class IdeasRepository {
       })
       .orderBy('idea.created_at', 'DESC')
       .getMany();
+  }
+
+  findOneById(ideaId: number): Promise<Idea> {
+    return this.ideasRepository.findOneBy({
+      id: ideaId,
+    });
   }
 }
