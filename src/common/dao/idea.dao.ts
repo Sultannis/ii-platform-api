@@ -5,9 +5,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IdeaImageDao } from './idea-image.dao';
 import { UserDao } from './user.dao';
 
 @Entity('ideas')
@@ -43,4 +45,7 @@ export class IdeaDao {
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => UserDao, (user) => user.ideas)
   user: UserDao;
+
+  @OneToMany(() => IdeaImageDao, (image) => image.idea)
+  images: IdeaImageDao[];
 }
