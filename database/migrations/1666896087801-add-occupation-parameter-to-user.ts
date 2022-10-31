@@ -1,7 +1,9 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class $npmConfigName1666896087801 implements MigrationInterface {
-  name = '$npmConfigName1666896087801';
+export class addOccupationParameterToUser1666896087801
+  implements MigrationInterface
+{
+  name = 'addOccupationParameterToUser1666896087801';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(

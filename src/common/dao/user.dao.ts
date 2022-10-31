@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IdeaDao } from './idea.dao';
 
 @Entity('users')
 export class UserDao {
@@ -30,15 +33,18 @@ export class UserDao {
   @Column({ name: 'role', type: 'smallint', default: 0 })
   role: number;
 
-  @Column({ name: 'confirmed_at', type: 'timestamp', nullable: true })
+  @Column({ name: 'confirmed_at', type: 'timestamptz', nullable: true })
   confirmedAt?: string;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: string;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: string;
 
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
+
+  @OneToMany(() => IdeaDao, (idea) => idea.user)
+  ideas: IdeaDao[];
 }
