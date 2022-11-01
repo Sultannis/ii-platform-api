@@ -5,26 +5,26 @@ export class ChatRoomResource {
     return {
       id: payload.id,
       name: payload.name,
-      createdAt: payload.createdAt,
-      updatedAt: payload.updatedAt,
-      deletedAt: payload.deletedAt,
-      notReadedMessagesAmount: payload.notReadedMessagesAmount ?? null,
+      created_at: payload.createdAt,
+      updated_at: payload.updatedAt,
+      deleted_at: payload.deletedAt,
+      not_readed_messages_amount: payload.notReadedMessagesAmount ?? null,
       message: payload.lastMessage
         ? {
             id: payload.lastMessage.id,
             message: payload.lastMessage.message,
-            createdAt: payload.lastMessage.createdAt,
-            updatedAt: payload.lastMessage.updatedAt,
-            deletedAt: payload.lastMessage.deletedAt,
+            created_at: payload.lastMessage.createdAt,
+            updated_t: payload.lastMessage.updatedAt,
+            deleted_at: payload.lastMessage.deletedAt,
             type: +payload.lastMessage.type,
             user: payload.lastMessage.user
               ? {
                   id: +payload.lastMessage.user.id,
-                  firstName: payload.lastMessage.user.firstName,
-                  lastName: payload.lastMessage.user.lastName,
+                  first_name: payload.lastMessage.user.firstName,
+                  last_name: payload.lastMessage.user.lastName,
                   role: +payload.lastMessage.user.role,
-                  chatColor: payload.lastMessage.user.chatColor,
-                  avatarUrl: payload.lastMessage.user.avatarUrl,
+                  chat_color: payload.lastMessage.user.chatColor,
+                  avatar_url: payload.lastMessage.user.avatarUrl,
                 }
               : null,
           }
