@@ -1,10 +1,10 @@
-import { RegisterUserDto } from './../dto/register-user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDao } from 'src/common/dao/user.dao';
 import { User } from 'src/common/entities/user';
-
+import { UserDao } from 'src/common/dao/user.dao';
+import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
+import { mapUserDaoToEntity } from 'src/common/mappers/user.mappers';
 @Injectable()
 export class UsersRepository {
   constructor(
@@ -17,7 +17,7 @@ export class UsersRepository {
       where: { id: userId },
     });
 
-    return userDao ? this.mapUserDaoToEntity(userDao) : null;
+    return userDao ? mapUserDaoToEntity(userDao) : null;
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -25,26 +25,13 @@ export class UsersRepository {
       where: { email },
     });
 
-    return userDao ? this.mapUserDaoToEntity(userDao) : null;
+    return userDao ? mapUserDaoToEntity(userDao) : null;
   }
 
   async create(payload: RegisterUserDto): Promise<User> {
     const user = this.usersRepository.create(payload);
     const userDao = await this.usersRepository.save(user);
 
-    return this.mapUserDaoToEntity(userDao);
+    return mapUserDaoToEntity(userDao);
   }
-
-  private mapUserDaoToEntity = (user: UserDao): User => ({
-    id: user.id,
-    email: user.email,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    role: user.role,
-    password: user.password,
-    confirmedAt: user.confirmedAt,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-    deletedAt: user.deletedAt,
-  });
 }

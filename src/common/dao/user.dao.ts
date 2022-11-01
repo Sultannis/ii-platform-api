@@ -3,11 +3,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ChatMessageDao } from './chat-message.dao';
 import { IdeaDao } from './idea.dao';
 
 @Entity('users')
@@ -33,6 +33,17 @@ export class UserDao {
   @Column({ name: 'role', type: 'smallint', default: 0 })
   role: number;
 
+  @Column({
+    name: 'chat_color',
+    type: 'varchar',
+    length: 10,
+    default: '#FAA774',
+  })
+  chatColor: string;
+
+  @Column({ name: 'avatar_url', type: 'varchar', nullable: true })
+  avatarUrl: string;
+
   @Column({ name: 'confirmed_at', type: 'timestamptz', nullable: true })
   confirmedAt?: string;
 
@@ -44,6 +55,9 @@ export class UserDao {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
+
+  @OneToMany(() => ChatMessageDao, (message) => message.user)
+  messages?: ChatMessageDao[];
 
   @OneToMany(() => IdeaDao, (idea) => idea.user)
   ideas: IdeaDao[];
