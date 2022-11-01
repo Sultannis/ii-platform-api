@@ -3,6 +3,8 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import authConfig from 'src/common/configs/auth.config';
 import { UserTokenDto } from 'src/modules/auth/dto/user-token.dto';
+import { AdminTokenDto } from '../dto/admin-token.dto';
+import { RequestUser } from '../entities/request-user';
 
 @Injectable()
 export class AuthService {
@@ -29,11 +31,15 @@ export class AuthService {
     });
   }
 
-  decodeToken(token: string) {
+  decodeToken(token: string): any {
     return jwt.verify(token, authConfig.jwtSecret);
   }
 
   generateUserAuthToken(payload: UserTokenDto): string {
+    return jwt.sign(payload, authConfig.jwtSecret, { expiresIn: '7d' });
+  }
+
+  generateAdminAuthToken(payload: AdminTokenDto): string {
     return jwt.sign(payload, authConfig.jwtSecret, { expiresIn: '7d' });
   }
 }

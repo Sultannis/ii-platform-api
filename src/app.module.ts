@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { IdeasModule } from './modules/ideas/ideas.module';
 import { UsersModule } from './modules/users/users.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { AdminsModule } from './modules/admins/admins.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ChatModule } from './modules/chat/chat.module';
     ChatModule,
     IdeasModule,
     IdeaImageDao,
+    AdminsModule,
   ],
 })
 export class AppModule {}
