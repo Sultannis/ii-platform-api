@@ -56,18 +56,24 @@ export class ChatGateway {
     @ConnectedSocket() client: AuthClient,
     @MessageBody() roomId: string,
   ) {
-    const user: User = client.handshake.user;
-    const room = await this.chatRoomService.findById(roomId);
-    const roomMessages = await this.chatMessageService.findManyByRoomId(roomId);
-    const validateUserAccess =
-      await this.chatRoomService.checkUserAccesIntoRoom(+user.id, roomId);
-
-    if (validateUserAccess) {
-      client.emit(
-        `join-${room.id}`,
-        roomMessages.map(this.chatMessageResource.convert),
+    try {
+      const user: User = client.handshake.user;
+      const room = await this.chatRoomService.findById(roomId);
+      const roomMessages = await this.chatMessageService.findManyByRoomId(
+        roomId,
       );
-    } else {
+      const validateUserAccess =
+        await this.chatRoomService.checkUserAccesIntoRoom(+user.id, roomId);
+
+      if (validateUserAccess) {
+        client.emit(
+          `join-${room.id}`,
+          roomMessages.map(this.chatMessageResource.convert),
+        );
+      } else {
+        client.disconnect();
+      }
+    } catch (e) {
       client.disconnect();
     }
   }
@@ -77,32 +83,36 @@ export class ChatGateway {
     @ConnectedSocket() client: AuthClient,
     @MessageBody() payload: Message,
   ) {
-    const user: User = client.handshake.user;
+    try {
+      const user: User = client.handshake.user;
 
-    const { roomId, message } = payload;
-    const validateUserAccess =
-      await this.chatRoomService.checkUserAccesIntoRoom(+user.id, roomId);
+      const { roomId, message } = payload;
+      const validateUserAccess =
+        await this.chatRoomService.checkUserAccesIntoRoom(+user.id, roomId);
 
-    if (validateUserAccess) {
-      const savedMessage = await this.chatMessageService.create({
-        userId: +user.id,
-        roomId,
-        message,
-      });
-      const createdMessage = await this.chatMessageService.findById(
-        savedMessage.id,
-      );
-      const rooms = await this.chatRoomService.findByUserId(user.id);
+      if (validateUserAccess) {
+        const savedMessage = await this.chatMessageService.create({
+          userId: +user.id,
+          roomId,
+          message,
+        });
+        const createdMessage = await this.chatMessageService.findById(
+          savedMessage.id,
+        );
+        const rooms = await this.chatRoomService.findByUserId(user.id);
 
-      this.server.emit(
-        `join-${roomId}`,
-        this.chatMessageResource.convert(createdMessage),
-      );
-      client.emit(
-        'rooms',
-        rooms.map((room) => this.chatRoomResource.covert(room)),
-      );
-    } else {
+        this.server.emit(
+          `join-${roomId}`,
+          this.chatMessageResource.convert(createdMessage),
+        );
+        client.emit(
+          'rooms',
+          rooms.map((room) => this.chatRoomResource.covert(room)),
+        );
+      } else {
+        client.disconnect();
+      }
+    } catch (e) {
       client.disconnect();
     }
   }
@@ -110,6 +120,7 @@ export class ChatGateway {
   handleConnection(socket: Socket) {
     try {
       const token = socket.handshake.headers.authorization.split(' ')[1];
+
       this.authService.decodeToken(token);
     } catch (e: unknown) {
       socket.disconnect();
