@@ -29,6 +29,17 @@ export class UserDao {
   @Column({ name: 'role', type: 'smallint', default: 0 })
   role: number;
 
+  @Column({
+    name: 'chat_color',
+    type: 'varchar',
+    length: 10,
+    default: '#FAA774',
+  })
+  chatColor: string;
+
+  @Column({ name: 'avatar_url', type: 'varchar', nullable: true })
+  avatarUrl: string;
+
   @Column({ name: 'confirmed_at', type: 'timestamp', nullable: true })
   confirmedAt?: string;
 
@@ -42,5 +53,5 @@ export class UserDao {
   deletedAt?: string;
 
   @OneToMany(() => ChatMessageDao, (message) => message.user)
-  messages: ChatMessageDao[];
+  messages?: ChatMessageDao[];
 }

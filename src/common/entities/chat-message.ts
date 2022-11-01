@@ -7,9 +7,11 @@ export class ChatMessage {
   roomId: string;
   message: string;
   type: number;
+  readedAt?: string | null;
+  replyTo?: string | null;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;
-  user: User;
-  room: ChatRoom;
+  user?: User;
+  room?: ChatRoom;
 }

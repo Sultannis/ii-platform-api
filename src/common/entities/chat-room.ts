@@ -10,5 +10,7 @@ export class ChatRoom {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;
-  messages: ChatMessage[];
+  messages?: ChatMessage[];
+  lastMessage?: ChatMessage;
+  notReadedMessagesAmount?: number | null;
 }

@@ -23,13 +23,34 @@ export class ChatMessageRepository {
     return chatMessage ? mapChatMessageDaoToEntity(chatMessage) : null;
   }
 
+  async findNotReadedAmountByRoomId(roomId: string): Promise<number> {
+    return this.chatMessageRepository
+      .createQueryBuilder('message')
+      .where('message.room_id = :roomId', { roomId })
+      .andWhere('message.readedAt IS NULL')
+      .getCount();
+  }
+
   async findManyByRoomId(roomId: string): Promise<ChatMessage[]> {
     const chatMessages = await this.chatMessageRepository.find({
       where: { roomId },
+      order: {
+        createdAt: 'DESC',
+      },
+      take: 150,
       relations: ['room', 'user'],
     });
 
     return chatMessages.map(mapChatMessageDaoToEntity);
+  }
+
+  async findLastByRoomId(roomId: string): Promise<ChatMessage | null> {
+    const chatMessage = await this.chatMessageRepository.findOne({
+      where: { roomId },
+      order: { createdAt: 'DESC' },
+      relations: ['user', 'room'],
+    });
+    return chatMessage ? mapChatMessageDaoToEntity(chatMessage) : null;
   }
 
   async create(payload: CreateChatMessageDto): Promise<ChatMessage | null> {

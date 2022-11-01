@@ -8,20 +8,22 @@ export const mapChatMessageDaoToEntity = (
   payload: ChatMessageDao,
 ): ChatMessage => ({
   id: payload.id,
-  userId: payload.userId,
+  userId: +payload.userId,
   roomId: payload.roomId,
   message: payload.message,
   type: payload.type,
+  replyTo: payload.replyTo,
+  readedAt: payload.readedAt,
   createdAt: payload.createdAt,
   updatedAt: payload.updatedAt,
   deletedAt: payload.deletedAt,
-  user: mapUserDaoToEntity(payload.user),
-  room: mapChatRoomDaoToEntity(payload.room),
+  user: payload.user ? mapUserDaoToEntity(payload.user) : null,
+  room: payload.room ? mapChatRoomDaoToEntity(payload.room) : null,
 });
 
 export const mapChatRoomDaoToEntity = (payload: ChatRoomDao): ChatRoom => ({
   id: payload.id,
-  roomAdminId: payload.roomAdminId,
+  roomAdminId: +payload.roomAdminId,
   name: payload.name,
   usersAccess: payload.usersAccess,
   backgroundColor: payload.backgroundColor,

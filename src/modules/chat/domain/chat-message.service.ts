@@ -12,8 +12,16 @@ export class ChatMessageService {
     return this.chatMessageRepository.findById(messageId);
   }
 
+  findNotReadedAmountByRoomId(roomId: string): Promise<number> {
+    return this.chatMessageRepository.findNotReadedAmountByRoomId(roomId);
+  }
+
   findManyByRoomId(roomId: string): Promise<ChatMessage[]> {
     return this.chatMessageRepository.findManyByRoomId(roomId);
+  }
+
+  findLastByRoomId(roomId: string): Promise<ChatMessage> {
+    return this.chatMessageRepository.findLastByRoomId(roomId);
   }
 
   create(payload: CreateChatMessageDto): Promise<ChatMessage> {

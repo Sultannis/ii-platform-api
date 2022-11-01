@@ -5,6 +5,8 @@ export class User {
   lastName: string;
   role: number;
   password: string;
+  chatColor: string;
+  avatarUrl?: string | null;
   createdAt: string;
   updatedAt: string;
   confirmedAt?: string | null;

@@ -14,10 +14,18 @@ export class ChatRoomRepository {
     private readonly chatRoomRepository: Repository<ChatRoomDao>,
   ) {}
 
+  async findByUserId(userId: number): Promise<ChatRoom[] | null> {
+    const chatRooms = await this.chatRoomRepository
+      .createQueryBuilder('room')
+      .where(':userId = ANY(room.users_access)', { userId })
+      .getMany();
+
+    return chatRooms ? chatRooms.map(mapChatRoomDaoToEntity) : null;
+  }
+
   async findById(roomId: string): Promise<ChatRoom | null> {
     const chatRoom = await this.chatRoomRepository.findOne({
       where: { id: roomId },
-      relations: ['message'],
     });
 
     return chatRoom ? mapChatRoomDaoToEntity(chatRoom) : null;

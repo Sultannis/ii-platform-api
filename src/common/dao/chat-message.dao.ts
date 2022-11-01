@@ -28,6 +28,12 @@ export class ChatMessageDao {
   @Column({ name: 'type', type: 'smallint', default: 0 })
   type: number;
 
+  @Column({ name: 'reply_to', type: 'uuid', nullable: true })
+  replyTo?: string | null;
+
+  @Column({ name: 'readed_at', type: 'timestamp', nullable: true })
+  readedAt?: string | null;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: string;
 
