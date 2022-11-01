@@ -20,8 +20,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:run": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d database/configs/postgres.config.ts",
-    "migration:generate": "npm run typeorm -- -d ./database/configs/postgres.config.ts migration:generate ./database/migrations/$npm_config_name"
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d database/configs/postgres.config.ts",
+    "migration:generate": " cross-var npm run typeorm -- -d ./database/configs/postgres.config.ts migration:generate ./database/migrations/$npm_config_name"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -38,6 +38,7 @@
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^8.5.1",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
@@ -55,6 +56,8 @@
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^16.0.0",
     "@types/passport-jwt": "^3.0.7",
+    "@types/passport": "^1.0.11",
+    "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",

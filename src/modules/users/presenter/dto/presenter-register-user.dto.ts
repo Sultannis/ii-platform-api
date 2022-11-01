@@ -15,5 +15,9 @@ export class PresenterRegisterUserDto {
 
   @IsNotEmpty()
   @IsString()
+  occupation: string;
+
+  @IsNotEmpty()
+  @IsString()
   password: string;
 }
