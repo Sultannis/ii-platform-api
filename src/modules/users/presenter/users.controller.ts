@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Param } from '@nestjs/common';
 import { UsersService } from '../domain/users.service';
 import { UserResource } from './resources/user.resource';
 import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
@@ -34,6 +34,23 @@ export class UsersController {
 
   @Post('login')
   async login(@Body() presenterLoginUserDto: PresenterLoginUserDto) {
+    const payload: LoginUserDto = {
+      email: presenterLoginUserDto.email,
+      password: presenterLoginUserDto.password,
+    };
+
+    const [user, token] = await this.usersService.login(payload);
+
+    return {
+      auth: {
+        token,
+      },
+      user: this.userResource.convert(user),
+    };
+  }
+
+  @Patch(':userId')
+  async update(@Param('userId') userId: string , @Body() presenterLoginUserDto: PresenterLoginUserDto) {
     const payload: LoginUserDto = {
       email: presenterLoginUserDto.email,
       password: presenterLoginUserDto.password,
