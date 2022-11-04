@@ -23,7 +23,7 @@ export class IdeaImageDao {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: string;
-  
+
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
 

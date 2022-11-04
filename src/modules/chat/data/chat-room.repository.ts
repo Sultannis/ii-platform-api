@@ -14,10 +14,23 @@ export class ChatRoomRepository {
     private readonly chatRoomRepository: Repository<ChatRoomDao>,
   ) {}
 
+  async findByRoomId(roomId: string): Promise<ChatRoom[] | null> {
+    const chatRooms = await this.chatRoomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.participants', 'participant')
+      .innerJoinAndSelect('participant.user', 'user')
+      .where('participant.room_id = :roomId', { roomId })
+      .getMany();
+
+    return chatRooms ? chatRooms.map(mapChatRoomDaoToEntity) : null;
+  }
+
   async findByUserId(userId: number): Promise<ChatRoom[] | null> {
     const chatRooms = await this.chatRoomRepository
       .createQueryBuilder('room')
-      .where(':userId = ANY(room.users_access)', { userId })
+      .leftJoinAndSelect('room.participants', 'participant')
+      .innerJoinAndSelect('participant.user', 'user')
+      .where('user.id = :userId', { userId })
       .getMany();
 
     return chatRooms ? chatRooms.map(mapChatRoomDaoToEntity) : null;
@@ -29,6 +42,19 @@ export class ChatRoomRepository {
     });
 
     return chatRoom ? mapChatRoomDaoToEntity(chatRoom) : null;
+  }
+
+  async validateUserAccess(userId: number, roomId: string): Promise<boolean> {
+    const chatRoom = await this.chatRoomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.participants', 'participant')
+      .innerJoinAndSelect('participant.user', 'user')
+      .where('participant.room_id = :roomId')
+      .andWhere('user.id = :userId')
+      .setParameters({ userId, roomId })
+      .getOne();
+
+    return chatRoom !== null;
   }
 
   async create(payload: CreateChatRoomDto): Promise<ChatRoom | null> {

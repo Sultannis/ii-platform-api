@@ -31,17 +31,25 @@ export class ChatMessageRepository {
       .getCount();
   }
 
-  async findManyByRoomId(roomId: string): Promise<ChatMessage[]> {
-    const chatMessages = await this.chatMessageRepository.find({
-      where: { roomId },
-      order: {
-        createdAt: 'DESC',
+  async findManyByRoomId(
+    roomId: string,
+    page = 1,
+    perPage = 50,
+  ): Promise<[ChatMessage[], number]> {
+    const offset = (page - 1) * perPage;
+    const [chatMessages, total] = await this.chatMessageRepository.findAndCount(
+      {
+        where: { roomId },
+        order: {
+          createdAt: 'DESC',
+        },
+        take: perPage,
+        skip: offset,
+        relations: ['room', 'user'],
       },
-      take: 150,
-      relations: ['room', 'user'],
-    });
+    );
 
-    return chatMessages.map(mapChatMessageDaoToEntity);
+    return [chatMessages.map(mapChatMessageDaoToEntity), total];
   }
 
   async findLastByRoomId(roomId: string): Promise<ChatMessage | null> {

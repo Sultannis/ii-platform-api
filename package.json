@@ -21,7 +21,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "migration:run": "npx typeorm-ts-node-commonjs migration:run -d database/configs/postgres.config.ts",
-    "migration:generate": " cross-var npm run typeorm -- -d ./database/configs/postgres.config.ts migration:generate ./database/migrations/$npm_config_name"
+    "migration:generate": "npm run typeorm -- -d ./database/configs/postgres.config.ts migration:generate ./database/migrations/$npm_config_name",
+    "migration:windows-generate": "cross-var npm run typeorm -- -d ./database/configs/postgres.config.ts migration:generate ./database/migrations/$npm_config_name"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -55,8 +56,8 @@
     "@types/jest": "28.1.8",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^16.0.0",
-    "@types/passport-jwt": "^3.0.7",
     "@types/passport": "^1.0.11",
+    "@types/passport-jwt": "^3.0.7",
     "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ChatMessageDao } from './chat-message.dao';
+import { ChatRoomParticipantDao } from './chat-room-participant.dao';
 
 @Entity('chat_rooms')
 export class ChatRoomDao {
@@ -20,8 +21,8 @@ export class ChatRoomDao {
   @Column({ name: 'name', type: 'varchar' })
   name: string;
 
-  @Column({ name: 'users_access', type: 'int', array: true, default: [] })
-  usersAccess: number[];
+  @Column({ name: 'type', type: 'smallint', default: 1 })
+  type: number;
 
   @Column({ name: 'background_color', type: 'varchar', nullable: true })
   backgroundColor?: string;
@@ -40,4 +41,7 @@ export class ChatRoomDao {
 
   @OneToMany(() => ChatMessageDao, (message) => message.room)
   messages: ChatMessageDao[];
+
+  @OneToMany(() => ChatRoomParticipantDao, (participant) => participant.room)
+  participants: ChatRoomParticipantDao[];
 }

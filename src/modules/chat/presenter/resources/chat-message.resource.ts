@@ -5,17 +5,17 @@ export class ChatMessageResource {
     return {
       id: payload.id,
       message: payload.message,
-      readed_at: payload.readedAt,
-      reply_to: payload.replyTo,
-      created_at: payload.createdAt,
-      updated_at: payload.updatedAt,
-      deleted_at: payload.deletedAt,
+      readedAt: payload.readedAt,
+      replyTo: payload.replyTo,
+      createdAt: payload.createdAt,
+      updatedAt: payload.updatedAt,
+      deletedAt: payload.deletedAt,
       user: {
-        id: payload.user.id,
-        first_name: payload.user.firstName,
-        last_name: payload.user.lastName,
-        chat_color: payload.user.chatColor,
-        avatar_url: payload.user.avatarUrl,
+        id: +payload.user.id,
+        firstName: payload.user.firstName,
+        lastName: payload.user.lastName,
+        chatColor: payload.user.chatColor,
+        avatarUrl: payload.user.avatarUrl,
       },
     };
   }

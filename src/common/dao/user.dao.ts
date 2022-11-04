@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ChatMessageDao } from './chat-message.dao';
+import { ChatRoomParticipantDao } from './chat-room-participant.dao';
 import { IdeaDao } from './idea.dao';
 
 @Entity('users')
@@ -61,4 +62,7 @@ export class UserDao {
 
   @OneToMany(() => IdeaDao, (idea) => idea.user)
   ideas: IdeaDao[];
+
+  @OneToMany(() => ChatRoomParticipantDao, (participant) => participant.user)
+  participants: ChatRoomParticipantDao[];
 }
