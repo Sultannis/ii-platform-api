@@ -5,6 +5,8 @@ import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
 import { PresenterRegisterUserDto } from './dto/presenter-register-user.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
+import { PresenterUpdateUserDto } from './dto/presenter-update-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -50,18 +52,32 @@ export class UsersController {
   }
 
   @Patch(':userId')
-  async update(@Param('userId') userId: string , @Body() presenterLoginUserDto: PresenterLoginUserDto) {
-    const payload: LoginUserDto = {
-      email: presenterLoginUserDto.email,
-      password: presenterLoginUserDto.password,
+  async update(
+    @Param('userId') userId: string,
+    @Body() presenterUpdateUserDto: PresenterUpdateUserDto,
+  ) {
+    const payload: UpdateUserDto = {
+      tags: presenterUpdateUserDto.tags,
+      email: presenterUpdateUserDto.email,
+      firstName: presenterUpdateUserDto.first_name,
+      lastName: presenterUpdateUserDto.last_name,
+      nickname: presenterUpdateUserDto.nickname,
+      birthDate: presenterUpdateUserDto.birth_date,
+      residenceCountry: presenterUpdateUserDto.residence_country,
+      residenceCity: presenterUpdateUserDto.residence_city,
+      occupation: presenterUpdateUserDto.occupation,
+      password: presenterUpdateUserDto.password,
+      workCompany: presenterUpdateUserDto.work_company,
+      educationalInstitution: presenterUpdateUserDto.educational_institution,
+      bio: presenterUpdateUserDto.bio,
+      telegramNickaname: presenterUpdateUserDto.telegram_nickaname,
+      linkedinLink: presenterUpdateUserDto.linkedin_link,
+      description: presenterUpdateUserDto.description,
     };
 
-    const [user, token] = await this.usersService.login(payload);
+    const user = await this.usersService.update(+userId, payload);
 
     return {
-      auth: {
-        token,
-      },
       user: this.userResource.convert(user),
     };
   }

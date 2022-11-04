@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { ChatMessageDao } from './chat-message.dao';
 import { IdeaDao } from './idea.dao';
+import { UserTagDao } from './user-tag.dao';
 
 @Entity('users')
 export class UserDao {
@@ -134,4 +135,7 @@ export class UserDao {
 
   @OneToMany(() => IdeaDao, (idea) => idea.user)
   ideas: IdeaDao[];
+
+  @OneToMany(() => UserTagDao, (userTag) => userTag.user)
+  public tags!: UserTagDao[];
 }

@@ -7,6 +7,7 @@ import { IdeasModule } from './modules/ideas/ideas.module';
 import { UsersModule } from './modules/users/users.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { AdminsModule } from './modules/admins/admins.module';
+import { TagsModule } from './modules/tags/tags.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AdminsModule } from './modules/admins/admins.module';
     IdeasModule,
     IdeaImageDao,
     AdminsModule,
+    TagsModule,
   ],
 })
 export class AppModule {}

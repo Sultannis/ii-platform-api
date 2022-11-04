@@ -1,11 +1,10 @@
-import {
-  IsDateString,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
 
-export class PresenterRegisterUserDto {
+export class PresenterUpdateUserDto {
+  @IsOptional()
+  @IsArray()
+  tags: Array<{ name: string; id?: number }>;
+
   @IsOptional()
   @IsString()
   email: string;
@@ -24,15 +23,15 @@ export class PresenterRegisterUserDto {
 
   @IsOptional()
   @IsDateString()
-  birthDate: string;
+  birth_date: string;
 
   @IsOptional()
   @IsString()
-  residenceCountry: string;
+  residence_country: string;
 
   @IsOptional()
   @IsString()
-  residenceCity: string;
+  residence_city: string;
 
   @IsOptional()
   @IsString()
@@ -44,11 +43,11 @@ export class PresenterRegisterUserDto {
 
   @IsOptional()
   @IsString()
-  workCompany: string;
+  work_company: string;
 
   @IsOptional()
   @IsString()
-  educationalInstitution: string;
+  educational_institution: string;
 
   @IsOptional()
   @IsString()
@@ -56,11 +55,11 @@ export class PresenterRegisterUserDto {
 
   @IsOptional()
   @IsString()
-  telegramNickaname: string;
+  telegram_nickaname: string;
 
   @IsOptional()
   @IsString()
-  linkedinLink: string;
+  linkedin_link: string;
 
   @IsOptional()
   @IsString()
