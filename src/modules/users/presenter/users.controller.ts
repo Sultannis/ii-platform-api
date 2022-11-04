@@ -20,7 +20,6 @@ export class UsersController {
       firstName: presenterRegisterUserDto.first_name,
       lastName: presenterRegisterUserDto.last_name,
       password: presenterRegisterUserDto.password,
-      occupation: presenterRegisterUserDto.occupation,
     };
 
     const [user, token] = await this.usersService.register(payload);
