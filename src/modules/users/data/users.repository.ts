@@ -7,14 +7,16 @@ import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { TagDao } from 'src/common/dao/tag.dao';
 import { Tag } from 'src/common/entities/tag';
+import { UserTagDao } from 'src/common/dao/user-tag.dao';
+import { InsertUpdateUserDto } from '../dto/insert-update-user.dto';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(UserDao)
     private readonly usersRepository: Repository<UserDao>,
-    @InjectRepository(TagDao)
-    private readonly tagsRepsitory: Repository<Tag>,
+    @InjectRepository(UserTagDao)
+    private readonly userTagsRepository: Repository<UserTagDao>,
   ) {}
 
   findById(userId: number): Promise<User> {
@@ -43,27 +45,21 @@ export class UsersRepository {
     return this.usersRepository.save(user);
   }
 
-  async insertUserTagAndFetch(userId: number, tagId: number) {
-    const user = await this.usersRepository.findOneBy({
-      id: userId,
-    });
-
-    const tag = await this.tagsRepsitory.findOneBy({
-      id: tagId,
-    });
-
-    user.tags = [tag];
-  }
-
   async updateByIdAndFetch(
     userId: number,
-    payload: UpdateUserDto,
+    payload: InsertUpdateUserDto,
   ): Promise<User> {
     await this.usersRepository.update(userId, payload);
 
     return this.usersRepository.findOneBy({
       id: userId,
     });
+  }
+
+  insertUserTagAndFetch(userId: number, tagId: number) {
+    const userTag = this.userTagsRepository.create({ userId, tagId });
+
+    return this.userTagsRepository.save(userTag);
   }
 
   async deleteAllUserTags(userId: number): Promise<User> {

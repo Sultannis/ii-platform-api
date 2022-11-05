@@ -1,5 +1,5 @@
 import { Idea } from './idea';
-import { Tag } from './tag';
+import { UserTag } from './user-tag';
 
 export class User {
   id: number;
@@ -25,5 +25,5 @@ export class User {
   confirmedAt?: string | null;
   deletedAt?: string | null;
   ideas?: Idea[];
-  tags?: Tag[];
+  tags?: UserTag[];
 }

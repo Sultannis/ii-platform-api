@@ -3,7 +3,7 @@ import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
 export class PresenterUpdateUserDto {
   @IsOptional()
   @IsArray()
-  tags: Array<{ name: string; id?: number }>;
+  tags: string[];
 
   @IsOptional()
   @IsString()

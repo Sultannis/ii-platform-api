@@ -3,15 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ChatMessageDao } from './chat-message.dao';
 import { IdeaDao } from './idea.dao';
-import { TagDao } from './tag.dao';
+import { UserTagDao } from './user-tag.dao';
 
 @Entity('users')
 export class UserDao {
@@ -130,7 +128,6 @@ export class UserDao {
   @OneToMany(() => IdeaDao, (idea) => idea.user)
   ideas?: IdeaDao[];
 
-  @ManyToMany(() => TagDao, (tag) => tag.users)
-  @JoinTable()
-  tags?: TagDao[];
+  @OneToMany(() => UserTagDao, (userTag) => userTag.user)
+  tags?: UserTagDao[];
 }

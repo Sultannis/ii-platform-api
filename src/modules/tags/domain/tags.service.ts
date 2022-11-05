@@ -7,13 +7,13 @@ import { CreateTagDto } from '../dto/create-tag.dto';
 export class TagsService {
   constructor(private readonly tagsRepository: TagsRepository) {}
 
-  async create(payload: CreateTagDto): Promise<Tag> {
-    const tag = await this.tagsRepository.findByName(payload.name);
+  async create(name: string): Promise<Tag> {
+    const tag = await this.tagsRepository.findByName(name);
     if (tag) {
       throw new ConflictException('Tag with provided name already exist');
     }
 
-    return this.tagsRepository.insertAndFetch(payload);
+    return this.tagsRepository.insertAndFetch({ name });
   }
 
   findOneByName(name: string): Promise<Tag> {

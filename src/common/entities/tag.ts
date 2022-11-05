@@ -1,4 +1,4 @@
-import { User } from './user';
+import { UserTag } from './user-tag';
 
 export class Tag {
   id: number;
@@ -6,5 +6,5 @@ export class Tag {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
-  users?: User[];
+  users?: UserTag[];
 }

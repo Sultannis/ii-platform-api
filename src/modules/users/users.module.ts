@@ -7,10 +7,10 @@ import { AuthService } from '../auth/domain/auth.service';
 import { UsersRepository } from './data/users.repository';
 import { UserResource } from './presenter/resources/user.resource';
 import { TagsModule } from '../tags/tags.module';
-import { TagDao } from 'src/common/dao/tag.dao';
+import { UserTagDao } from 'src/common/dao/user-tag.dao';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserDao, TagDao]), TagsModule],
+  imports: [TypeOrmModule.forFeature([UserDao, UserTagDao]), TagsModule],
   controllers: [UsersController],
   providers: [UsersService, AuthService, UsersRepository, UserResource],
   exports: [UsersRepository, UsersService, UserResource, TypeOrmModule],

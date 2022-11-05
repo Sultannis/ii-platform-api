@@ -77,8 +77,6 @@ export class UsersService {
 
     const { tags, ...payloadWithoutTags } = payload;
 
-    console.log();
-
     user = await this.usersRepository.updateByIdAndFetch(
       userId,
       payloadWithoutTags,
@@ -86,10 +84,10 @@ export class UsersService {
 
     if (tags) {
       await this.usersRepository.deleteAllUserTags(userId);
-      for (const tag of tags) {
-        let savedTag = await this.tagsService.findOneByName(tag.name);
+      for (const tagName of tags) {
+        let savedTag = await this.tagsService.findOneByName(tagName);
         if (!savedTag) {
-          savedTag = await this.tagsService.create(tag);
+          savedTag = await this.tagsService.create(tagName);
         }
 
         await this.usersRepository.insertUserTagAndFetch(user.id, savedTag.id);

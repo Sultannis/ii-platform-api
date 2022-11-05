@@ -1,5 +1,4 @@
-export class UpdateUserDto {
-  tags?: string[];
+export class InsertUpdateUserDto {
   email: string;
   firstName: string;
   lastName: string;
