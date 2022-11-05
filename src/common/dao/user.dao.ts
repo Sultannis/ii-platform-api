@@ -3,13 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ChatMessageDao } from './chat-message.dao';
 import { IdeaDao } from './idea.dao';
-import { UserTagDao } from './user-tag.dao';
+import { TagDao } from './tag.dao';
 
 @Entity('users')
 export class UserDao {
@@ -26,14 +28,14 @@ export class UserDao {
   email: string;
 
   @Column({ name: 'nickname', type: 'varchar', length: 255, nullable: true })
-  nickname: string;
+  nickname?: string;
 
   @Column({
     name: 'birth_date',
     type: 'timestamp',
     nullable: true,
   })
-  birthDate: string;
+  birthDate?: string;
 
   @Column({
     name: 'residence_country',
@@ -41,7 +43,7 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  residenceCountry: string;
+  residenceCountry?: string;
 
   @Column({
     name: 'residence_city',
@@ -49,10 +51,10 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  residenceCity: string;
+  residenceCity?: string;
 
   @Column({ name: 'occupation', type: 'varchar', length: 255, nullable: true })
-  occupation: string;
+  occupation?: string;
 
   @Column({
     name: 'work_company',
@@ -60,7 +62,7 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  workCompany: string;
+  workCompany?: string;
 
   @Column({
     name: 'educational_institution',
@@ -68,7 +70,7 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  educationalInstitution: string;
+  educationalInstitution?: string;
 
   @Column({
     name: 'bio',
@@ -76,7 +78,7 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  bio: string;
+  bio?: string;
 
   @Column({
     name: 'telegram_nickname',
@@ -84,7 +86,7 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  telegramNickname: string;
+  telegramNickname?: string;
 
   @Column({
     name: 'linkedin_link',
@@ -92,14 +94,14 @@ export class UserDao {
     length: 255,
     nullable: true,
   })
-  linkedinLink: string;
+  linkedinLink?: string;
 
   @Column({
     name: 'description',
     type: 'text',
     nullable: true,
   })
-  description: string;
+  description?: string;
 
   @Column({ name: 'password', type: 'varchar', length: 255 })
   password: string;
@@ -108,7 +110,7 @@ export class UserDao {
   role: number;
 
   @Column({ name: 'avatar_url', type: 'varchar', nullable: true })
-  avatarUrl: string;
+  avatarUrl?: string;
 
   @Column({ name: 'confirmed_at', type: 'timestamptz', nullable: true })
   confirmedAt?: string;
@@ -134,8 +136,9 @@ export class UserDao {
   messages?: ChatMessageDao[];
 
   @OneToMany(() => IdeaDao, (idea) => idea.user)
-  ideas: IdeaDao[];
+  ideas?: IdeaDao[];
 
-  @OneToMany(() => UserTagDao, (userTag) => userTag.user)
-  public tags!: UserTagDao[];
+  @ManyToMany(() => TagDao, (tag) => tag.users)
+  @JoinTable()
+  tags?: TagDao[];
 }

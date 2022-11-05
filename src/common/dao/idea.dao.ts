@@ -44,8 +44,8 @@ export class IdeaDao {
 
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => UserDao, (user) => user.ideas)
-  user: UserDao;
+  user?: UserDao;
 
   @OneToMany(() => IdeaImageDao, (image) => image.idea)
-  images: IdeaImageDao[];
+  images?: IdeaImageDao[];
 }

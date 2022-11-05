@@ -11,12 +11,14 @@ import { UserTypes } from 'src/common/constant/user-types';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { TagsService } from 'src/modules/tags/domain/tags.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly authService: AuthService,
+    private readonly tagsService: TagsService,
   ) {}
 
   async register(
@@ -75,6 +77,8 @@ export class UsersService {
 
     const { tags, ...payloadWithoutTags } = payload;
 
+    console.log();
+
     user = await this.usersRepository.updateByIdAndFetch(
       userId,
       payloadWithoutTags,
@@ -82,8 +86,16 @@ export class UsersService {
 
     if (tags) {
       await this.usersRepository.deleteAllUserTags(userId);
+      for (const tag of tags) {
+        let savedTag = await this.tagsService.findOneByName(tag.name);
+        if (!savedTag) {
+          savedTag = await this.tagsService.create(tag);
+        }
+
+        await this.usersRepository.insertUserTagAndFetch(user.id, savedTag.id);
+      }
     }
 
-    return user;
+    return this.usersRepository.detailById(user.id);
   }
 }

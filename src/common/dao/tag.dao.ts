@@ -3,11 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserTagDao } from './user-tag.dao';
+import { UserDao } from './user.dao';
 
 @Entity('tags')
 export class TagDao {
@@ -26,6 +27,7 @@ export class TagDao {
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
 
-  @OneToMany(() => UserTagDao, (userTag) => userTag.tag)
-  public users!: UserTagDao[];
+  @ManyToMany(() => UserDao, (user) => user.tags)
+  @JoinTable()
+  users?: UserDao[];
 }
