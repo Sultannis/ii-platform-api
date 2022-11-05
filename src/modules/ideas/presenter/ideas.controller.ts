@@ -41,8 +41,6 @@ export class IdeasController {
       userId: requestUser.id,
       title: presenterCreateIdeaDto.title,
       description: presenterCreateIdeaDto.description,
-      requiredFinancialSupport:
-        presenterCreateIdeaDto.required_financial_support,
     };
 
     const idea = await this.ideasService.create(payload);
