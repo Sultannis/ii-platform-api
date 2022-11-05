@@ -5,11 +5,9 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IdeaImageDao } from './idea-image.dao';
 import { UserDao } from './user.dao';
 
 @Entity('ideas')
@@ -20,18 +18,11 @@ export class IdeaDao {
   @Column({ name: 'user_id', type: 'bigint' })
   userId: number;
 
-  @Column({ name: 'title', type: 'varchar' })
+  @Column({ name: 'title', type: 'varchar', length: 255 })
   title: string;
 
   @Column({ name: 'description', type: 'text' })
   description: string;
-
-  @Column({
-    name: 'required_financial_support',
-    type: 'varchar',
-    nullable: true,
-  })
-  requiredFinancialSupport?: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: string;
@@ -45,7 +36,4 @@ export class IdeaDao {
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => UserDao, (user) => user.ideas)
   user?: UserDao;
-
-  @OneToMany(() => IdeaImageDao, (image) => image.idea)
-  images?: IdeaImageDao[];
 }

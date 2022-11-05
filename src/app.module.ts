@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { IdeaImageDao } from './common/dao/idea-image.dao';
 import { AuthModule } from './modules/auth/auth.module';
 import { IdeasModule } from './modules/ideas/ideas.module';
 import { UsersModule } from './modules/users/users.module';
@@ -28,7 +27,6 @@ import { UserDao } from './common/dao/user.dao';
         AdminDao,
         ChatMessageDao,
         ChatRoomDao,
-        IdeaImageDao,
         IdeaDao,
         TagDao,
         UserDao,
@@ -40,7 +38,6 @@ import { UserDao } from './common/dao/user.dao';
     UsersModule,
     ChatModule,
     IdeasModule,
-    IdeaImageDao,
     AdminsModule,
     TagsModule,
   ],

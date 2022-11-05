@@ -23,7 +23,6 @@ export class ChatRoomResource {
                   first_name: payload.lastMessage.user.firstName,
                   last_name: payload.lastMessage.user.lastName,
                   role: +payload.lastMessage.user.role,
-                  chat_color: payload.lastMessage.user.chatColor,
                   avatar_url: payload.lastMessage.user.avatarUrl,
                 }
               : null,

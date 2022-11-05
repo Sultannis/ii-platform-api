@@ -1,4 +1,3 @@
-import { IdeaImageDao } from '../dao/idea-image.dao';
 import { User } from './user';
 
 export class Idea {
@@ -11,5 +10,4 @@ export class Idea {
   updatedAt: string;
   deletedAt?: string;
   user?: User;
-  images?: IdeaImageDao[];
 }

@@ -115,14 +115,6 @@ export class UserDao {
   @Column({ name: 'confirmed_at', type: 'timestamptz', nullable: true })
   confirmedAt?: string;
 
-  @Column({
-    name: 'chat_color',
-    type: 'varchar',
-    length: 10,
-    default: '#FAA774',
-  })
-  chatColor: string;
-
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: string;
 
