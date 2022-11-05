@@ -1,7 +1,12 @@
+import { ChatRoomParticipantResource } from './chat-room-participant.resource';
 import { ChatRoom } from 'src/common/entities/chat-room';
 
 export class ChatRoomResource {
-  covert(payload: ChatRoom) {
+  constructor(
+    private readonly chatRoomParticipantResource: ChatRoomParticipantResource,
+  ) {}
+
+  convert(payload: ChatRoom) {
     return {
       id: payload.id,
       name: payload.name,
@@ -10,6 +15,14 @@ export class ChatRoomResource {
       deletedAt: payload.deletedAt,
       backgroundColor: payload.backgroundColor,
       notReadedMessagesAmount: payload.notReadedMessagesAmount ?? null,
+      type: payload.type,
+      participants: payload.participants.map((el) => ({
+        id: el.id,
+        name: `${el.user.firstName} ${el.user.lastName}`,
+        userId: +el.user.id,
+        chatColor: el.user.chatColor,
+      })),
+
       message: payload.lastMessage
         ? {
             id: payload.lastMessage.id,

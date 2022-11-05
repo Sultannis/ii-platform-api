@@ -1,4 +1,3 @@
-import { ChatRoomParticipantService } from './domain/chat-room-participant.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ChatMessageDao } from 'src/common/dao/chat-message.dao';
@@ -14,6 +13,7 @@ import { ChatMessageResource } from './presenter/resources/chat-message.resource
 import { ChatRoomParticipantDao } from 'src/common/dao/chat-room-participant.dao';
 import { ChatRoomParticipantRepository } from './data/chat-room-participant.repository';
 import { ChatRoomParticipantResource } from './presenter/resources/chat-room-participant.resource';
+import { ChatRoomParticipantService } from './domain/chat-room-participant.service';
 
 @Module({
   imports: [

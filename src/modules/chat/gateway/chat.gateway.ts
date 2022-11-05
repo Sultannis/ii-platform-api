@@ -68,8 +68,41 @@ export class ChatGateway {
         roomId,
       );
 
+      const [roomMessages, total] =
+        await this.chatMessageService.findManyByRoomId(roomId, page, perPage);
+
+      const room = await this.chatRoomService.findById(roomId);
+      if (room.type === 2) {
+        const participants = await this.chatRoomParticipantService.findByRoomId(
+          roomId,
+        );
+
+        return client.emit(`${SocketEvent.JOIN}-${roomId}`, {
+          messages: roomMessages
+            .map(this.chatMessageResource.convert)
+            .reverse(),
+          room: {
+            ...room,
+            participants: participants.map((el) => ({
+              id: el.id,
+              userId: +el.user.id,
+              name: `${el.user.firstName} ${el.user.lastName}`,
+              chatColor: el.user.chatColor,
+            })),
+          },
+          meta: {
+            page,
+            perPage,
+            total,
+          },
+        });
+      }
+
       const participantsAmount =
         await this.chatRoomParticipantService.findAmountByRoomId(roomId);
+      const roomData = participant.room
+        ? { ...participant.room, participantsAmount }
+        : null;
 
       if (!participant) {
         await this.chatRoomParticipantService.create({
@@ -78,15 +111,9 @@ export class ChatGateway {
         });
       }
 
-      const [roomMessages, total] =
-        await this.chatMessageService.findManyByRoomId(roomId, page, perPage);
-      const room = participant.room
-        ? { ...participant.room, participantsAmount }
-        : null;
-
       client.emit(`${SocketEvent.JOIN}-${roomId}`, {
         messages: roomMessages.map(this.chatMessageResource.convert).reverse(),
-        room,
+        room: roomData,
         meta: {
           page,
           perPage,
@@ -114,7 +141,7 @@ export class ChatGateway {
         `${SocketEvent.MESSAGE}-${roomId}`,
         this.chatMessageResource.convert(updatedMessage),
       );
-      await this.fetchAndPushRoomsToClient(client);
+      await this.fetchAndPushRoomsToClient(client, false, roomId);
     } catch (e) {
       client.disconnect();
     }
@@ -142,7 +169,7 @@ export class ChatGateway {
           roomId,
           message,
         });
-        await this.fetchAndPushRoomsToClient(client);
+        await this.fetchAndPushRoomsToClient(client, false, roomId);
       } else {
         client.disconnect();
       }
@@ -164,13 +191,26 @@ export class ChatGateway {
     return client.handshake.user;
   }
 
-  private async fetchAndPushRoomsToClient(client: AuthClient) {
+  private async fetchAndPushRoomsToClient(
+    client: AuthClient,
+    isFirst = true,
+    roomId = '',
+  ) {
     const user = this.getUser(client);
     const rooms = await this.chatRoomService.findByUserId(user.id);
 
+    for await (const room of rooms) {
+      if (room.type === 2) {
+        const participants = await this.chatRoomParticipantService.findByRoomId(
+          room.id,
+        );
+        room.participants = participants;
+      }
+    }
+
     client.emit(
       SocketEvent.ROOMS,
-      rooms.map((room) => this.chatRoomResource.covert(room)),
+      rooms.map((room) => this.chatRoomResource.convert(room)),
     );
   }
 

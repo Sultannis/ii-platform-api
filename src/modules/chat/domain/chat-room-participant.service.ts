@@ -8,6 +8,10 @@ export class ChatRoomParticipantService {
     private readonly chatRoomParticipantRepository: ChatRoomParticipantRepository,
   ) {}
 
+  findByRoomId(roomId: string) {
+    return this.chatRoomParticipantRepository.findByRoomId(roomId);
+  }
+
   findOne(userId: number, roomId: string) {
     return this.chatRoomParticipantRepository.findOne(userId, roomId);
   }
