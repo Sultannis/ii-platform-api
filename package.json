@@ -20,8 +20,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d database/configs/postgres.config.ts",
-    "migration:generate": " cross-var npm run typeorm -- -d ./database/configs/postgres.config.ts migration:generate ./database/migrations/$npm_config_name"
+    "migration:create": "cross-var typeorm migration:create ./database/migrations/$npm_config_name",
+    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -d ./database/app-data-source.ts",
+    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert",
+    "migration:generate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

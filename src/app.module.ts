@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ormconfig } from '../database/configs/postgres.config';
 import { IdeaImageDao } from './common/dao/idea-image.dao';
 import { AuthModule } from './modules/auth/auth.module';
 import { IdeasModule } from './modules/ideas/ideas.module';
@@ -10,6 +9,11 @@ import { AdminsModule } from './modules/admins/admins.module';
 import { TagsModule } from './modules/tags/tags.module';
 import connectionConfig from './common/configs/connection.config';
 import { AdminDao } from './common/dao/admin.dao';
+import { ChatMessageDao } from './common/dao/chat-message.dao';
+import { ChatRoomDao } from './common/dao/chat-room.dao';
+import { IdeaDao } from './common/dao/idea.dao';
+import { TagDao } from './common/dao/tag.dao';
+import { UserDao } from './common/dao/user.dao';
 
 @Module({
   imports: [
@@ -22,7 +26,12 @@ import { AdminDao } from './common/dao/admin.dao';
       database: connectionConfig.database,
       entities: [
         AdminDao,
-        CHat
+        ChatMessageDao,
+        ChatRoomDao,
+        IdeaImageDao,
+        IdeaDao,
+        TagDao,
+        UserDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
