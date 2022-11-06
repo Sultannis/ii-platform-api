@@ -22,17 +22,11 @@ export class ChatRoomService {
         await this.chatMessageService.findNotReadedAmountByRoomId(room.id);
     }
 
-    return chatRooms.sort(
-      (a, b) => b.notReadedMessagesAmount - a.notReadedMessagesAmount,
-    );
+    return chatRooms;
   }
 
-  async checkUserAccesIntoRoom(
-    userId: number,
-    roomId: string,
-  ): Promise<boolean> {
-    const chatRoom = await this.chatRoomRepository.findById(roomId);
-    return chatRoom.usersAccess.includes(userId);
+  validateUserAccess(userId: number, roomId: string): Promise<boolean> {
+    return this.chatRoomRepository.validateUserAccess(userId, roomId);
   }
 
   findById(roomId: string): Promise<ChatRoom | null> {

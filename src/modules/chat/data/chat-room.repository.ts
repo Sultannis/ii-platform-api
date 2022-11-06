@@ -13,10 +13,23 @@ export class ChatRoomRepository {
     private readonly chatRoomRepository: Repository<ChatRoomDao>,
   ) {}
 
+  async findByRoomId(roomId: string): Promise<ChatRoom[] | null> {
+    const chatRooms = await this.chatRoomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.participants', 'participant')
+      .innerJoinAndSelect('participant.user', 'user')
+      .where('participant.room_id = :roomId', { roomId })
+      .getMany();
+
+    return chatRooms ? chatRooms : null;
+  }
+
   findByUserId(userId: number): Promise<ChatRoom[]> {
     return this.chatRoomRepository
       .createQueryBuilder('room')
-      .where(':userId = ANY(room.users_access)', { userId })
+      .leftJoinAndSelect('room.participants', 'participant')
+      .innerJoinAndSelect('participant.user', 'user')
+      .where('user.id = :userId', { userId })
       .getMany();
   }
 
@@ -24,6 +37,19 @@ export class ChatRoomRepository {
     return this.chatRoomRepository.findOne({
       where: { id: roomId },
     });
+  }
+
+  async validateUserAccess(userId: number, roomId: string): Promise<boolean> {
+    const chatRoom = await this.chatRoomRepository
+      .createQueryBuilder('room')
+      .leftJoinAndSelect('room.participants', 'participant')
+      .innerJoinAndSelect('participant.user', 'user')
+      .where('participant.room_id = :roomId')
+      .andWhere('user.id = :userId')
+      .setParameters({ userId, roomId })
+      .getOne();
+
+    return chatRoom !== null;
   }
 
   create(payload: CreateChatRoomDto): Promise<ChatRoom> {

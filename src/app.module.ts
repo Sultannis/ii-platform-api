@@ -14,6 +14,7 @@ import { IdeaDao } from './common/dao/idea.dao';
 import { TagDao } from './common/dao/tag.dao';
 import { UserDao } from './common/dao/user.dao';
 import { UserTagDao } from './common/dao/user-tag.dao';
+import { ChatRoomParticipantDao } from './common/dao/chat-room-participant.dao';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UserTagDao } from './common/dao/user-tag.dao';
         TagDao,
         UserDao,
         UserTagDao,
+        ChatRoomParticipantDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,

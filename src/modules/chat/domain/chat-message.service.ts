@@ -16,8 +16,12 @@ export class ChatMessageService {
     return this.chatMessageRepository.findNotReadedAmountByRoomId(roomId);
   }
 
-  findManyByRoomId(roomId: string): Promise<ChatMessage[]> {
-    return this.chatMessageRepository.findManyByRoomId(roomId);
+  findManyByRoomId(
+    roomId: string,
+    page = 1,
+    perPage = 50,
+  ): Promise<[ChatMessage[], number]> {
+    return this.chatMessageRepository.findManyByRoomId(roomId, page, perPage);
   }
 
   findLastByRoomId(roomId: string): Promise<ChatMessage> {

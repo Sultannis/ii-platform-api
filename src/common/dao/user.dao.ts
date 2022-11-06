@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ChatMessageDao } from './chat-message.dao';
+import { ChatRoomParticipantDao } from './chat-room-participant.dao';
 import { IdeaDao } from './idea.dao';
 import { UserTagDao } from './user-tag.dao';
 
@@ -127,6 +128,9 @@ export class UserDao {
 
   @OneToMany(() => IdeaDao, (idea) => idea.user)
   ideas?: IdeaDao[];
+
+  @OneToMany(() => ChatRoomParticipantDao, (participant) => participant.user)
+  participants: ChatRoomParticipantDao[];
 
   @OneToMany(() => UserTagDao, (userTag) => userTag.user)
   tags?: UserTagDao[];

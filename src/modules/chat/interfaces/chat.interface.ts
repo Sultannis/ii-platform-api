@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io';
+import { ChatMessage } from 'src/common/entities/chat-message';
 import { User } from 'src/common/entities/user';
 
 export interface UserData {
@@ -7,9 +8,20 @@ export interface UserData {
   };
 }
 
-export interface Message {
+export interface ReadMessagesPayload {
+  roomId: string;
+  messageId: string;
+}
+
+export interface MessagePayload {
   roomId: string;
   message: string;
+}
+
+export interface JoinRoomPayload {
+  roomId: string;
+  page?: number;
+  perPage?: number;
 }
 
 export type AuthClient = Socket & UserData;

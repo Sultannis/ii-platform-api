@@ -1,29 +1,42 @@
+import { ChatRoomParticipantResource } from './chat-room-participant.resource';
 import { ChatRoom } from 'src/common/entities/chat-room';
 
 export class ChatRoomResource {
-  covert(payload: ChatRoom) {
+  constructor(
+    private readonly chatRoomParticipantResource: ChatRoomParticipantResource,
+  ) {}
+
+  convert(payload: ChatRoom) {
     return {
       id: payload.id,
       name: payload.name,
-      created_at: payload.createdAt,
-      updated_at: payload.updatedAt,
-      deleted_at: payload.deletedAt,
-      not_readed_messages_amount: payload.notReadedMessagesAmount ?? null,
+      createdAt: payload.createdAt,
+      updatedAt: payload.updatedAt,
+      deletedAt: payload.deletedAt,
+      backgroundColor: payload.backgroundColor,
+      notReadedMessagesAmount: payload.notReadedMessagesAmount ?? null,
+      type: payload.type,
+      participants: payload.participants.map((el) => ({
+        id: el.id,
+        name: `${el.user.firstName} ${el.user.lastName}`,
+        userId: +el.user.id,
+      })),
+
       message: payload.lastMessage
         ? {
             id: payload.lastMessage.id,
             message: payload.lastMessage.message,
-            created_at: payload.lastMessage.createdAt,
-            updated_t: payload.lastMessage.updatedAt,
-            deleted_at: payload.lastMessage.deletedAt,
+            createdAt: payload.lastMessage.createdAt,
+            updatedAt: payload.lastMessage.updatedAt,
+            deletedAt: payload.lastMessage.deletedAt,
             type: +payload.lastMessage.type,
             user: payload.lastMessage.user
               ? {
                   id: +payload.lastMessage.user.id,
-                  first_name: payload.lastMessage.user.firstName,
-                  last_name: payload.lastMessage.user.lastName,
+                  firstName: payload.lastMessage.user.firstName,
+                  lastName: payload.lastMessage.user.lastName,
                   role: +payload.lastMessage.user.role,
-                  avatar_url: payload.lastMessage.user.avatarUrl,
+                  avatarUrl: payload.lastMessage.user.avatarUrl,
                 }
               : null,
           }
