@@ -3,26 +3,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserDao } from './user.dao';
+import { UserTagDao } from './user-tag.dao';
 
-@Entity('ideas')
-export class IdeaDao {
+@Entity('tags')
+export class TagDao {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
 
-  @Column({ name: 'user_id', type: 'bigint' })
-  userId: number;
-
-  @Column({ name: 'title', type: 'varchar', length: 255 })
-  title: string;
-
-  @Column({ name: 'description', type: 'text' })
-  description: string;
+  @Column({ name: 'name', type: 'varchar' })
+  name: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: string;
@@ -33,7 +26,6 @@ export class IdeaDao {
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
 
-  @JoinColumn({ name: 'user_id' })
-  @ManyToOne(() => UserDao, (user) => user.ideas)
-  user?: UserDao;
+  @OneToMany(() => UserTagDao, (userTag) => userTag.tag)
+  users?: UserTagDao[];
 }

@@ -13,8 +13,4 @@ export class PresenterCreateIdeaDto {
   @IsNotEmpty()
   @IsString()
   description: string;
-
-  @IsOptional()
-  @IsNumberString()
-  required_financial_support: number;
 }

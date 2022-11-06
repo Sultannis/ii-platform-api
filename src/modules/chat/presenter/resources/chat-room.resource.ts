@@ -20,7 +20,6 @@ export class ChatRoomResource {
         id: el.id,
         name: `${el.user.firstName} ${el.user.lastName}`,
         userId: +el.user.id,
-        chatColor: el.user.chatColor,
       })),
 
       message: payload.lastMessage
@@ -37,7 +36,6 @@ export class ChatRoomResource {
                   firstName: payload.lastMessage.user.firstName,
                   lastName: payload.lastMessage.user.lastName,
                   role: +payload.lastMessage.user.role,
-                  chatColor: payload.lastMessage.user.chatColor,
                   avatarUrl: payload.lastMessage.user.avatarUrl,
                 }
               : null,

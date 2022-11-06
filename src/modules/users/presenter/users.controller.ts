@@ -1,10 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Param } from '@nestjs/common';
 import { UsersService } from '../domain/users.service';
 import { UserResource } from './resources/user.resource';
 import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
 import { PresenterRegisterUserDto } from './dto/presenter-register-user.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
+import { PresenterUpdateUserDto } from './dto/presenter-update-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -20,7 +22,6 @@ export class UsersController {
       firstName: presenterRegisterUserDto.first_name,
       lastName: presenterRegisterUserDto.last_name,
       password: presenterRegisterUserDto.password,
-      occupation: presenterRegisterUserDto.occupation,
     };
 
     const [user, token] = await this.usersService.register(payload);
@@ -46,6 +47,37 @@ export class UsersController {
       auth: {
         token,
       },
+      user: this.userResource.convert(user),
+    };
+  }
+
+  @Patch(':userId')
+  async update(
+    @Param('userId') userId: string,
+    @Body() presenterUpdateUserDto: PresenterUpdateUserDto,
+  ) {
+    const payload: UpdateUserDto = {
+      tags: presenterUpdateUserDto.tags,
+      email: presenterUpdateUserDto.email,
+      firstName: presenterUpdateUserDto.first_name,
+      lastName: presenterUpdateUserDto.last_name,
+      nickname: presenterUpdateUserDto.nickname,
+      birthDate: presenterUpdateUserDto.birth_date,
+      residenceCountry: presenterUpdateUserDto.residence_country,
+      residenceCity: presenterUpdateUserDto.residence_city,
+      occupation: presenterUpdateUserDto.occupation,
+      password: presenterUpdateUserDto.password,
+      workCompany: presenterUpdateUserDto.work_company,
+      educationalInstitution: presenterUpdateUserDto.educational_institution,
+      bio: presenterUpdateUserDto.bio,
+      telegramNickaname: presenterUpdateUserDto.telegram_nickaname,
+      linkedinLink: presenterUpdateUserDto.linkedin_link,
+      description: presenterUpdateUserDto.description,
+    };
+
+    const user = await this.usersService.update(+userId, payload);
+
+    return {
       user: this.userResource.convert(user),
     };
   }

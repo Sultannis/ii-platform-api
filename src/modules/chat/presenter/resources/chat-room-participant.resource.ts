@@ -18,7 +18,6 @@ export class ChatRoomParticipantResource {
             last_name: user.lastName,
             email: user.email,
             role: user.role,
-            chat_color: user.chatColor,
             avatar_url: user.avatarUrl,
             created_at: user.createdAt,
             updated_at: user.updatedAt,

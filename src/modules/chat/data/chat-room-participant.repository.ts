@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChatRoomParticipantDao } from 'src/common/dao/chat-room-participant.dao';
 import { CreateChatParticipantDto } from 'src/modules/chat/dto/create-chat-participant.dto';
-import { mapChatRoomParticipantDaoToEntity } from 'src/common/mappers/chat.mappers';
 import { ChatRoomParticipant } from 'src/common/entities/chat-room-participant';
 
 @Injectable()
@@ -19,7 +18,7 @@ export class ChatRoomParticipantRepository {
       relations: ['user', 'room'],
     });
 
-    return participants.map(mapChatRoomParticipantDaoToEntity);
+    return participants;
   }
 
   async findOne(userId: number, roomId: string) {
@@ -29,9 +28,7 @@ export class ChatRoomParticipantRepository {
         relations: ['user', 'room'],
       });
 
-    return chatRoomParticipant
-      ? mapChatRoomParticipantDaoToEntity(chatRoomParticipant)
-      : null;
+    return chatRoomParticipant;
   }
 
   async create(payload: CreateChatParticipantDto) {
@@ -44,8 +41,6 @@ export class ChatRoomParticipantRepository {
         relations: ['user', 'room'],
       });
 
-    return chatRoomParticipant
-      ? mapChatRoomParticipantDaoToEntity(chatRoomParticipant)
-      : null;
+    return chatRoomParticipant;
   }
 }

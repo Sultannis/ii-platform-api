@@ -5,7 +5,6 @@ import { AdminDao } from 'src/common/dao/admin.dao';
 import { Admin } from 'src/common/entities/admin';
 import { CreateAdminDto } from 'src/modules/admins/dto/create-admin.dto';
 import { UpdateAdminDto } from 'src/modules/admins/dto/update-admin.dto';
-import { mapAdminDaoToEntity } from 'src/common/mappers/admin.mappers';
 
 @Injectable()
 export class AdminsRepository {
@@ -14,23 +13,19 @@ export class AdminsRepository {
     private readonly adminsRepository: Repository<AdminDao>,
   ) {}
 
-  async findOne(adminId: number): Promise<Admin | null> {
-    const adminDao = await this.adminsRepository.findOne({
+  findOne(adminId: number): Promise<Admin> {
+    return this.adminsRepository.findOne({
       where: { id: adminId },
     });
-    return adminDao ? mapAdminDaoToEntity(adminDao) : null;
   }
 
-  async findByEmail(email: string): Promise<Admin | null> {
-    const adminDao = await this.adminsRepository.findOne({ where: { email } });
-    return adminDao ? mapAdminDaoToEntity(adminDao) : null;
+  findByEmail(email: string): Promise<Admin> {
+    return this.adminsRepository.findOne({ where: { email } });
   }
 
-  async create(payload: CreateAdminDto): Promise<Admin | null> {
+  create(payload: CreateAdminDto): Promise<Admin> {
     const createdAdmin = this.adminsRepository.create(payload);
-    const adminDao = await this.adminsRepository.save(createdAdmin);
-
-    return adminDao ? mapAdminDaoToEntity(adminDao) : null;
+    return this.adminsRepository.save(createdAdmin);
   }
 
   async updateById(
@@ -38,20 +33,16 @@ export class AdminsRepository {
     payload: UpdateAdminDto,
   ): Promise<Admin | null> {
     await this.adminsRepository.update(adminId, payload);
-    const updatedAdminDao = await this.adminsRepository.findOne({
+    return this.adminsRepository.findOne({
       where: { id: adminId },
     });
-
-    return updatedAdminDao ? mapAdminDaoToEntity(updatedAdminDao) : null;
   }
 
-  async softDeleteById(adminId: number): Promise<Admin | null> {
+  async softDeleteById(adminId: number): Promise<Admin> {
     await this.adminsRepository.softDelete(adminId);
-    const deletedAdminDao = await this.adminsRepository.findOne({
+    return this.adminsRepository.findOne({
       where: { id: adminId },
       withDeleted: true,
     });
-
-    return deletedAdminDao ? mapAdminDaoToEntity(deletedAdminDao) : null;
   }
 }

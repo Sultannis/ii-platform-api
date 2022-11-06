@@ -5,7 +5,6 @@ import { ChatMessage } from 'src/common/entities/chat-message';
 import { ChatMessageDao } from 'src/common/dao/chat-message.dao';
 import { CreateChatMessageDto } from 'src/modules/chat/dto/create-chat-message.dto';
 import { UpdateChatMessageDto } from 'src/modules/chat/dto/update-chat-message.dto';
-import { mapChatMessageDaoToEntity } from 'src/common/mappers/chat.mappers';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -14,13 +13,11 @@ export class ChatMessageRepository {
     private readonly chatMessageRepository: Repository<ChatMessageDao>,
   ) {}
 
-  async findById(messageId: string): Promise<ChatMessage | null> {
-    const chatMessage = await this.chatMessageRepository.findOne({
+  findById(messageId: string): Promise<ChatMessage> {
+    return this.chatMessageRepository.findOne({
       where: { id: messageId },
       relations: ['room', 'user'],
     });
-
-    return chatMessage ? mapChatMessageDaoToEntity(chatMessage) : null;
   }
 
   async findNotReadedAmountByRoomId(roomId: string): Promise<number> {
@@ -49,46 +46,37 @@ export class ChatMessageRepository {
       },
     );
 
-    return [chatMessages.map(mapChatMessageDaoToEntity), total];
+    return [chatMessages, total];
   }
 
-  async findLastByRoomId(roomId: string): Promise<ChatMessage | null> {
-    const chatMessage = await this.chatMessageRepository.findOne({
+  findLastByRoomId(roomId: string): Promise<ChatMessage> {
+    return this.chatMessageRepository.findOne({
       where: { roomId },
       order: { createdAt: 'DESC' },
       relations: ['user', 'room'],
     });
-    return chatMessage ? mapChatMessageDaoToEntity(chatMessage) : null;
   }
 
-  async create(payload: CreateChatMessageDto): Promise<ChatMessage | null> {
+  create(payload: CreateChatMessageDto): Promise<ChatMessage> {
     const message = this.chatMessageRepository.create(payload);
-    const chatMessageDao = await this.chatMessageRepository.save(message);
-
-    return chatMessageDao ? mapChatMessageDaoToEntity(chatMessageDao) : null;
+    return this.chatMessageRepository.save(message);
   }
 
   async update(messageId: string, payload: UpdateChatMessageDto) {
     await this.chatMessageRepository.update(messageId, payload);
 
-    const updatedMessage = await this.chatMessageRepository.findOne({
+    return this.chatMessageRepository.findOne({
       where: { id: messageId },
       relations: ['room', 'user'],
     });
-
-    return updatedMessage ? mapChatMessageDaoToEntity(updatedMessage) : null;
   }
 
-  async softDeleteAndFetch(messageId: string): Promise<ChatMessage | null> {
+  async softDeleteAndFetch(messageId: string): Promise<ChatMessage> {
     await this.chatMessageRepository.softDelete(messageId);
 
-    const deletedChatMessage = await this.chatMessageRepository.findOne({
+    return this.chatMessageRepository.findOne({
       where: { id: messageId },
       withDeleted: true,
     });
-
-    return deletedChatMessage
-      ? mapChatMessageDaoToEntity(deletedChatMessage)
-      : null;
   }
 }

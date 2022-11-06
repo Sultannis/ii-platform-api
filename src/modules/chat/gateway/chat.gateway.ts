@@ -87,7 +87,6 @@ export class ChatGateway {
               id: el.id,
               userId: +el.user.id,
               name: `${el.user.firstName} ${el.user.lastName}`,
-              chatColor: el.user.chatColor,
             })),
           },
           meta: {

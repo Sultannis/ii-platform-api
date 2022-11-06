@@ -14,7 +14,6 @@ export class ChatMessageResource {
         id: +payload.user.id,
         firstName: payload.user.firstName,
         lastName: payload.user.lastName,
-        chatColor: payload.user.chatColor,
         avatarUrl: payload.user.avatarUrl,
       },
     };
