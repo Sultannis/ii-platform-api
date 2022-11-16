@@ -87,9 +87,8 @@ export class IdeasController {
   ) {
     const payload: UpdateIdeaDto = {
       title: presenterUpdateIdeaDto.title,
+      subtitle: presenterUpdateIdeaDto.subtitle,
       description: presenterUpdateIdeaDto.description,
-      requiredFinancialSupport:
-        presenterUpdateIdeaDto.required_financial_support,
     };
 
     const idea = await this.ideasService.update(ideaId, payload);

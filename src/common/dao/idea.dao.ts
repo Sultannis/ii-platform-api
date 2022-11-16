@@ -27,6 +27,12 @@ export class IdeaDao {
   @Column({ name: 'description', type: 'text' })
   description: string;
 
+  @Column({ name: 'score', type: 'int' })
+  score: number;
+
+  @Column({ name: 'main_image_url', type: 'varchar' })
+  mainImageUrl?: string;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: string;
 

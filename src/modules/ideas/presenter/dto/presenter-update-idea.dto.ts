@@ -7,9 +7,9 @@ export class PresenterUpdateIdeaDto {
 
   @IsOptional()
   @IsString()
-  description?: string;
+  subtitle?: string;
 
   @IsOptional()
-  @IsNumberString()
-  required_financial_support?: number;
+  @IsString()
+  description?: string;
 }

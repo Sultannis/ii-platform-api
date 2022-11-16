@@ -1,5 +1,6 @@
 export class UpdateIdeaDto {
   title?: string;
+  subtitle?: string;
   description?: string;
-  requiredFinancialSupport?: number;
+  mainImageUrl?: string;
 }

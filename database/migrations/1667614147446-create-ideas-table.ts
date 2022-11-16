@@ -31,6 +31,16 @@ export class createIdeasTable1667614147446 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'score',
+            type: 'int',
+            default: 0,
+          },
+          {
+            name: 'main_image_url',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamptz',
             default: 'now()',

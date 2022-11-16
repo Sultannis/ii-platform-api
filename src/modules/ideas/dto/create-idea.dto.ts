@@ -3,4 +3,5 @@ export class CreateIdeaDto {
   title: string;
   subtitle: string;
   description: string;
+  mainImageUrl?: string;
 }

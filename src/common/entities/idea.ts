@@ -6,6 +6,8 @@ export class Idea {
   title: string;
   subtitle: string;
   description: string;
+  score: number;
+  mainImageUrl?: string;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
