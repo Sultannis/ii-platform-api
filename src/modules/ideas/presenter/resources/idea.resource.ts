@@ -8,6 +8,8 @@ export class IdeaResource {
       title: idea.title,
       subtitle: idea.subtitle,
       description: idea.description,
+      score: idea.score,
+      mainImageUrl: idea.mainImageUrl,
       created_at: idea.createdAt,
       updated_at: idea.updatedAt,
       deleted_at: idea.deletedAt,
