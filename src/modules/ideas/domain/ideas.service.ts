@@ -14,7 +14,7 @@ export class IdeasService {
     return this.ideasRepository.insertAndFetch(payload);
   }
 
-  findAll(payload: FindAllIdeasDto): Promise<Idea[]> {
+  findAll(payload: FindAllIdeasDto): Promise<[ideas: Idea[], total: number]> {
     return this.ideasRepository.findAll(payload);
   }
 

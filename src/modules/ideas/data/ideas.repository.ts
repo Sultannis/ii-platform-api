@@ -20,7 +20,11 @@ export class IdeasRepository {
     return this.ideasRepository.save(idea);
   }
 
-  findAll({ page, perPage, startTimestamp }: FindAllIdeasDto): Promise<Idea[]> {
+  findAll({
+    page,
+    perPage,
+    startTimestamp,
+  }: FindAllIdeasDto): Promise<[ideas: Idea[], total: number]> {
     return this.ideasRepository
       .createQueryBuilder('idea')
       .take(perPage)
@@ -29,7 +33,7 @@ export class IdeasRepository {
         startTimestamp,
       })
       .orderBy('idea.created_at', 'DESC')
-      .getMany();
+      .getManyAndCount();
   }
 
   findOneById(ideaId: number): Promise<Idea> {

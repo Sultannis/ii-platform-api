@@ -60,7 +60,7 @@ export class IdeasController {
       start_timestamp: startTimestamp,
     }: PresenterFindAllIdeasDto,
   ) {
-    const ideas = await this.ideasService.findAll({
+    const [ideas, total] = await this.ideasService.findAll({
       page,
       perPage,
       startTimestamp,
@@ -68,6 +68,11 @@ export class IdeasController {
 
     return {
       ideas: ideas.map(this.ideaResource.convert),
+      meta: {
+        page,
+        per_page: perPage,
+        total,
+      },
     };
   }
 

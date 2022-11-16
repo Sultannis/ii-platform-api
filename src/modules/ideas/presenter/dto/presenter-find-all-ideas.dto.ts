@@ -1,17 +1,20 @@
+import { Type } from 'class-transformer';
 import {
   IsDateString,
   IsNotEmpty,
-  IsNumberString,
+  IsNumber,
   IsOptional,
 } from 'class-validator';
 
 export class PresenterFindAllIdeasDto {
   @IsOptional()
-  @IsNumberString()
+  @Type(() => Number)
+  @IsNumber()
   page: number;
 
   @IsOptional()
-  @IsNumberString()
+  @Type(() => Number)
+  @IsNumber()
   per_page: number;
 
   @IsNotEmpty()
