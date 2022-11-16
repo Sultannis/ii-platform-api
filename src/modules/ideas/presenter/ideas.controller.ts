@@ -40,6 +40,7 @@ export class IdeasController {
     const payload: CreateIdeaDto = {
       userId: requestUser.id,
       title: presenterCreateIdeaDto.title,
+      subtitle: presenterCreateIdeaDto.subtitle,
       description: presenterCreateIdeaDto.description,
     };
 

@@ -1,14 +1,13 @@
-import {
-  IsNotEmpty,
-  IsNumberString,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class PresenterCreateIdeaDto {
   @IsNotEmpty()
   @IsString()
   title: string;
+
+  @IsNotEmpty()
+  @IsString()
+  subtitle: string;
 
   @IsNotEmpty()
   @IsString()

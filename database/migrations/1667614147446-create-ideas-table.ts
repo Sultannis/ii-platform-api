@@ -22,6 +22,11 @@ export class createIdeasTable1667614147446 implements MigrationInterface {
             length: '255',
           },
           {
+            name: 'subtitle',
+            type: 'varchar',
+            length: '255',
+          },
+          {
             name: 'description',
             type: 'varchar',
           },

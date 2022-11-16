@@ -21,6 +21,9 @@ export class IdeaDao {
   @Column({ name: 'title', type: 'varchar', length: 255 })
   title: string;
 
+  @Column({ name: 'subtitle', type: 'text' })
+  subtitle: string;
+
   @Column({ name: 'description', type: 'text' })
   description: string;
 
