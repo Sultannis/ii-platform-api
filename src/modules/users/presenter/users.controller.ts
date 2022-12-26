@@ -1,4 +1,12 @@
-import { Body, Controller, Patch, Post, Param, Get, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Patch,
+  Post,
+  Param,
+  Get,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from '../domain/users.service';
 import { UserResource } from './resources/user.resource';
 import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
@@ -38,16 +46,13 @@ export class UsersController {
   @Get()
   async fetchAll(
     @Query()
-  {
-    page = 1,
-    per_page: perPage = 20,
-    start_timestamp: startTimestamp,
-  }: PresenterFindAllPeopleDto,) {
-    const users = this.usersService.fetchAll({
-      page,
-      perPage,
-      startTimestamp
-    })
+    {
+      page = 1,
+      per_page: perPage = 20,
+      start_timestamp: startTimestamp,
+    }: PresenterFindAllPeopleDto,
+  ) {
+    const users = this.usersService.fetchAll();
   }
 
   @Post('login')
