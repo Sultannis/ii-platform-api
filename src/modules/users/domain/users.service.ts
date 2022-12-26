@@ -12,6 +12,7 @@ import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { TagsService } from 'src/modules/tags/domain/tags.service';
+import { FindAllPeopleDto } from '../dto/find-all-people.dto';
 
 @Injectable()
 export class UsersService {
@@ -69,7 +70,9 @@ export class UsersService {
     return [user, token];
   }
 
-  async fetchAll() {}
+  fetchAll(payload: FindAllPeopleDto): Promise<[users: User[], total: number]> {
+    return this.usersRepository.findAll(payload)
+  }
 
   async update(userId: number, payload: UpdateUserDto): Promise<User> {
     let user = await this.usersRepository.findById(userId);

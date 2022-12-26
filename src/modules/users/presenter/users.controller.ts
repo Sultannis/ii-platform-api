@@ -52,7 +52,20 @@ export class UsersController {
       start_timestamp: startTimestamp,
     }: PresenterFindAllPeopleDto,
   ) {
-    const users = this.usersService.fetchAll();
+    const [users, total] = await this.usersService.fetchAll({
+      page,
+      perPage,
+      startTimestamp
+    });
+
+    return {
+      users: users.map(this.userResource.convert),
+      meta: {
+        page,
+        per_page: perPage,
+        total,
+      },
+    }
   }
 
   @Post('login')

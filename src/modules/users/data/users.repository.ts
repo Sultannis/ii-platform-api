@@ -9,6 +9,7 @@ import { TagDao } from 'src/common/dao/tag.dao';
 import { Tag } from 'src/common/entities/tag';
 import { UserTagDao } from 'src/common/dao/user-tag.dao';
 import { InsertUpdateUserDto } from '../dto/insert-update-user.dto';
+import { FindAllPeopleDto } from '../dto/find-all-people.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -29,6 +30,23 @@ export class UsersRepository {
     return this.usersRepository.findOne({
       where: { email },
     });
+  }
+
+
+  findAll({
+    page,
+    perPage,
+    startTimestamp,
+  }: FindAllPeopleDto): Promise<[users: User[], total: number]> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .take(perPage)
+      .skip((page - 1) * perPage)
+      .where('user.created_at <= :startTimestamp', {
+        startTimestamp,
+      })
+      .orderBy('user.created_at', 'DESC')
+      .getManyAndCount();
   }
 
   detailById(userId: number): Promise<User> {
