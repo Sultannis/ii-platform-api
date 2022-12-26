@@ -69,6 +69,8 @@ export class UsersService {
     return [user, token];
   }
 
+  async fetchAll()
+
   async update(userId: number, payload: UpdateUserDto): Promise<User> {
     let user = await this.usersRepository.findById(userId);
     if (!user) {

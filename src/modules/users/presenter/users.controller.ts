@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, Param } from '@nestjs/common';
+import { Body, Controller, Patch, Post, Param, Get, Query } from '@nestjs/common';
 import { UsersService } from '../domain/users.service';
 import { UserResource } from './resources/user.resource';
 import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
@@ -7,6 +7,7 @@ import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { PresenterUpdateUserDto } from './dto/presenter-update-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { PresenterFindAllPeopleDto } from './dto/presenter-find-all-people.dto';
 
 @Controller('users')
 export class UsersController {
@@ -32,6 +33,21 @@ export class UsersController {
       },
       user: this.userResource.convert(user),
     };
+  }
+
+  @Get()
+  async fetchAll(
+    @Query()
+  {
+    page = 1,
+    per_page: perPage = 20,
+    start_timestamp: startTimestamp,
+  }: PresenterFindAllPeopleDto,) {
+    const users = this.usersService.fetchAll({
+      page,
+      perPage,
+      startTimestamp
+    })
   }
 
   @Post('login')
