@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
 } from 'class-validator';
 
 export class PresenterFindAllIdeasDto {
@@ -20,4 +21,8 @@ export class PresenterFindAllIdeasDto {
   @IsNotEmpty()
   @IsDateString()
   start_timestamp: string;
+
+  @IsOptional()
+  @IsString()
+  sort_by: string;
 }

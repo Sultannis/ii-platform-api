@@ -55,7 +55,7 @@ export class UsersController {
     const [users, total] = await this.usersService.fetchAll({
       page,
       perPage,
-      startTimestamp
+      startTimestamp,
     });
 
     return {
@@ -65,7 +65,7 @@ export class UsersController {
         per_page: perPage,
         total,
       },
-    }
+    };
   }
 
   @Post('login')
