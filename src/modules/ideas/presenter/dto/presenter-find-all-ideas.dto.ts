@@ -25,4 +25,9 @@ export class PresenterFindAllIdeasDto {
   @IsOptional()
   @IsString()
   sort_by: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  user_id: number;
 }

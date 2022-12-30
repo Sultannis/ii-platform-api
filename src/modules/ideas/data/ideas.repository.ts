@@ -25,19 +25,8 @@ export class IdeasRepository {
     perPage,
     startTimestamp,
     sortBy,
+    userId,
   }: FindAllIdeasDto): Promise<[ideas: Idea[], total: number]> {
-    if (sortBy === 'popularity') {
-      console.log('popularity ran');
-      return this.ideasRepository
-        .createQueryBuilder('idea')
-        .take(perPage)
-        .skip((page - 1) * perPage)
-        .where('idea.created_at <= :startTimestamp', {
-          startTimestamp,
-        })
-        .orderBy('idea.score', 'DESC')
-        .getManyAndCount();
-    }
     return this.ideasRepository
       .createQueryBuilder('idea')
       .take(perPage)
@@ -45,7 +34,11 @@ export class IdeasRepository {
       .where('idea.created_at <= :startTimestamp', {
         startTimestamp,
       })
-      .orderBy('idea.created_at', 'DESC')
+      .andWhere(userId ? 'idea.user_id = :userId' : {}, { userId })
+      .orderBy(
+        sortBy === 'popularity' ? 'idea.score' : 'idea.created_at',
+        'DESC',
+      )
       .getManyAndCount();
   }
 

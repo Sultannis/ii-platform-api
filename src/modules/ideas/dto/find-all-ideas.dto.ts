@@ -3,4 +3,5 @@ export class FindAllIdeasDto {
   perPage: number;
   startTimestamp: string;
   sortBy: string;
+  userId: number;
 }

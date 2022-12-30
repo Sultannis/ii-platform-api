@@ -59,6 +59,7 @@ export class IdeasController {
       per_page: perPage = 20,
       start_timestamp: startTimestamp,
       sort_by: sortBy = 'createdAt',
+      user_id: userId,
     }: PresenterFindAllIdeasDto,
   ) {
     const [ideas, total] = await this.ideasService.findAll({
@@ -66,6 +67,7 @@ export class IdeasController {
       perPage,
       startTimestamp,
       sortBy,
+      userId
     });
 
     return {
