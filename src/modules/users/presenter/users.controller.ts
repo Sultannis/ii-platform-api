@@ -68,6 +68,15 @@ export class UsersController {
     };
   }
 
+  @Get(':user_id')
+  async fetchOne(@Param('user_id') userId: string ) {
+    const user = await this.usersService.fetchOne(+userId);
+
+    return {
+      users: this.userResource.convert(user)
+    };
+  }
+
   @Post('login')
   async login(@Body() presenterLoginUserDto: PresenterLoginUserDto) {
     const payload: LoginUserDto = {

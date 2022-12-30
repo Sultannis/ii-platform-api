@@ -71,7 +71,11 @@ export class UsersService {
   }
 
   fetchAll(payload: FindAllPeopleDto): Promise<[users: User[], total: number]> {
-    return this.usersRepository.findAll(payload)
+    return this.usersRepository.findAll(payload);
+  }
+
+  fetchOne(userId: number): Promise<User> {
+    return this.usersRepository.findById(userId);
   }
 
   async update(userId: number, payload: UpdateUserDto): Promise<User> {
