@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Idea } from 'src/common/entities/idea';
-import { RequestUser } from 'src/modules/auth/entities/request-user';
 import { IdeasRepository } from '../data/ideas.repository';
 import { CreateIdeaDto } from '../dto/create-idea.dto';
 import { FindAllIdeasDto } from '../dto/find-all-ideas.dto';

@@ -10,6 +10,7 @@ import { Tag } from 'src/common/entities/tag';
 import { UserTagDao } from 'src/common/dao/user-tag.dao';
 import { InsertUpdateUserDto } from '../dto/insert-update-user.dto';
 import { FindAllPeopleDto } from '../dto/find-all-people.dto';
+import { FetchRecomendedPeopleDto } from '../dto/fetch-recomended-people.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -32,6 +33,20 @@ export class UsersRepository {
     });
   }
 
+  fetchRecomendedPeople({
+    userId,
+    page,
+    perPage,
+    startTimestamp,
+  }: FetchRecomendedPeopleDto): Promise<[users: User[], total: number]> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .skip((page - 1) * perPage)
+      .take(perPage)
+      .where('user.id != :userId', { userId })
+      .andWhere('user.createdAt <= :startTimestamp', { startTimestamp })
+      .getManyAndCount();
+  }
 
   findAll({
     page,

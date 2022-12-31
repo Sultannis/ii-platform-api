@@ -16,6 +16,7 @@ import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { PresenterUpdateUserDto } from './dto/presenter-update-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { PresenterFindAllPeopleDto } from './dto/presenter-find-all-people.dto';
+import { PresenterFetchRecomendedPeopleDto } from './dto/presenter-fetch-recomended-people.dto';
 
 @Controller('users')
 export class UsersController {
@@ -34,6 +35,23 @@ export class UsersController {
     };
 
     const [user, token] = await this.usersService.register(payload);
+
+    return {
+      auth: {
+        token,
+      },
+      user: this.userResource.convert(user),
+    };
+  }
+  
+  @Post('login')
+  async login(@Body() presenterLoginUserDto: PresenterLoginUserDto) {
+    const payload: LoginUserDto = {
+      email: presenterLoginUserDto.email,
+      password: presenterLoginUserDto.password,
+    };
+
+    const [user, token] = await this.usersService.login(payload);
 
     return {
       auth: {
@@ -68,29 +86,35 @@ export class UsersController {
     };
   }
 
+  @Get(':user_id/recomended-people')
+  async fetchRecomendedPeople(@Param('user_id') userId: string, @Query() {
+    page = 1,
+    per_page: perPage = 20,
+    start_timestamp: startTimestamp
+  }: PresenterFetchRecomendedPeopleDto) {    
+    const [users, total] = await this.usersService.fetchRecomendedPeople({
+      userId: +userId,
+      page,
+      perPage,
+      startTimestamp
+    })
+
+    return {
+      users: users.map(this.userResource.convert),
+      meta: {
+        page,
+        per_page: perPage,
+        total,
+      },
+    };
+  }
+
   @Get(':user_id')
   async fetchOne(@Param('user_id') userId: string ) {
     const user = await this.usersService.fetchOne(+userId);
 
     return {
       users: this.userResource.convert(user)
-    };
-  }
-
-  @Post('login')
-  async login(@Body() presenterLoginUserDto: PresenterLoginUserDto) {
-    const payload: LoginUserDto = {
-      email: presenterLoginUserDto.email,
-      password: presenterLoginUserDto.password,
-    };
-
-    const [user, token] = await this.usersService.login(payload);
-
-    return {
-      auth: {
-        token,
-      },
-      user: this.userResource.convert(user),
     };
   }
 

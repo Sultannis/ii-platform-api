@@ -1,7 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Tag } from 'src/common/entities/tag';
 import { TagsRepository } from '../data/tags.repository';
-import { CreateTagDto } from '../dto/create-tag.dto';
 
 @Injectable()
 export class TagsService {
