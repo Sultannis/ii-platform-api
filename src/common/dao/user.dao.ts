@@ -10,6 +10,7 @@ import {
 import { ChatMessageDao } from './chat-message.dao';
 import { ChatRoomParticipantDao } from './chat-room-participant.dao';
 import { IdeaDao } from './idea.dao';
+import { UserSavedIdeaDao } from './user-saved-idea.dao';
 import { UserTagDao } from './user-tag.dao';
 
 @Entity('users')
@@ -131,6 +132,9 @@ export class UserDao {
 
   @OneToMany(() => ChatRoomParticipantDao, (participant) => participant.user)
   participants: ChatRoomParticipantDao[];
+
+  @OneToMany(() => UserSavedIdeaDao, (userSavedIdea) => userSavedIdea.user)
+  savedIdeas?: UserSavedIdeaDao[];
 
   @OneToMany(() => UserTagDao, (userTag) => userTag.user)
   tags?: UserTagDao[];

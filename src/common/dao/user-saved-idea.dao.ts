@@ -3,9 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IdeaDao } from './idea.dao';
+import { UserDao } from './user.dao';
 
 @Entity('user_saved_ideas')
 export class UserSavedIdeaDao {
@@ -26,4 +30,12 @@ export class UserSavedIdeaDao {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
+
+  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => UserDao, (user) => user.savedIdeas)
+  user?: UserDao;
+
+  @JoinColumn({ name: 'idea_id' })
+  @ManyToOne(() => IdeaDao, (idea) => idea.usersWhoSaved)
+  idea?: IdeaDao;
 }
