@@ -58,38 +58,9 @@ export class createUsersTable1667613299269 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'work_company',
-            type: 'varchar',
-            length: '255',
-            isNullable: true,
-          },
-          {
-            name: 'educational_institution',
-            type: 'varchar',
-            length: '255',
-            isNullable: true,
-          },
-          {
             name: 'bio',
             type: 'varchar',
             length: '255',
-            isNullable: true,
-          },
-          {
-            name: 'telegram_nickname',
-            type: 'varchar',
-            length: '255',
-            isNullable: true,
-          },
-          {
-            name: 'linkedin_link',
-            type: 'varchar',
-            length: '255',
-            isNullable: true,
-          },
-          {
-            name: 'description',
-            type: 'varchar',
             isNullable: true,
           },
           {
