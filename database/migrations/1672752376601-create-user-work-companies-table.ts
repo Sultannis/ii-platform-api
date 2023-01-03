@@ -1,15 +1,17 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createIdeasTable1667614147446 implements MigrationInterface {
+export class createUserWorkCompaniesTable1672752376601
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'ideas',
+        name: 'user_work_companies',
         columns: [
           {
             name: 'id',
-            isPrimary: true,
             isGenerated: true,
+            isPrimary: true,
             type: 'bigint',
           },
           {
@@ -17,27 +19,29 @@ export class createIdeasTable1667614147446 implements MigrationInterface {
             type: 'bigint',
           },
           {
-            name: 'title',
+            name: 'company_name',
             type: 'varchar',
-            length: '255',
-          },
-          {
-            name: 'subtitle',
-            type: 'varchar',
-            length: '255',
           },
           {
             name: 'description',
             type: 'varchar',
+            isNullable: true,
           },
           {
-            name: 'score',
-            type: 'int',
-            default: 0,
-          },
-          {
-            name: 'main_image_url',
+            name: 'position',
             type: 'varchar',
+          },
+          {
+            name: 'country',
+            type: 'varchar',
+          },
+          {
+            name: 'start_date',
+            type: 'timestamptz',
+          },
+          {
+            name: 'end_date',
+            type: 'timestamptz',
             isNullable: true,
           },
           {
@@ -61,7 +65,6 @@ export class createIdeasTable1667614147446 implements MigrationInterface {
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'users',
-            onDelete: 'CASCADE',
           },
         ],
       }),
@@ -69,6 +72,6 @@ export class createIdeasTable1667614147446 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('ideas');
+    await queryRunner.dropTable('user_work_companies');
   }
 }

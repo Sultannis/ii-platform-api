@@ -1,21 +1,44 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createTagsTable1667614499747 implements MigrationInterface {
+export class createUserEducationInstitutionsTable1672754074487
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'tags',
+        name: 'user_education_institutions',
         columns: [
           {
             name: 'id',
-            isPrimary: true,
             isGenerated: true,
+            isPrimary: true,
             type: 'bigint',
           },
           {
             name: 'name',
             type: 'varchar',
-            length: '255',
+          },
+          {
+            name: 'description',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'levelOfEducation',
+            type: 'varchar',
+          },
+          {
+            name: 'country',
+            type: 'varchar',
+          },
+          {
+            name: 'start_date',
+            type: 'timestamptz',
+          },
+          {
+            name: 'end_date',
+            type: 'timestamptz',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -38,6 +61,6 @@ export class createTagsTable1667614499747 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('tags');
+    await queryRunner.dropTable('user_education_institutions');
   }
 }

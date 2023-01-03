@@ -22,6 +22,16 @@ export class createUserCharacteristicsTable1672688035236
             name: 'characteristic_id',
             type: 'bigint',
           },
+          {
+            name: 'created_at',
+            type: 'timestamptz',
+            default: 'now()',
+          },
+          {
+            name: 'deleted_at',
+            type: 'timestamptz',
+            isNullable: true,
+          },
         ],
         foreignKeys: [
           {
