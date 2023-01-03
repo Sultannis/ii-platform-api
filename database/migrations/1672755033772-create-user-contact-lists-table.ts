@@ -1,12 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createUserEducationInstitutionsTable1672754074487
+export class createUserContactListsTable1672755033772
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user_education_institutions',
+        name: 'user_contact_lists',
         columns: [
           {
             name: 'id',
@@ -15,34 +15,24 @@ export class createUserEducationInstitutionsTable1672754074487
             type: 'bigint',
           },
           {
+            name: 'phone_number',
+            type: 'varchar',
+          },
+          {
             name: 'user_id',
+            type: 'bigint',
+          },
+          {
+            name: 'linkedin_link',
             type: 'varchar',
           },
           {
-            name: 'name',
+            name: 'github_link',
             type: 'varchar',
           },
           {
-            name: 'description',
+            name: 'telegram_nickname',
             type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'levelOfEducation',
-            type: 'varchar',
-          },
-          {
-            name: 'country',
-            type: 'varchar',
-          },
-          {
-            name: 'start_date',
-            type: 'timestamptz',
-          },
-          {
-            name: 'end_date',
-            type: 'timestamptz',
-            isNullable: true,
           },
           {
             name: 'created_at',
@@ -72,6 +62,6 @@ export class createUserEducationInstitutionsTable1672754074487
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user_education_institutions');
+    await queryRunner.dropTable('user_contact_lists');
   }
 }
