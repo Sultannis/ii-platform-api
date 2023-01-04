@@ -30,6 +30,7 @@ export class createIdeasTable1672829520384 implements MigrationInterface {
           },
           {
             name: 'likes',
+            default: 0,
             type: 'int',
           },
           {

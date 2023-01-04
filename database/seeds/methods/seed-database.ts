@@ -7,7 +7,7 @@ export const seedDatabase = async () => {
   const AppDataSource = await getAndInitializeAppDataSource();
 
   await seedUsers(AppDataSource);
-  // await seedIdeas(AppDataSource);
+  await seedIdeas(AppDataSource);
   // await seedTags(AppDataSource);
   console.log('\nDatabase seeded');
   process.exit(0);
