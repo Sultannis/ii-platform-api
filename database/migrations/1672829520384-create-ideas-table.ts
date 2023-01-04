@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createUserEducationInstitutionsTable1672754074487
-  implements MigrationInterface
-{
+export class createIdeasTable1672829520384 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user_education_institutions',
+        name: 'ideas',
         columns: [
           {
             name: 'id',
@@ -15,44 +13,34 @@ export class createUserEducationInstitutionsTable1672754074487
             type: 'bigint',
           },
           {
-            name: 'user_id',
+            name: 'author_id',
             type: 'bigint',
           },
           {
-            name: 'name',
+            name: 'title',
+            type: 'varchar',
+          },
+          {
+            name: 'subtitle',
             type: 'varchar',
           },
           {
             name: 'description',
-            type: 'varchar',
-            isNullable: true,
+            type: 'text',
           },
           {
-            name: 'levelOfEducation',
-            type: 'varchar',
-          },
-          {
-            name: 'country',
-            type: 'varchar',
-          },
-          {
-            name: 'start_date',
-            type: 'timestamptz',
-          },
-          {
-            name: 'end_date',
-            type: 'timestamptz',
-            isNullable: true,
+            name: 'likes',
+            type: 'int',
           },
           {
             name: 'created_at',
-            type: 'timestamptz',
             default: 'now()',
+            type: 'timestamptz',
           },
           {
             name: 'updated_at',
-            type: 'timestamptz',
             default: 'now()',
+            type: 'timestamptz',
           },
           {
             name: 'deleted_at',
@@ -60,18 +48,11 @@ export class createUserEducationInstitutionsTable1672754074487
             isNullable: true,
           },
         ],
-        foreignKeys: [
-          {
-            columnNames: ['user_id'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'users',
-          },
-        ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user_education_institutions');
+    await queryRunner.dropTable('ideas');
   }
 }

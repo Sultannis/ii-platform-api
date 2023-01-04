@@ -15,12 +15,12 @@ export class createUserContactListsTable1672755033772
             type: 'bigint',
           },
           {
-            name: 'phone_number',
-            type: 'varchar',
-          },
-          {
             name: 'user_id',
             type: 'bigint',
+          },
+          {
+            name: 'phone_number',
+            type: 'varchar',
           },
           {
             name: 'linkedin_link',
