@@ -4,10 +4,6 @@ import { Repository } from 'typeorm';
 import { User } from 'src/common/entities/user';
 import { UserDao } from 'src/common/dao/user.dao';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { TagDao } from 'src/common/dao/tag.dao';
-import { Tag } from 'src/common/entities/tag';
-import { UserTagDao } from 'src/common/dao/user-tag.dao';
 import { InsertUpdateUserDto } from '../dto/insert-update-user.dto';
 import { FindAllPeopleDto } from '../dto/find-all-people.dto';
 import { FetchRecomendedPeopleDto } from '../dto/fetch-recomended-people.dto';
@@ -17,8 +13,6 @@ export class UsersRepository {
   constructor(
     @InjectRepository(UserDao)
     private readonly usersRepository: Repository<UserDao>,
-    @InjectRepository(UserTagDao)
-    private readonly userTagsRepository: Repository<UserTagDao>,
   ) {}
 
   findById(userId: number): Promise<User> {
@@ -87,21 +81,5 @@ export class UsersRepository {
     return this.usersRepository.findOneBy({
       id: userId,
     });
-  }
-
-  insertUserTagAndFetch(userId: number, tagId: number) {
-    const userTag = this.userTagsRepository.create({ userId, tagId });
-
-    return this.userTagsRepository.save(userTag);
-  }
-
-  async deleteAllUserTags(userId: number): Promise<User> {
-    const user = await this.usersRepository.findOneBy({
-      id: userId,
-    });
-
-    user.tags = [];
-
-    return this.usersRepository.save(user);
   }
 }

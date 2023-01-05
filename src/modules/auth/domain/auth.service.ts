@@ -4,7 +4,6 @@ import * as jwt from 'jsonwebtoken';
 import authConfig from 'src/common/configs/auth.config';
 import { UserTokenDto } from 'src/modules/auth/dto/user-token.dto';
 import { AdminTokenDto } from '../dto/admin-token.dto';
-import { RequestUser } from '../entities/request-user';
 
 @Injectable()
 export class AuthService {

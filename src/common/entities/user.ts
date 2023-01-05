@@ -1,29 +1,19 @@
-import { Idea } from './idea';
-import { UserTag } from './user-tag';
-
 export class User {
   id: number;
-  email: string;
   firstName: string;
   lastName: string;
+  email: string;
   nickname?: string;
   birthDate?: string;
+  occupation?: string;
   residenceCountry?: string;
   residenceCity?: string;
-  occupation?: string;
-  workCompany?: string;
-  educationalInstitution?: string;
   bio?: string;
-  telegramNickname?: string;
-  linkedinLink?: string;
-  description?: string;
+  avatarUrl?: string;
   role: number;
   password: string;
-  avatarUrl?: string | null;
+  confirmedAt?: string;
   createdAt: string;
   updatedAt: string;
-  confirmedAt?: string | null;
-  deletedAt?: string | null;
-  ideas?: Idea[];
-  tags?: UserTag[];
+  deletedAt?: string;
 }
