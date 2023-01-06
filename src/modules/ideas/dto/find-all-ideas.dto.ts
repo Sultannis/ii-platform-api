@@ -1,7 +1,0 @@
-export class FindAllIdeasDto {
-  page: number;
-  perPage: number;
-  startTimestamp: string;
-  sortBy: string;
-  userId: number;
-}
