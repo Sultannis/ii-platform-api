@@ -1,1 +1,3 @@
-export class CreateCharacteristicDto {}
+export class CreateCharacteristicDto {
+  name: string;
+}
