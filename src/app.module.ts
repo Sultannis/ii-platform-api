@@ -5,6 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import connectionConfig from './common/configs/connection.config';
 import { UserDao } from './common/dao/user.dao';
 import { CharacteristicDao } from './common/dao/characteristic.dao';
+import { CharacteristicsModule } from './modules/characteristics/characteristics.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CharacteristicDao } from './common/dao/characteristic.dao';
     }),
     AuthModule,
     UsersModule,
+    CharacteristicsModule,
   ],
 })
 export class AppModule {}
