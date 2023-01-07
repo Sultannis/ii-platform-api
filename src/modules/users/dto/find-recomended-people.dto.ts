@@ -1,4 +1,4 @@
-export class FetchRecomendedPeopleDto {
+export class FindRecomendedPeopleDto {
   userId: number;
   page: number;
   perPage: number;

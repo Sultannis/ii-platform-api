@@ -11,22 +11,20 @@ import { UserTypes } from 'src/common/constant/user-types';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { TagsService } from 'src/modules/tags/domain/tags.service';
 import { FindAllPeopleDto } from '../dto/find-all-people.dto';
-import { FetchRecomendedPeopleDto } from '../dto/fetch-recomended-people.dto';
+import { FindRecomendedPeopleDto } from '../dto/find-recomended-people.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly authService: AuthService,
-    private readonly tagsService: TagsService,
   ) {}
 
   async register(
     payload: RegisterUserDto,
   ): Promise<[user: User, token: string]> {
-    const candidate = await this.usersRepository.findByEmail(payload.email);
+    const candidate = await this.usersRepository.findOneByEmail(payload.email);
     if (candidate) {
       throw new ConflictException('User with provided email already exist');
     }
@@ -49,7 +47,7 @@ export class UsersService {
   }
 
   async login(payload: LoginUserDto): Promise<[user: User, token: string]> {
-    const user = await this.usersRepository.findByEmail(payload.email);
+    const user = await this.usersRepository.findOneByEmail(payload.email);
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -71,43 +69,33 @@ export class UsersService {
     return [user, token];
   }
 
-  fetchAll(payload: FindAllPeopleDto): Promise<[users: User[], total: number]> {
-    return this.usersRepository.findAll(payload);
+  findAllWithTimestamp(
+    payload: FindAllPeopleDto,
+  ): Promise<[users: User[], total: number]> {
+    return this.usersRepository.findAllWithStartTimestamp(payload);
   }
 
-  fetchOne(userId: number): Promise<User> {
-    return this.usersRepository.findById(userId);
+  findOneById(userId: number): Promise<User> {
+    return this.usersRepository.findOneById(userId);
   }
 
-  fetchRecomendedPeople(payload: FetchRecomendedPeopleDto): Promise<[users: User[], total: number]> {
-    return this.usersRepository.fetchRecomendedPeople(payload)
+  findRecomendedPeople(
+    payload: FindRecomendedPeopleDto,
+  ): Promise<[users: User[], total: number]> {
+    return this.usersRepository.findRecomendedPeopleWithStartTimestamp(payload);
   }
 
   async update(userId: number, payload: UpdateUserDto): Promise<User> {
-    let user = await this.usersRepository.findById(userId);
+    let user = await this.usersRepository.findOneById(userId);
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
 
     const { tags, ...payloadWithoutTags } = payload;
 
-    user = await this.usersRepository.updateByIdAndFetch(
+    return await this.usersRepository.updateAndFetchOneById(
       userId,
       payloadWithoutTags,
     );
-
-    if (tags) {
-      await this.usersRepository.deleteAllUserTags(userId);
-      for (const tagName of tags) {
-        let savedTag = await this.tagsService.findOneByName(tagName);
-        if (!savedTag) {
-          savedTag = await this.tagsService.create(tagName);
-        }
-
-        await this.usersRepository.insertUserTagAndFetch(user.id, savedTag.id);
-      }
-    }
-
-    return this.usersRepository.detailById(user.id);
   }
 }

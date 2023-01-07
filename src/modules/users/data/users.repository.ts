@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/common/entities/user';
 import { UserDao } from 'src/common/dao/user.dao';
+import { User } from 'src/common/entities/user';
+import { FindAllPeopleDto } from '../dto/find-all-people.dto';
+import { FindRecomendedPeopleDto } from '../dto/find-recomended-people.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { InsertUpdateUserDto } from '../dto/insert-update-user.dto';
-import { FindAllPeopleDto } from '../dto/find-all-people.dto';
-import { FetchRecomendedPeopleDto } from '../dto/fetch-recomended-people.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -20,7 +20,7 @@ export class UsersRepository {
       where: { id: userId },
     });
   }
-  
+
   findOneWithRelationsById(userId: number): Promise<User> {
     return this.usersRepository.findOne({
       where: {
@@ -35,7 +35,7 @@ export class UsersRepository {
       where: { email },
     });
   }
-  
+
   findAllWithStartTimestamp({
     page,
     perPage,
@@ -52,12 +52,12 @@ export class UsersRepository {
       .getManyAndCount();
   }
 
-  fetchRecomendedPeople({
+  findRecomendedPeopleWithStartTimestamp({
     userId,
     page,
     perPage,
     startTimestamp,
-  }: FetchRecomendedPeopleDto): Promise<[users: User[], total: number]> {
+  }: FindRecomendedPeopleDto): Promise<[users: User[], total: number]> {
     return this.usersRepository
       .createQueryBuilder('user')
       .skip((page - 1) * perPage)
