@@ -6,7 +6,7 @@ import { User } from 'src/common/entities/user';
 import { FindAllPeopleDto } from '../dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from '../dto/find-recomended-people.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
-import { InsertUpdateUserDto } from '../dto/insert-update-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -74,7 +74,7 @@ export class UsersRepository {
 
   async updateAndFetchOneById(
     userId: number,
-    payload: InsertUpdateUserDto,
+    payload: UpdateUserDto,
   ): Promise<User> {
     await this.usersRepository.update(userId, payload);
 

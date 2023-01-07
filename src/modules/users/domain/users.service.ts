@@ -91,11 +91,6 @@ export class UsersService {
       throw new NotFoundException('User does not exist');
     }
 
-    const { tags, ...payloadWithoutTags } = payload;
-
-    return await this.usersRepository.updateAndFetchOneById(
-      userId,
-      payloadWithoutTags,
-    );
+    return await this.usersRepository.updateAndFetchOneById(userId, payload);
   }
 }

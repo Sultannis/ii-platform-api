@@ -129,8 +129,6 @@ export class UsersController {
     @Body() presenterUpdateUserDto: PresenterUpdateUserDto,
   ) {
     const payload: UpdateUserDto = {
-      tags: presenterUpdateUserDto.tags,
-      email: presenterUpdateUserDto.email,
       firstName: presenterUpdateUserDto.first_name,
       lastName: presenterUpdateUserDto.last_name,
       nickname: presenterUpdateUserDto.nickname,
@@ -138,13 +136,7 @@ export class UsersController {
       residenceCountry: presenterUpdateUserDto.residence_country,
       residenceCity: presenterUpdateUserDto.residence_city,
       occupation: presenterUpdateUserDto.occupation,
-      password: presenterUpdateUserDto.password,
-      workCompany: presenterUpdateUserDto.work_company,
-      educationalInstitution: presenterUpdateUserDto.educational_institution,
       bio: presenterUpdateUserDto.bio,
-      telegramNickaname: presenterUpdateUserDto.telegram_nickaname,
-      linkedinLink: presenterUpdateUserDto.linkedin_link,
-      description: presenterUpdateUserDto.description,
     };
 
     const user = await this.usersService.updateOneById(+userId, payload);
