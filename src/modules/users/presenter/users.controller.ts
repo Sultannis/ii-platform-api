@@ -43,7 +43,7 @@ export class UsersController {
       user: this.userResource.convert(user),
     };
   }
-  
+
   @Post('login')
   async login(@Body() presenterLoginUserDto: PresenterLoginUserDto) {
     const payload: LoginUserDto = {
@@ -61,8 +61,17 @@ export class UsersController {
     };
   }
 
+  @Get(':user_id')
+  async findOne(@Param('user_id') userId: string) {
+    const user = await this.usersService.findOneById(+userId);
+
+    return {
+      users: this.userResource.convert(user),
+    };
+  }
+
   @Get()
-  async fetchAll(
+  async findAll(
     @Query()
     {
       page = 1,
@@ -70,7 +79,7 @@ export class UsersController {
       start_timestamp: startTimestamp,
     }: PresenterFindAllPeopleDto,
   ) {
-    const [users, total] = await this.usersService.fetchAll({
+    const [users, total] = await this.usersService.findAllWithStartTimestamp({
       page,
       perPage,
       startTimestamp,
@@ -87,17 +96,22 @@ export class UsersController {
   }
 
   @Get(':user_id/recomended-people')
-  async fetchRecomendedPeople(@Param('user_id') userId: string, @Query() {
-    page = 1,
-    per_page: perPage = 20,
-    start_timestamp: startTimestamp
-  }: PresenterFetchRecomendedPeopleDto) {    
-    const [users, total] = await this.usersService.fetchRecomendedPeople({
-      userId: +userId,
-      page,
-      perPage,
-      startTimestamp
-    })
+  async findRecomendedPeople(
+    @Param('user_id') userId: string,
+    @Query()
+    {
+      page = 1,
+      per_page: perPage = 20,
+      start_timestamp: startTimestamp,
+    }: PresenterFetchRecomendedPeopleDto,
+  ) {
+    const [users, total] =
+      await this.usersService.findRecomendedPeopleWithStartTimestamp({
+        userId: +userId,
+        page,
+        perPage,
+        startTimestamp,
+      });
 
     return {
       users: users.map(this.userResource.convert),
@@ -106,15 +120,6 @@ export class UsersController {
         per_page: perPage,
         total,
       },
-    };
-  }
-
-  @Get(':user_id')
-  async fetchOne(@Param('user_id') userId: string ) {
-    const user = await this.usersService.fetchOne(+userId);
-
-    return {
-      users: this.userResource.convert(user)
     };
   }
 
@@ -142,7 +147,7 @@ export class UsersController {
       description: presenterUpdateUserDto.description,
     };
 
-    const user = await this.usersService.update(+userId, payload);
+    const user = await this.usersService.updateOneById(+userId, payload);
 
     return {
       user: this.userResource.convert(user),

@@ -27,7 +27,7 @@ export class WsJwtStrategy extends PassportStrategy(Strategy, 'wsjwt') {
 
   async validate(payload: JwtPayload): Promise<unknown> {
     try {
-      const userDao = await this.usersRepository.findById(+payload.id);
+      const userDao = await this.usersRepository.findOneById(+payload.id);
       return this.userResource.convert(userDao);
     } catch (error) {
       throw new WsException('Unauthorized access');

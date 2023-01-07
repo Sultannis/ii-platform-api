@@ -69,7 +69,7 @@ export class UsersService {
     return [user, token];
   }
 
-  findAllWithTimestamp(
+  findAllWithStartTimestamp(
     payload: FindAllPeopleDto,
   ): Promise<[users: User[], total: number]> {
     return this.usersRepository.findAllWithStartTimestamp(payload);
@@ -79,13 +79,13 @@ export class UsersService {
     return this.usersRepository.findOneById(userId);
   }
 
-  findRecomendedPeople(
+  findRecomendedPeopleWithStartTimestamp(
     payload: FindRecomendedPeopleDto,
   ): Promise<[users: User[], total: number]> {
     return this.usersRepository.findRecomendedPeopleWithStartTimestamp(payload);
   }
 
-  async update(userId: number, payload: UpdateUserDto): Promise<User> {
+  async updateOneById(userId: number, payload: UpdateUserDto): Promise<User> {
     let user = await this.usersRepository.findOneById(userId);
     if (!user) {
       throw new NotFoundException('User does not exist');
