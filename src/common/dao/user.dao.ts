@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CharacteristicDao } from './characteristic.dao';
 
 @Entity('users')
 export class UserDao {
@@ -78,4 +81,18 @@ export class UserDao {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
+
+  @ManyToMany(() => CharacteristicDao)
+  @JoinTable({
+    name: 'user_characteristics',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'characteristic_id',
+      referencedColumnName: 'id',
+    },
+  })
+  characteristics: CharacteristicDao[];
 }
