@@ -1,20 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
-import { IdeasModule } from './modules/ideas/ideas.module';
 import { UsersModule } from './modules/users/users.module';
-import { ChatModule } from './modules/chat/chat.module';
-import { AdminsModule } from './modules/admins/admins.module';
-import { TagsModule } from './modules/tags/tags.module';
 import connectionConfig from './common/configs/connection.config';
-import { AdminDao } from './common/dao/admin.dao';
-import { ChatMessageDao } from './common/dao/chat-message.dao';
-import { ChatRoomDao } from './common/dao/chat-room.dao';
-import { IdeaDao } from './common/dao/idea.dao';
-import { TagDao } from './common/dao/tag.dao';
 import { UserDao } from './common/dao/user.dao';
-import { UserTagDao } from './common/dao/user-tag.dao';
-import { ChatRoomParticipantDao } from './common/dao/chat-room-participant.dao';
 
 @Module({
   imports: [
@@ -25,25 +14,12 @@ import { ChatRoomParticipantDao } from './common/dao/chat-room-participant.dao';
       username: connectionConfig.username,
       password: connectionConfig.password,
       database: connectionConfig.database,
-      entities: [
-        AdminDao,
-        ChatMessageDao,
-        ChatRoomDao,
-        IdeaDao,
-        TagDao,
-        UserDao,
-        UserTagDao,
-        ChatRoomParticipantDao,
-      ],
+      entities: [UserDao],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
     }),
     AuthModule,
     UsersModule,
-    ChatModule,
-    IdeasModule,
-    AdminsModule,
-    TagsModule,
   ],
 })
 export class AppModule {}

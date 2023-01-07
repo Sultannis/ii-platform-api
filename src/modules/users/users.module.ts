@@ -6,10 +6,9 @@ import { UsersController } from './presenter/users.controller';
 import { AuthService } from '../auth/domain/auth.service';
 import { UsersRepository } from './data/users.repository';
 import { UserResource } from './presenter/resources/user.resource';
-import { TagsModule } from '../tags/tags.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserDao]), TagsModule],
+  imports: [TypeOrmModule.forFeature([UserDao])],
   controllers: [UsersController],
   providers: [UsersService, AuthService, UsersRepository, UserResource],
   exports: [UsersRepository, UsersService, UserResource, TypeOrmModule],

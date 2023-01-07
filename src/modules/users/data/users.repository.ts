@@ -15,16 +15,41 @@ export class UsersRepository {
     private readonly usersRepository: Repository<UserDao>,
   ) {}
 
-  findById(userId: number): Promise<User> {
+  findOneById(userId: number): Promise<User> {
     return this.usersRepository.findOne({
       where: { id: userId },
     });
   }
+  
+  findOneWithRelationsById(userId: number): Promise<User> {
+    return this.usersRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['tags'],
+    });
+  }
 
-  findByEmail(email: string): Promise<User> {
+  findOneByEmail(email: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { email },
     });
+  }
+  
+  findAllWithStartTimestamp({
+    page,
+    perPage,
+    startTimestamp,
+  }: FindAllPeopleDto): Promise<[users: User[], total: number]> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .take(perPage)
+      .skip((page - 1) * perPage)
+      .where('user.created_at <= :startTimestamp', {
+        startTimestamp,
+      })
+      .orderBy('user.created_at', 'DESC')
+      .getManyAndCount();
   }
 
   fetchRecomendedPeople({
@@ -42,37 +67,12 @@ export class UsersRepository {
       .getManyAndCount();
   }
 
-  findAll({
-    page,
-    perPage,
-    startTimestamp,
-  }: FindAllPeopleDto): Promise<[users: User[], total: number]> {
-    return this.usersRepository
-      .createQueryBuilder('user')
-      .take(perPage)
-      .skip((page - 1) * perPage)
-      .where('user.created_at <= :startTimestamp', {
-        startTimestamp,
-      })
-      .orderBy('user.created_at', 'DESC')
-      .getManyAndCount();
-  }
-
-  detailById(userId: number): Promise<User> {
-    return this.usersRepository.findOne({
-      where: {
-        id: userId,
-      },
-      relations: ['tags'],
-    });
-  }
-
   create(payload: RegisterUserDto): Promise<User> {
     const user = this.usersRepository.create(payload);
     return this.usersRepository.save(user);
   }
 
-  async updateByIdAndFetch(
+  async updateAndFetchOneById(
     userId: number,
     payload: InsertUpdateUserDto,
   ): Promise<User> {
