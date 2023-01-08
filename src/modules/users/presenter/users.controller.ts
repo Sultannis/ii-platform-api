@@ -137,6 +137,7 @@ export class UsersController {
       residenceCity: presenterUpdateUserDto.residence_city,
       occupation: presenterUpdateUserDto.occupation,
       bio: presenterUpdateUserDto.bio,
+      characteristics: presenterUpdateUserDto.characteristics,
     };
 
     const user = await this.usersService.updateOneById(+userId, payload);

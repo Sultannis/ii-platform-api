@@ -7,4 +7,5 @@ export class UpdateUserDto {
   residenceCity: string;
   occupation: string;
   bio: string;
+  characteristics?: string[];
 }

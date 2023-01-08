@@ -1,4 +1,4 @@
-import { IsDateString, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class PresenterUpdateUserDto {
   @IsOptional()
@@ -32,4 +32,9 @@ export class PresenterUpdateUserDto {
   @IsOptional()
   @IsString()
   bio: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  characteristics: string[];
 }
