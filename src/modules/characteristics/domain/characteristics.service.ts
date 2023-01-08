@@ -38,7 +38,7 @@ export class CharacteristicsService {
     return `This action returns all characteristics`;
   }
 
-  fetchOneByNameWithoutAbsenceCheck(name: string): Promise<Characteristic> {
+  findOneByNameWithoutAbsenceCheck(name: string): Promise<Characteristic> {
     return this.characteristicsRepository.findOneByName(name);
   }
 

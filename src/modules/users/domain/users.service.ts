@@ -95,7 +95,7 @@ export class UsersService {
 
     const { characteristics, ...payloadWithoutCharacteristics } = payload;
 
-    if (characteristics){
+    if (characteristics) {
       await this.processAndSaveUserCharacteristics(characteristics, userId);
     }
 
@@ -105,25 +105,35 @@ export class UsersService {
     );
   }
 
-  private async processAndSaveUserCharacteristics(characteristics: string[], userId: number) {
+  private async processAndSaveUserCharacteristics(
+    characteristics: string[],
+    userId: number,
+  ) {
     const saveCharacteristicsAndUserRelationPromises = characteristics.map(
       async (characteristic: string) => {
         let savedCharacteristic =
-          await this.characteristicsService.findOneByName(characteristic);
+          await this.characteristicsService.findOneByNameWithoutAbsenceCheck(
+            characteristic,
+          );
         if (!savedCharacteristic) {
-          savedCharacteristic = await this.characteristicsService.createWithoutPresenceCheck({
-            name: characteristic,
-          });
+          savedCharacteristic =
+            await this.characteristicsService.createWithoutPresenceCheck({
+              name: characteristic,
+            });
         }
 
-        await this.usersRepository.addAndSaveNewCharacteristicToUser(userId, savedCharacteristic.id)
+        await this.usersRepository.addAndSaveNewCharacteristicToUser(
+          userId,
+          savedCharacteristic.id,
+        );
       },
     );
 
     try {
       await Promise.all(saveCharacteristicsAndUserRelationPromises);
-    } catch(err) {
-      throw new ConflictException('User characteristics was not saved')
+    } catch (err) {
+      console.log(err);
+      throw new ConflictException('User characteristics was not saved');
     }
   }
 }
