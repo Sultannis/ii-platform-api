@@ -91,17 +91,17 @@ export class UsersService {
       throw new NotFoundException('User does not exist');
     }
 
-    const { tags, ...payloadWithoutTags } = payload;
+    const { characteristics, ...payloadWithoutCharacteristics } = payload;
 
-    if(tags) this.processAndSaveUserTags(tags, userId)
+    if(characteristics) this.processAndSaveUserCharacteristics(characteristics, userId)
 
-    return await this.usersRepository.updateAndFetchOneById(userId, payloadWithoutTags);
+    return await this.usersRepository.updateAndFetchOneById(userId, payloadWithoutCharacteristics);
   }
 
-  async private processAndSaveUserTags(tags, userId) {
-    const tagsSavePromises = tags.map(tag => {
+  async private processAndSaveUserCharacteristics(tags, userId) {
+    const tagsSavePromises = tags.map(async tag => {
       const savedTag = this.
     })
-    await Promise.all()
+    await Promise.all(tagsSavePromises)
   }
 }
