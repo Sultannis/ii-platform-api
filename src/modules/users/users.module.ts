@@ -7,9 +7,13 @@ import { AuthService } from '../auth/domain/auth.service';
 import { UsersRepository } from './data/users.repository';
 import { UserResource } from './presenter/resources/user.resource';
 import { CharacteristicsModule } from '../characteristics/characteristics.module';
+import { UserCharacteristicDao } from 'src/common/dao/user-characteristic.dao';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserDao]), CharacteristicsModule],
+  imports: [
+    TypeOrmModule.forFeature([UserDao, UserCharacteristicDao]),
+    CharacteristicsModule,
+  ],
   controllers: [UsersController],
   providers: [UsersService, AuthService, UsersRepository, UserResource],
   exports: [UsersRepository, UsersService, UserResource, TypeOrmModule],

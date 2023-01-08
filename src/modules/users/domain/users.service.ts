@@ -122,7 +122,7 @@ export class UsersService {
             });
         }
 
-        await this.usersRepository.addAndSaveNewCharacteristicToUser(
+        await this.usersRepository.addAndSaveNewCharacteristicToUserIfDoesntExist(
           userId,
           savedCharacteristic.id,
         );

@@ -7,12 +7,15 @@ import { FindAllPeopleDto } from '../dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from '../dto/find-recomended-people.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserCharacteristicDao } from 'src/common/dao/user-characteristic.dao';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(UserDao)
     private readonly usersRepository: Repository<UserDao>,
+    @InjectRepository(UserCharacteristicDao)
+    private readonly usersCharacteristicRepository: Repository<UserCharacteristicDao>,
   ) {}
 
   findOneById(userId: number): Promise<User> {
@@ -72,15 +75,22 @@ export class UsersRepository {
     return this.usersRepository.save(user);
   }
 
-  addAndSaveNewCharacteristicToUser(
+  async addAndSaveNewCharacteristicToUserIfDoesntExist(
     userId: number,
     characteristicId: number,
   ): Promise<void> {
-    return this.usersRepository
-      .createQueryBuilder()
-      .relation('characteristics')
-      .of(userId)
-      .add(characteristicId);
+    const userCharacteristic =
+      await this.usersCharacteristicRepository.findOneBy({
+        userId,
+        characteristicId,
+      });
+    if (!userCharacteristic) {
+      await this.usersRepository
+        .createQueryBuilder()
+        .relation('characteristics')
+        .of(userId)
+        .loadOne();
+    }
   }
 
   async updateAndFetchOneById(

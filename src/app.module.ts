@@ -6,6 +6,7 @@ import connectionConfig from './common/configs/connection.config';
 import { UserDao } from './common/dao/user.dao';
 import { CharacteristicDao } from './common/dao/characteristic.dao';
 import { CharacteristicsModule } from './modules/characteristics/characteristics.module';
+import { UserCharacteristicDao } from './common/dao/user-characteristic.dao';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { CharacteristicsModule } from './modules/characteristics/characteristics
       username: connectionConfig.username,
       password: connectionConfig.password,
       database: connectionConfig.database,
-      entities: [UserDao, CharacteristicDao],
+      entities: [UserDao, CharacteristicDao, UserCharacteristicDao],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
     }),

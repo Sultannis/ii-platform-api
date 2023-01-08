@@ -27,11 +27,6 @@ export class createUserCharacteristicsTable1672688035236
             type: 'timestamptz',
             default: 'now()',
           },
-          {
-            name: 'deleted_at',
-            type: 'timestamptz',
-            isNullable: true,
-          },
         ],
         foreignKeys: [
           {
