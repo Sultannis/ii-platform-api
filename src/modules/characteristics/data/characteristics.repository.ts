@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CharacteristicDao } from 'src/common/dao/characteristic.dao';
+import { Characteristic } from 'src/common/entities/characteristic';
 import { Repository } from 'typeorm';
 import { CreateCharacteristicDto } from '../dto/create-characteristic.dto';
-import { Characteristic } from '../entities/characteristic.entity';
 
 @Injectable()
 export class CharacteristicsRepository {
@@ -12,7 +12,7 @@ export class CharacteristicsRepository {
     private readonly characteristicsRepository: Repository<CharacteristicDao>,
   ) {}
 
-  create(payload: CreateCharacteristicDto): Promise<Characteristic> {
+  insertAndFetch(payload: CreateCharacteristicDto): Promise<Characteristic> {
     const characteristic = this.characteristicsRepository.create(payload);
     return this.characteristicsRepository.save(characteristic);
   }

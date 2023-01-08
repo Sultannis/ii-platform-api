@@ -6,9 +6,10 @@ import { UsersController } from './presenter/users.controller';
 import { AuthService } from '../auth/domain/auth.service';
 import { UsersRepository } from './data/users.repository';
 import { UserResource } from './presenter/resources/user.resource';
+import { CharacteristicsModule } from '../characteristics/characteristics.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserDao])],
+  imports: [TypeOrmModule.forFeature([UserDao]), CharacteristicsModule],
   controllers: [UsersController],
   providers: [UsersService, AuthService, UsersRepository, UserResource],
   exports: [UsersRepository, UsersService, UserResource, TypeOrmModule],

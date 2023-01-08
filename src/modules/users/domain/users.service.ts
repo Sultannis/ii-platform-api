@@ -13,12 +13,14 @@ import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { FindAllPeopleDto } from '../dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from '../dto/find-recomended-people.dto';
+import { CharacteristicsService } from 'src/modules/characteristics/domain/characteristics.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly authService: AuthService,
+    private readonly characteristicsService: CharacteristicsService,
   ) {}
 
   async register(
@@ -93,15 +95,35 @@ export class UsersService {
 
     const { characteristics, ...payloadWithoutCharacteristics } = payload;
 
-    if(characteristics) this.processAndSaveUserCharacteristics(characteristics, userId)
+    if (characteristics){
+      await this.processAndSaveUserCharacteristics(characteristics, userId);
+    }
 
-    return await this.usersRepository.updateAndFetchOneById(userId, payloadWithoutCharacteristics);
+    return await this.usersRepository.updateAndFetchOneById(
+      userId,
+      payloadWithoutCharacteristics,
+    );
   }
 
-  async private processAndSaveUserCharacteristics(tags, userId) {
-    const tagsSavePromises = tags.map(async tag => {
-      const savedTag = this.
-    })
-    await Promise.all(tagsSavePromises)
+  private async processAndSaveUserCharacteristics(characteristics: string[], userId: number) {
+    const saveCharacteristicsAndUserRelationPromises = characteristics.map(
+      async (characteristic: string) => {
+        let savedCharacteristic =
+          await this.characteristicsService.findOneByName(characteristic);
+        if (!savedCharacteristic) {
+          savedCharacteristic = await this.characteristicsService.createWithoutPresenceCheck({
+            name: characteristic,
+          });
+        }
+
+        await this.usersRepository.addAndSaveNewCharacteristicToUser(userId, savedCharacteristic.id)
+      },
+    );
+
+    try {
+      await Promise.all(saveCharacteristicsAndUserRelationPromises);
+    } catch(err) {
+      throw new ConflictException('User characteristics was not saved')
+    }
   }
 }

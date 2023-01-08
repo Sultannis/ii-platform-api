@@ -1,8 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Characteristic } from 'src/common/entities/characteristic';
 import { CharacteristicsRepository } from '../data/characteristics.repository';
 import { CreateCharacteristicDto } from '../dto/create-characteristic.dto';
 import { UpdateCharacteristicDto } from '../dto/update-characteristic.dto';
-import { Characteristic } from '../entities/characteristic.entity';
 
 @Injectable()
 export class CharacteristicsService {
@@ -10,8 +14,24 @@ export class CharacteristicsService {
     private readonly characteristicsRepository: CharacteristicsRepository,
   ) {}
 
-  create(createCharacteristicDto: CreateCharacteristicDto) {
-    return 'This action adds a new characteristic';
+  async createWithoutPresenceCheck(
+    payload: CreateCharacteristicDto,
+  ): Promise<Characteristic> {
+    return this.characteristicsRepository.insertAndFetch(payload);
+  }
+
+  async create(payload: CreateCharacteristicDto): Promise<Characteristic> {
+    const characteristic = await this.characteristicsRepository.findOneByName(
+      payload.name,
+    );
+
+    if (characteristic) {
+      throw new ConflictException(
+        'Characteristic with provided name already exist',
+      );
+    }
+
+    return this.characteristicsRepository.insertAndFetch(payload);
   }
 
   findAll() {

@@ -72,9 +72,20 @@ export class UsersRepository {
     return this.usersRepository.save(user);
   }
 
+  addAndSaveNewCharacteristicToUser(
+    userId: number,
+    characteristicId: number,
+  ): Promise<void> {
+    return this.usersRepository
+      .createQueryBuilder()
+      .relation('characteristics')
+      .of(userId)
+      .add(characteristicId);
+  }
+
   async updateAndFetchOneById(
     userId: number,
-    payload: UpdateUserDto,
+    payload: Omit<UpdateUserDto, 'characteristics'>,
   ): Promise<User> {
     await this.usersRepository.update(userId, payload);
 
