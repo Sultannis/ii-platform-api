@@ -5,10 +5,12 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CharacteristicDao } from './characteristic.dao';
+import { UserWorkCompanyDao } from './user-work-company.dao';
 
 @Entity('users')
 export class UserDao {
@@ -95,4 +97,7 @@ export class UserDao {
     },
   })
   characteristics: CharacteristicDao[];
+
+  @OneToMany(() => UserWorkCompanyDao, (workCompany) => workCompany.user)
+  workCompanies: UserWorkCompanyDao[];
 }

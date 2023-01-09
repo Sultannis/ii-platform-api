@@ -4,10 +4,14 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
+import { UserDao } from './user.dao';
 
-@Entity()
-export class JobExperience {
+@Entity('user_work_companies')
+export class UserWorkCompanyDao {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
 
@@ -48,4 +52,8 @@ export class JobExperience {
 
   @Column({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt: Date;
+
+  @ManyToOne(() => UserDao, (user) => user.workCompanies)
+  @JoinColumn({ name: 'user_id' })
+  user: UserDao;
 }
