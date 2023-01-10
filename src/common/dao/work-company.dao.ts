@@ -21,7 +21,7 @@ export class WorkCompanyDao {
   companyName: string;
 
   @Column({ name: 'description', type: 'varchar', nullable: true })
-  description: string;
+  description?: string;
 
   @Column({ name: 'position', type: 'varchar' })
   position: string;

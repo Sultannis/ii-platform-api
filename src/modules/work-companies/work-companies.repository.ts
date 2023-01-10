@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { WorkCompanyDao } from 'src/common/dao/workCompany.dao';
-import { WorkCompany } from 'src/common/entities/workCompany';
-import { FindAllCompaniesDto } from './dto/find-all-companies.dto';
-import { FindRecomendedCompaniesDto } from './dto/find-recomended-companies.dto';
-import { RegisterWorkCompanyDto } from 'src/modules/workCompanies/dto/register-workCompany.dto';
-import { UpdateWorkCompanyDto } from './dto/update-workCompany.dto';
-import { WorkCompanyCharacteristicDao } from 'src/common/dao/workCompany-characteristic.dao';
+import { DeleteResult, Repository } from 'typeorm';
+import { WorkCompanyDao } from 'src/common/dao/work-company.dao';
+import { WorkCompany } from 'src/common/entities/work-company';
+import { UpdateWorkCompanyDto } from './dto/update-work-company.dto';
+import { CreateWorkCompanyDto } from './dto/create-work-company.dto';
 
 @Injectable()
 export class WorkCompaniesRepository {
@@ -16,7 +13,7 @@ export class WorkCompaniesRepository {
     private readonly workCompaniesRepository: Repository<WorkCompanyDao>,
   ) {}
 
-  create(payload: RegisterWorkCompanyDto): Promise<WorkCompany> {
+  create(payload: CreateWorkCompanyDto): Promise<WorkCompany> {
     const workCompany = this.workCompaniesRepository.create(payload);
     return this.workCompaniesRepository.save(workCompany);
   }
@@ -37,7 +34,7 @@ export class WorkCompaniesRepository {
 
   async updateAndFetchOneById(
     workCompanyId: number,
-    payload: Omit<UpdateWorkCompanyDto, 'characteristics'>,
+    payload: UpdateWorkCompanyDto,
   ): Promise<WorkCompany> {
     await this.workCompaniesRepository.update(workCompanyId, payload);
 
@@ -46,7 +43,7 @@ export class WorkCompaniesRepository {
     });
   }
 
-  deleteById(workCompanyId: number): Promise<WorkCompany> {
+  deleteById(workCompanyId: number): Promise<DeleteResult> {
     return this.workCompaniesRepository.delete(workCompanyId);
   }
 }
