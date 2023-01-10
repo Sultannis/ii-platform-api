@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Characteristic } from 'src/common/entities/characteristic';
-import { CharacteristicsRepository } from '../data/characteristics.repository';
+import { CharacteristicsRepository } from '../characteristics.repository';
 import { CreateCharacteristicDto } from '../dto/create-characteristic.dto';
 import { UpdateCharacteristicDto } from '../dto/update-characteristic.dto';
 

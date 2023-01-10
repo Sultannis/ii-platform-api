@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CharacteristicDao } from 'src/common/dao/characteristic.dao';
 import { Characteristic } from 'src/common/entities/characteristic';
 import { Repository } from 'typeorm';
-import { CreateCharacteristicDto } from '../dto/create-characteristic.dto';
+import { CreateCharacteristicDto } from './dto/create-characteristic.dto';
 
 @Injectable()
 export class CharacteristicsRepository {

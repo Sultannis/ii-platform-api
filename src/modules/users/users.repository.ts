@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDao } from 'src/common/dao/user.dao';
 import { User } from 'src/common/entities/user';
-import { FindAllPeopleDto } from '../dto/find-all-people.dto';
-import { FindRecomendedPeopleDto } from '../dto/find-recomended-people.dto';
+import { FindAllPeopleDto } from './dto/find-all-people.dto';
+import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserCharacteristicDao } from 'src/common/dao/user-characteristic.dao';
 
 @Injectable()

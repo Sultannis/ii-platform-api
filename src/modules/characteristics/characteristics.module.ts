@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CharacteristicsService } from './domain/characteristics.service';
 import { CharacteristicsController } from './characteristics.controller';
-import { CharacteristicsRepository } from './data/characteristics.repository';
+import { CharacteristicsRepository } from './characteristics.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CharacteristicDao } from 'src/common/dao/characteristic.dao';
 

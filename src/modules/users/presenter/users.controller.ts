@@ -7,7 +7,7 @@ import {
   Get,
   Query,
 } from '@nestjs/common';
-import { UsersService } from '../domain/users.service';
+import { UsersService } from '../users.service';
 import { UserResource } from './resources/user.resource';
 import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
 import { PresenterRegisterUserDto } from './dto/presenter-register-user.dto';
