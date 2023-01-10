@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { WorkCompaniesService } from './work-companies.service';
-import { CreateWorkCompanyDto } from './dto/create-work-company.dto';
-import { UpdateWorkCompanyDto } from './dto/update-work-company.dto';
+import { WorkCompaniesService } from '../work-companies.service';
+import { CreateWorkCompanyDto } from '../dto/create-work-company.dto';
+import { UpdateWorkCompanyDto } from '../dto/update-work-company.dto';
 
 @Controller('work-companies')
 export class WorkCompaniesController {

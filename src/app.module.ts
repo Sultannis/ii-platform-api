@@ -7,7 +7,7 @@ import { UserDao } from './common/dao/user.dao';
 import { CharacteristicDao } from './common/dao/characteristic.dao';
 import { CharacteristicsModule } from './modules/characteristics/characteristics.module';
 import { UserCharacteristicDao } from './common/dao/user-characteristic.dao';
-import { UserWorkCompanyDao } from './common/dao/user-work-company.dao';
+import { WorkCompanyDao } from './common/dao/work-company.dao';
 import { WorkCompaniesModule } from './modules/work-companies/work-companies.module';
 
 @Module({
@@ -23,7 +23,7 @@ import { WorkCompaniesModule } from './modules/work-companies/work-companies.mod
         UserDao,
         CharacteristicDao,
         UserCharacteristicDao,
-        UserWorkCompanyDao,
+        WorkCompanyDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,

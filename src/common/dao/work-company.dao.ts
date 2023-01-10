@@ -4,14 +4,13 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
 import { UserDao } from './user.dao';
 
 @Entity('user_work_companies')
-export class UserWorkCompanyDao {
+export class WorkCompanyDao {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
 
@@ -31,29 +30,29 @@ export class UserWorkCompanyDao {
   country: string;
 
   @Column({ name: 'start_date', type: 'timestamptz' })
-  startDate: Date;
+  startDate: string;
 
   @Column({ name: 'end_date', type: 'timestamptz', nullable: true })
-  endDate: Date;
+  endDate: string;
 
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
     default: 'now()',
   })
-  createdAt: Date;
+  createdAt: string;
 
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamptz',
     default: 'now()',
   })
-  updatedAt: Date;
+  updatedAt: string;
 
   @Column({ name: 'deleted_at', type: 'timestamptz', nullable: true })
-  deletedAt: Date;
+  deletedAt: string;
 
   @ManyToOne(() => UserDao, (user) => user.workCompanies)
   @JoinColumn({ name: 'user_id' })
-  user: UserDao;
+  user?: UserDao;
 }

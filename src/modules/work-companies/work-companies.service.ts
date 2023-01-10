@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWorkCompanyDto } from './dto/create-work-company.dto';
 import { UpdateWorkCompanyDto } from './dto/update-work-company.dto';
+import { WorkCompaniesRepository } from './work-companies.repository';
 
 @Injectable()
 export class WorkCompaniesService {
-  create(createWorkCompanyDto: CreateWorkCompanyDto) {
-    return 'This action adds a new workCompany';
-  }
+  constructor(
+    private readonly workCompaniesRepository: WorkCompaniesRepository,
+  ) {}
+
+  create(createWorkCompanyDto: CreateWorkCompanyDto) {}
 
   findAll() {
     return `This action returns all workCompanies`;
