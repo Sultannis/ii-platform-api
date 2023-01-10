@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { User } from 'src/common/entities/user';
 import { UsersRepository } from 'src/modules/users/users.repository';
-import { AuthService } from 'src/modules/auth/domain/auth.service';
+import { AuthService } from 'src/modules/auth/auth.service';
 import { UserTypes } from 'src/common/constant/user-types';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllPeopleDto } from './dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
-import { CharacteristicsService } from 'src/modules/characteristics/domain/characteristics.service';
+import { CharacteristicsService } from 'src/modules/characteristics/characteristics.service';
 
 @Injectable()
 export class UsersService {

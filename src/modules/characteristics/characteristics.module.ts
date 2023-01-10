@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CharacteristicsService } from './domain/characteristics.service';
+import { CharacteristicsService } from './characteristics.service';
 import { CharacteristicsController } from './characteristics.controller';
 import { CharacteristicsRepository } from './characteristics.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';

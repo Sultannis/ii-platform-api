@@ -3,7 +3,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import authConfig from 'src/common/configs/auth.config';
 import { UserTokenDto } from 'src/modules/auth/dto/user-token.dto';
-import { AdminTokenDto } from '../dto/admin-token.dto';
+import { AdminTokenDto } from './dto/admin-token.dto';
 
 @Injectable()
 export class AuthService {
