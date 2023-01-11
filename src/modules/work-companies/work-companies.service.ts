@@ -10,7 +10,7 @@ export class WorkCompaniesService {
   ) {}
 
   create(createWorkCompanyDto: CreateWorkCompanyDto) {
-    
+    return this.workCompaniesRepository.create(createWorkCompanyDto);
   }
 
   findAll() {

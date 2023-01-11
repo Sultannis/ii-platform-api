@@ -3,7 +3,7 @@ import { WsException } from '@nestjs/websockets';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersRepository } from 'src/modules/users/users.repository';
-import { UserResource } from 'src/modules/users/presenter/resources/user.resource';
+import { UserResource } from 'src/modules/users/accessor/resources/user.resource';
 import authConfig from 'src/common/configs/auth.config';
 
 interface JwtPayload {
