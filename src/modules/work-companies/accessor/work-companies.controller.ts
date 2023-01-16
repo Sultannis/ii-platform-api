@@ -51,8 +51,12 @@ export class WorkCompaniesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.workCompaniesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const workCompany = await this.workCompaniesService.findOne(+id);
+
+    return {
+      work_company: this.workCompanyResource.convert(workCompany),
+    };
   }
 
   @Patch(':id')

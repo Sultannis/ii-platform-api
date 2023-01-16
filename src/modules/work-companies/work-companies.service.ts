@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { WorkCompany } from 'src/common/entities/work-company';
 import { CreateWorkCompanyDto } from './dto/create-work-company.dto';
 import { UpdateWorkCompanyDto } from './dto/update-work-company.dto';
@@ -18,8 +18,15 @@ export class WorkCompaniesService {
     return this.workCompaniesRepository.findAllByUserId(userId);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} workCompany`;
+  async findOne(workCompanyId: number): Promise<WorkCompany> {
+    const workCompany = await this.workCompaniesRepository.findOneById(
+      workCompanyId,
+    );
+    if (!workCompany) {
+      throw new NotFoundException('Work company does not exist');
+    }
+
+    return workCompany;
   }
 
   update(id: number, updateWorkCompanyDto: UpdateWorkCompanyDto) {
