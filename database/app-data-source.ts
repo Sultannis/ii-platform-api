@@ -11,8 +11,7 @@ export const AppDataSource = new DataSource({
   entities: ['src/common/dao/*{.ts,.js}'],
   migrations: ['database/migrations/*{.ts,.js}'],
   synchronize: false,
-  ssl:
-    process.env.NODE_ENV === 'production'
-      ? { rejectUnauthorized: false }
-      : false,
+  ssl: {
+    ca: connectionConfig.sslCert,
+  },
 });
