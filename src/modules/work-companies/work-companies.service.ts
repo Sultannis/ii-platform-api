@@ -29,8 +29,21 @@ export class WorkCompaniesService {
     return workCompany;
   }
 
-  update(id: number, updateWorkCompanyDto: UpdateWorkCompanyDto) {
-    return `This action updates a #${id} workCompany`;
+  async update(
+    workCompanyId: number,
+    updateWorkCompanyDto: UpdateWorkCompanyDto,
+  ): Promise<WorkCompany> {
+    const workCompany = await this.workCompaniesRepository.findOneById(
+      workCompanyId,
+    );
+    if (!workCompany) {
+      throw new NotFoundException('Work company does not exist');
+    }
+
+    return this.workCompaniesRepository.updateAndFetchOneById(
+      workCompanyId,
+      updateWorkCompanyDto,
+    );
   }
 
   remove(id: number) {

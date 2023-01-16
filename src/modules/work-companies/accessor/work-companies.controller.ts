@@ -13,6 +13,7 @@ import { CreateWorkCompanyDto } from '../dto/create-work-company.dto';
 import { UpdateWorkCompanyDto } from '../dto/update-work-company.dto';
 import { AccessorCreateWorkCompanyDto } from './dto/accessor-create-work-company.dto';
 import { WorkCompanyResource } from './resources/work-company.resource';
+import { AccessorUpdateWorkCompanyDto } from './dto/accessor-update-work-company.dto';
 
 @Controller('work-companies')
 export class WorkCompaniesController {
@@ -50,21 +51,37 @@ export class WorkCompaniesController {
     };
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const workCompany = await this.workCompaniesService.findOne(+id);
+  @Get(':work_company_id')
+  async findOne(@Param('work_company_id') workCompanyId: string) {
+    const workCompany = await this.workCompaniesService.findOne(+workCompanyId);
 
     return {
       work_company: this.workCompanyResource.convert(workCompany),
     };
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateWorkCompanyDto: UpdateWorkCompanyDto,
+  @Patch(':work_company_id')
+  async update(
+    @Param('work_company_id') workCompanyId: string,
+    @Body() accessorUpdateWorkCompanyDto: AccessorUpdateWorkCompanyDto,
   ) {
-    return this.workCompaniesService.update(+id, updateWorkCompanyDto);
+    const payload: UpdateWorkCompanyDto = {
+      companyName: accessorUpdateWorkCompanyDto.company_name,
+      description: accessorUpdateWorkCompanyDto.description,
+      position: accessorUpdateWorkCompanyDto.position,
+      country: accessorUpdateWorkCompanyDto.country,
+      startDate: accessorUpdateWorkCompanyDto.start_date,
+      endDate: accessorUpdateWorkCompanyDto.end_date,
+    }
+
+    const workCompany = await this.workCompaniesService.update(
+      +workCompanyId,
+      payload,
+    );
+
+    return {
+      work_company: this.workCompanyResource.convert(workCompany),
+    };
   }
 
   @Delete(':id')
