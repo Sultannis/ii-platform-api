@@ -72,7 +72,7 @@ export class WorkCompaniesController {
       country: accessorUpdateWorkCompanyDto.country,
       startDate: accessorUpdateWorkCompanyDto.start_date,
       endDate: accessorUpdateWorkCompanyDto.end_date,
-    }
+    };
 
     const workCompany = await this.workCompaniesService.update(
       +workCompanyId,
@@ -84,8 +84,8 @@ export class WorkCompaniesController {
     };
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.workCompaniesService.remove(+id);
+  @Delete(':work_company_id')
+  async delete(@Param('work_company_id') workCompanyId: string) {
+    return await this.workCompaniesService.delete(+workCompanyId);
   }
 }

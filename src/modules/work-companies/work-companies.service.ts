@@ -46,7 +46,13 @@ export class WorkCompaniesService {
     );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} workCompany`;
+  async delete(workCompanyId: number) {
+    const workCompany = await this.workCompaniesRepository.deleteById(
+      workCompanyId,
+    );
+
+    if (!workCompanyId) {
+      throw new NotFoundException('Work company does not exist');
+    }
   }
 }
