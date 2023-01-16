@@ -27,6 +27,10 @@ import { WorkCompaniesModule } from './modules/work-companies/work-companies.mod
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
+      ssl:
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : false,
     }),
     AuthModule,
     UsersModule,
