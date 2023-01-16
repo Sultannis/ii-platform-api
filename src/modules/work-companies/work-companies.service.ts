@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { WorkCompany } from 'src/common/entities/work-company';
 import { CreateWorkCompanyDto } from './dto/create-work-company.dto';
 import { UpdateWorkCompanyDto } from './dto/update-work-company.dto';
 import { WorkCompaniesRepository } from './work-companies.repository';
@@ -13,8 +14,8 @@ export class WorkCompaniesService {
     return this.workCompaniesRepository.create(createWorkCompanyDto);
   }
 
-  findAll() {
-    return `This action returns all workCompanies`;
+  findAll(userId: number): Promise<WorkCompany[]> {
+    return this.workCompaniesRepository.findAllByUserId(userId);
   }
 
   findOne(id: number) {

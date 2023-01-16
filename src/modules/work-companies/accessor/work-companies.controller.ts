@@ -6,18 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { WorkCompaniesService } from '../work-companies.service';
 import { CreateWorkCompanyDto } from '../dto/create-work-company.dto';
 import { UpdateWorkCompanyDto } from '../dto/update-work-company.dto';
 import { AccessorCreateWorkCompanyDto } from './dto/accessor-create-work-company.dto';
+import { WorkCompanyResource } from './resources/work-company.resource';
 
 @Controller('work-companies')
 export class WorkCompaniesController {
-  constructor(private readonly workCompaniesService: WorkCompaniesService) {}
+  constructor(
+    private readonly workCompaniesService: WorkCompaniesService,
+    private readonly workCompanyResource: WorkCompanyResource,
+  ) {}
 
   @Post()
-  create(@Body() accessorCreateWorkCompanyDto: AccessorCreateWorkCompanyDto) {
+  async create(
+    @Body() accessorCreateWorkCompanyDto: AccessorCreateWorkCompanyDto,
+  ) {
     const payload: CreateWorkCompanyDto = {
       companyName: accessorCreateWorkCompanyDto.company_name,
       description: accessorCreateWorkCompanyDto.description,
@@ -27,12 +34,20 @@ export class WorkCompaniesController {
       endDate: accessorCreateWorkCompanyDto.end_date,
     };
 
-    return this.workCompaniesService.create(payload);
+    const workCompany = await this.workCompaniesService.create(payload);
+
+    return {
+      work_company: this.workCompanyResource.convert(workCompany),
+    };
   }
 
   @Get()
-  findAll() {
-    return this.workCompaniesService.findAll();
+  async findAll(@Query('user_id') userId: string) {
+    const workCompanies = await this.workCompaniesService.findAll(+userId);
+
+    return {
+      work_companies: workCompanies.map(this.workCompanyResource.convert),
+    };
   }
 
   @Get(':id')

@@ -1,5 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { WorkCompany } from 'src/common/entities/work-company';
 
+@Injectable()
 export class WorkCompanyResource {
   convert(workCompany: WorkCompany) {
     return {
