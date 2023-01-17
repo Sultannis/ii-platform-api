@@ -14,5 +14,8 @@ import { WorkCompanyResource } from './accessor/resources/work-company.resource'
     WorkCompaniesRepository,
     WorkCompanyResource,
   ],
+  exports: [
+    WorkCompanyResource
+  ]
 })
 export class WorkCompaniesModule {}

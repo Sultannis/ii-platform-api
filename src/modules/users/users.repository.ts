@@ -29,7 +29,7 @@ export class UsersRepository {
       where: {
         id: userId,
       },
-      relations: ['tags'],
+      relations: ['characteristics'],
     });
   }
 

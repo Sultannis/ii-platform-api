@@ -78,7 +78,7 @@ export class UsersService {
   }
 
   findOneById(userId: number): Promise<User> {
-    return this.usersRepository.findOneById(userId);
+    return this.usersRepository.findOneWithRelationsById(userId);
   }
 
   findRecomendedPeopleWithStartTimestamp(
