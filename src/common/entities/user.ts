@@ -1,3 +1,6 @@
+import { Characteristic } from './characteristic';
+import { WorkCompany } from './work-company';
+
 export class User {
   id: number;
   firstName: string;
@@ -16,4 +19,6 @@ export class User {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
+  characteristics: Characteristic[];
+  workCompanies: WorkCompany[];
 }

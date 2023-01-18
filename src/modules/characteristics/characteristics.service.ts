@@ -34,8 +34,8 @@ export class CharacteristicsService {
     return this.characteristicsRepository.insertAndFetch(payload);
   }
 
-  findAll() {
-    return `This action returns all characteristics`;
+  findAllByUserId(userId: number) {
+    return this.characteristicsRepository.findAllByUserId(userId)
   }
 
   findOneByNameWithoutAbsenceCheck(name: string): Promise<Characteristic> {

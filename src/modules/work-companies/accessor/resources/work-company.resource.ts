@@ -5,8 +5,8 @@ import { WorkCompany } from 'src/common/entities/work-company';
 export class WorkCompanyResource {
   convert(workCompany: WorkCompany) {
     return {
-      id: workCompany.id,
-      user_id: workCompany.userId,
+      id: +workCompany.id,
+      user_id: +workCompany.userId,
       company_name: workCompany.companyName,
       description: workCompany.description,
       position: workCompany.position,

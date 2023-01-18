@@ -27,7 +27,7 @@ import { WorkCompaniesModule } from './modules/work-companies/work-companies.mod
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
-      ssl: {
+      ssl: process.env.ENVIRONMENT === 'development' ? false : {
         ca: connectionConfig.sslCert,
       },
     }),
