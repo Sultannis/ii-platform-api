@@ -77,8 +77,13 @@ export class UsersService {
     return this.usersRepository.findAllWithStartTimestamp(payload);
   }
 
-  findOneById(userId: number): Promise<User> {
-    return this.usersRepository.findOneWithRelationsById(userId);
+  async findOneById(userId: number): Promise<User> {
+    const user = await this.usersRepository.findOneWithRelationsById(userId);
+    if (!user) {
+      throw new NotFoundException('User does not exist');
+    }
+
+    return user;
   }
 
   findRecomendedPeopleWithStartTimestamp(
@@ -109,7 +114,7 @@ export class UsersService {
     characteristics: string[],
     userId: number,
   ) {
-    const saveCharacteristicsAndUserRelationPromises = characteristics.map(
+    const promisesToSaveCharacteristicsAndUserRelation = characteristics.map(
       async (characteristic: string) => {
         let savedCharacteristic =
           await this.characteristicsService.findOneByNameWithoutAbsenceCheck(
@@ -130,9 +135,11 @@ export class UsersService {
     );
 
     try {
-      await Promise.all(saveCharacteristicsAndUserRelationPromises);
+      const characteristicsOfUser =
+        this.characteristicsService.findAllByUserId(userId);
+
+      await Promise.all(promisesToSaveCharacteristicsAndUserRelation);
     } catch (err) {
-      console.log(err);
       throw new ConflictException('User characteristics was not saved');
     }
   }

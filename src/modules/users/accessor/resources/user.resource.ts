@@ -27,10 +27,12 @@ export class UserResource {
       updated_at: user.updatedAt,
       confirmed_at: user.confirmedAt,
       deleted_at: user.deletedAt,
-      characteristics: user.characteristics.map(
-        this.characteristicResource.convert,
-      ),
-      work_companies: user.workCompanies.map(this.workCompanyResource.convert),
+      characteristics: user.characteristics
+        ? user.characteristics.map(this.characteristicResource.convert)
+        : null,
+      work_companies: user.workCompanies
+        ? user.workCompanies.map(this.workCompanyResource.convert)
+        : null,
     };
   }
 }

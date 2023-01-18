@@ -22,4 +22,12 @@ export class CharacteristicsRepository {
       name,
     });
   }
+
+  findAllByUserId(userId: number): Promise<Characteristic[]> {
+    return this.characteristicsRepository
+    .createQueryBuilder()
+    .relation('characteristics')
+    .of(userId)
+    .loadMany();
+  }
 }

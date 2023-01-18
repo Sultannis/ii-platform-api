@@ -7,11 +7,6 @@ export class CharacteristicsController {
     private readonly characteristicsService: CharacteristicsService,
   ) {}
 
-  @Get()
-  findAll() {
-    return this.characteristicsService.findAll();
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.characteristicsService.remove(+id);
