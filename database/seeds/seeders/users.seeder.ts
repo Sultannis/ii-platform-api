@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm';
 import { generateUser } from '../generators/user.generator';
-import { USERS } from '../values/users';
 
 export const seedUsers = async (dataSource: DataSource) => {
   const repository = dataSource.getRepository('UserDao');
