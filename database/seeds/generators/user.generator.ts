@@ -24,7 +24,7 @@ export const generateUser = (): GeneratedUser => {
     occupation: getRandomOccupation(),
     residenceCountry: faker.address.country(),
     residenceCity: faker.address.cityName(),
-    bio: 'this is user bio',
+    bio: faker.lorem.words(10),
     avatarUrl: faker.image.avatar(),
     role: 2,
     password: '$2a$10$Tx1B/3h2.26ppwkPARIywuOqHLAP8ZsHYie4vtHJAGInYFSZ.9UTG',
