@@ -66,7 +66,7 @@ export class UsersController {
     const user = await this.usersService.findOneById(+userId);
 
     return {
-      users: this.userResource.convert(user),
+      user: this.userResource.convert(user),
     };
   }
 

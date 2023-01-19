@@ -85,12 +85,22 @@ export class UsersRepository {
         characteristicId,
       });
     if (!userCharacteristic) {
-      await this.usersRepository
-        .createQueryBuilder()
-        .relation('characteristics')
-        .of(userId)
-        .loadOne();
+      await this.usersCharacteristicRepository.insert({
+        userId,
+        characteristicId,
+      });
     }
+  }
+
+  deleteUserCharacteristicByCharacteristicId(
+    userId: number,
+    characteristicId: number,
+  ) {
+    return this.usersRepository
+      .createQueryBuilder()
+      .relation('characteristics')
+      .of(userId)
+      .remove(characteristicId);
   }
 
   async updateAndFetchOneById(

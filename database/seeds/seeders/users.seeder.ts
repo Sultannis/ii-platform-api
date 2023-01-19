@@ -1,12 +1,12 @@
 import { DataSource } from 'typeorm';
-import { USERS } from '../values/users';
+import { generateUser } from '../generators/user.generator';
 
 export const seedUsers = async (dataSource: DataSource) => {
   const repository = dataSource.getRepository('UserDao');
 
   try {
-    for (const value of USERS) {
-      await repository.insert(value);
+    for (let i = 0; i < 40; i++) {
+      await repository.insert(generateUser());
     }
   } catch (error: unknown) {
     console.log(`Error: Failed to seed Users`);
