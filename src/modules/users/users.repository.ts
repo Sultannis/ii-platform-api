@@ -89,8 +89,19 @@ export class UsersRepository {
         .createQueryBuilder()
         .relation('characteristics')
         .of(userId)
-        .loadOne();
+        .add(characteristicId);
     }
+  }
+
+  deleteUserCharacteristicByCharacteristicId(
+    userId: number,
+    characteristicId: number,
+  ) {
+    return this.usersRepository
+      .createQueryBuilder()
+      .relation('characteristics')
+      .of(userId)
+      .remove(characteristicId);
   }
 
   async updateAndFetchOneById(

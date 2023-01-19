@@ -14,6 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllPeopleDto } from './dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
 import { CharacteristicsService } from 'src/modules/characteristics/characteristics.service';
+import { Characteristic } from 'src/common/entities/characteristic';
 
 @Injectable()
 export class UsersService {
@@ -93,7 +94,7 @@ export class UsersService {
   }
 
   async updateOneById(userId: number, payload: UpdateUserDto): Promise<User> {
-    let user = await this.usersRepository.findOneById(userId);
+    let user = await this.usersRepository.findOneWithRelationsById(userId);
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
@@ -101,7 +102,11 @@ export class UsersService {
     const { characteristics, ...payloadWithoutCharacteristics } = payload;
 
     if (characteristics) {
-      await this.processAndSaveUserCharacteristics(characteristics, userId);
+      await this.processAndSaveUserCharacteristics(
+        characteristics,
+        user.characteristics,
+        userId,
+      );
     }
 
     return await this.usersRepository.updateAndFetchOneById(
@@ -112,10 +117,12 @@ export class UsersService {
 
   private async processAndSaveUserCharacteristics(
     characteristics: string[],
+    userCharacteristics: Characteristic[],
     userId: number,
   ) {
     const promisesToSaveCharacteristicsAndUserRelation = characteristics.map(
       async (characteristic: string) => {
+        console.log(characteristic);
         let savedCharacteristic =
           await this.characteristicsService.findOneByNameWithoutAbsenceCheck(
             characteristic,
@@ -134,12 +141,23 @@ export class UsersService {
       },
     );
 
-    try {
-      const characteristicsOfUser =
-        this.characteristicsService.findAllByUserId(userId);
+    const promisesToDeleteCharacteristics = userCharacteristics.map(
+      async (userCharacteristic: Characteristic) => {
+        if (!characteristics.includes(userCharacteristic.name)) {
+          await this.usersRepository.deleteUserCharacteristicByCharacteristicId(
+            userId,
+            userCharacteristic.id,
+          );
+        }
+      },
+    );
 
+    try {
       await Promise.all(promisesToSaveCharacteristicsAndUserRelation);
+      const user = await this.usersRepository.findOneWithRelationsById(userId);
+      await Promise.all(promisesToDeleteCharacteristics);
     } catch (err) {
+      console.log(err);
       throw new ConflictException('User characteristics was not saved');
     }
   }
