@@ -28,7 +28,7 @@ export class UserResource {
       confirmed_at: user.confirmedAt,
       deleted_at: user.deletedAt,
       characteristics: user.characteristics
-        ? user.characteristics.map(this.characteristicResource.convert)
+        ? user.characteristics.map((characteristic) => characteristic.name)
         : null,
       work_companies: user.workCompanies
         ? user.workCompanies.map(this.workCompanyResource.convert)
