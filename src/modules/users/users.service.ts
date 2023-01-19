@@ -122,7 +122,6 @@ export class UsersService {
   ) {
     const promisesToSaveCharacteristicsAndUserRelation = characteristics.map(
       async (characteristic: string) => {
-        console.log(characteristic);
         let savedCharacteristic =
           await this.characteristicsService.findOneByNameWithoutAbsenceCheck(
             characteristic,

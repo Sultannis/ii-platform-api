@@ -85,11 +85,10 @@ export class UsersRepository {
         characteristicId,
       });
     if (!userCharacteristic) {
-      await this.usersRepository
-        .createQueryBuilder()
-        .relation('characteristics')
-        .of(userId)
-        .add(characteristicId);
+      await this.usersCharacteristicRepository.insert({
+        userId,
+        characteristicId,
+      });
     }
   }
 
