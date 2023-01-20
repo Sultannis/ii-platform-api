@@ -1,27 +1,29 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class AccessorUpdateWorkCompanyDto {
+  @ApiProperty()
   @IsOptional()
   @IsString()
-  company_name: string;
+  company_name?: string;
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 
   @IsOptional()
   @IsString()
-  position: string;
+  position?: string;
 
   @IsOptional()
   @IsString()
-  country: string;
+  country?: string;
 
   @IsOptional()
   @IsDateString()
-  start_date: string;
+  start_date?: string;
 
   @IsOptional()
   @IsDateString()
-  end_date: string;
+  end_date?: string;
 }

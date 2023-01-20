@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDateString,
   IsNotEmpty,
@@ -28,5 +29,5 @@ export class AccessorCreateWorkCompanyDto {
 
   @IsOptional()
   @IsDateString()
-  end_date: string;
+  end_date?: string;
 }
