@@ -22,6 +22,7 @@ export class UserResource {
       residence_city: user.residenceCity,
       occupation: user.occupation,
       bio: user.bio,
+      avatar_url: user.avatarUrl,
       role: +user.role,
       created_at: user.createdAt,
       updated_at: user.updatedAt,
