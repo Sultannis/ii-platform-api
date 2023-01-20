@@ -9,15 +9,17 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { UserResource } from './resources/user.resource';
-import { PresenterLoginUserDto } from './dto/presenter-login-user.dto';
-import { PresenterRegisterUserDto } from './dto/presenter-register-user.dto';
+import { AccessorLoginUserDto } from './dto/accessor-login-user.dto';
+import { AccessorRegisterUserDto } from './dto/accessor-register-user.dto';
 import { RegisterUserDto } from 'src/modules/users/dto/register-user.dto';
 import { LoginUserDto } from 'src/modules/users/dto/login-user.dto';
-import { PresenterUpdateUserDto } from './dto/presenter-update-user.dto';
+import { AccessorUpdateUserDto } from './dto/accessor-update-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { PresenterFindAllPeopleDto } from './dto/presenter-find-all-people.dto';
-import { PresenterFetchRecomendedPeopleDto } from './dto/presenter-fetch-recomended-people.dto';
+import { AccessorFindAllPeopleDto } from './dto/accessor-find-all-people.dto';
+import { AccessorFetchRecomendedPeopleDto } from './dto/accessor-fetch-recomended-people.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -26,12 +28,12 @@ export class UsersController {
   ) {}
 
   @Post('register')
-  async register(@Body() presenterRegisterUserDto: PresenterRegisterUserDto) {
+  async register(@Body() accessorRegisterUserDto: AccessorRegisterUserDto) {
     const payload: RegisterUserDto = {
-      email: presenterRegisterUserDto.email,
-      firstName: presenterRegisterUserDto.first_name,
-      lastName: presenterRegisterUserDto.last_name,
-      password: presenterRegisterUserDto.password,
+      email: accessorRegisterUserDto.email,
+      firstName: accessorRegisterUserDto.first_name,
+      lastName: accessorRegisterUserDto.last_name,
+      password: accessorRegisterUserDto.password,
     };
 
     const [user, token] = await this.usersService.register(payload);
@@ -45,10 +47,10 @@ export class UsersController {
   }
 
   @Post('login')
-  async login(@Body() presenterLoginUserDto: PresenterLoginUserDto) {
+  async login(@Body() accessorLoginUserDto: AccessorLoginUserDto) {
     const payload: LoginUserDto = {
-      email: presenterLoginUserDto.email,
-      password: presenterLoginUserDto.password,
+      email: accessorLoginUserDto.email,
+      password: accessorLoginUserDto.password,
     };
 
     const [user, token] = await this.usersService.login(payload);
@@ -77,7 +79,7 @@ export class UsersController {
       page = 1,
       per_page: perPage = 20,
       start_timestamp: startTimestamp,
-    }: PresenterFindAllPeopleDto,
+    }: AccessorFindAllPeopleDto,
   ) {
     const [users, total] = await this.usersService.findAllWithStartTimestamp({
       page,
@@ -103,7 +105,7 @@ export class UsersController {
       page = 1,
       per_page: perPage = 20,
       start_timestamp: startTimestamp,
-    }: PresenterFetchRecomendedPeopleDto,
+    }: AccessorFetchRecomendedPeopleDto,
   ) {
     const [users, total] =
       await this.usersService.findRecomendedPeopleWithStartTimestamp({
@@ -126,18 +128,18 @@ export class UsersController {
   @Patch(':userId')
   async update(
     @Param('userId') userId: string,
-    @Body() presenterUpdateUserDto: PresenterUpdateUserDto,
+    @Body() accessorUpdateUserDto: AccessorUpdateUserDto,
   ) {
     const payload: UpdateUserDto = {
-      firstName: presenterUpdateUserDto.first_name,
-      lastName: presenterUpdateUserDto.last_name,
-      nickname: presenterUpdateUserDto.nickname,
-      birthDate: presenterUpdateUserDto.birth_date,
-      residenceCountry: presenterUpdateUserDto.residence_country,
-      residenceCity: presenterUpdateUserDto.residence_city,
-      occupation: presenterUpdateUserDto.occupation,
-      bio: presenterUpdateUserDto.bio,
-      characteristics: presenterUpdateUserDto.characteristics,
+      firstName: accessorUpdateUserDto.first_name,
+      lastName: accessorUpdateUserDto.last_name,
+      nickname: accessorUpdateUserDto.nickname,
+      birthDate: accessorUpdateUserDto.birth_date,
+      residenceCountry: accessorUpdateUserDto.residence_country,
+      residenceCity: accessorUpdateUserDto.residence_city,
+      occupation: accessorUpdateUserDto.occupation,
+      bio: accessorUpdateUserDto.bio,
+      characteristics: accessorUpdateUserDto.characteristics,
     };
 
     const user = await this.usersService.updateOneById(+userId, payload);

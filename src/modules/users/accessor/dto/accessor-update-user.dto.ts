@@ -1,6 +1,6 @@
 import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
 
-export class PresenterUpdateUserDto {
+export class AccessorUpdateUserDto {
   @IsOptional()
   @IsString()
   first_name: string;
