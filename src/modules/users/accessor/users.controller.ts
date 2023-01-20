@@ -17,7 +17,9 @@ import { AccessorUpdateUserDto } from './dto/accessor-update-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { AccessorFindAllPeopleDto } from './dto/accessor-find-all-people.dto';
 import { AccessorFetchRecomendedPeopleDto } from './dto/accessor-fetch-recomended-people.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(

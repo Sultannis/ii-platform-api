@@ -14,7 +14,9 @@ import { UpdateWorkCompanyDto } from '../dto/update-work-company.dto';
 import { AccessorCreateWorkCompanyDto } from './dto/accessor-create-work-company.dto';
 import { WorkCompanyResource } from './resources/work-company.resource';
 import { AccessorUpdateWorkCompanyDto } from './dto/accessor-update-work-company.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Work-companies')
 @Controller('work-companies')
 export class WorkCompaniesController {
   constructor(
