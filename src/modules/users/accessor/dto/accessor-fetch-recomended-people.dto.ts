@@ -1,7 +1,7 @@
-import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class PresenterFetchRecomendedPeopleDto {
+export class AccessorFetchRecomendedPeopleDto {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()

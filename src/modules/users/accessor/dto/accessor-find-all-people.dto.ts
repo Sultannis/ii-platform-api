@@ -6,7 +6,7 @@ import {
   IsOptional,
 } from 'class-validator';
 
-export class PresenterFindAllPeopleDto {
+export class AccessorFindAllPeopleDto {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
