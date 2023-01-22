@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EducationalInstitutionsService } from './educational-institutions.service';
-import { CreateEducationalInstitutionDto } from './dto/create-educational-institution.dto';
-import { UpdateEducationalInstitutionDto } from './dto/update-educational-institution.dto';
+import { EducationalInstitutionsService } from '../educational-institutions.service';
+import { CreateEducationalInstitutionDto } from '../dto/create-educational-institution.dto';
+import { UpdateEducationalInstitutionDto } from '../dto/update-educational-institution.dto';
 
 @Controller('educational-institutions')
 export class EducationalInstitutionsController {
