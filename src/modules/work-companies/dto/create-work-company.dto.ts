@@ -1,4 +1,5 @@
 export class CreateWorkCompanyDto {
+  userId: number;
   companyName: string;
   description?: string;
   position: string;

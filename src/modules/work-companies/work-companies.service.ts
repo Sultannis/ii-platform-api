@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { WorkCompany } from 'src/common/entities/work-company';
+import { RequestUser } from '../auth/entities/request-user';
 import { CreateWorkCompanyDto } from './dto/create-work-company.dto';
 import { UpdateWorkCompanyDto } from './dto/update-work-company.dto';
 import { WorkCompaniesRepository } from './work-companies.repository';
@@ -10,7 +11,7 @@ export class WorkCompaniesService {
     private readonly workCompaniesRepository: WorkCompaniesRepository,
   ) {}
 
-  create(createWorkCompanyDto: CreateWorkCompanyDto) {
+  create(createWorkCompanyDto: CreateWorkCompanyDto) {    
     return this.workCompaniesRepository.create(createWorkCompanyDto);
   }
 
