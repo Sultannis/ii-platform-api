@@ -6,43 +6,47 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
-import { CreateEducationalInstitutionDto } from '../dto/create-educational-institution.dto';
-import { UpdateEducationalInstitutionDto } from '../dto/update-educational-institution.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { AccessorCreateWorkCompanyDto } from 'src/modules/work-companies/accessor/dto/accessor-create-work-company.dto';
-import { CreateWorkCompanyDto } from 'src/modules/work-companies/dto/create-work-company.dto';
 import { RequestUser } from 'src/modules/auth/entities/request-user';
 import { EducationalInstitutionsService } from '../educational-institutions.service';
+import { EducationalInstitutionResource } from './resources/educational-institution.resource';
+import { Request as RequestType } from 'express';
+import { CreateEducationalInstitutionDto } from '../dto/create-educational-institution.dto';
+import { AccessorCreateEducationalInstitutionDto } from './dto/accessor-create-educational-institution.dto';
 
 @ApiTags('Educational-institutions')
 @Controller('educational-institutions')
 export class EducationalInstitutionsController {
   constructor(
-    private readonly workCompaniesService: EducationalInstitutionsService,
-    private readonly workCompanyResource: EducationalInstitutionResource,
+    private readonly educationalInstitutionsService: EducationalInstitutionsService,
+    private readonly educationalInstitutionResource: EducationalInstitutionResource,
   ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
-    @Request() req,
-    @Body() accessorCreateWorkCompanyDto: AccessorCreateWorkCompanyDto,
+    @Request() req: RequestType,
+    @Body()
+    accessorCreateEducationalInstitutionDto: AccessorCreateEducationalInstitutionDto,
   ) {
     const user = req.user as RequestUser;
 
-    const payload: CreateWorkCompanyDto = {
+    const payload: CreateEducationalInstitutionDto = {
       userId: user.id,
-      companyName: accessorCreateWorkCompanyDto.company_name,
-      description: accessorCreateWorkCompanyDto.description,
-      position: accessorCreateWorkCompanyDto.position,
-      country: accessorCreateWorkCompanyDto.country,
-      startDate: accessorCreateWorkCompanyDto.start_date,
-      endDate: accessorCreateWorkCompanyDto.end_date,
+      institutionName: accessorCreateEducationalInstitutionDto.institution_name,
+      description: accessorCreateEducationalInstitutionDto.description,
+      levelOfEducation:
+        accessorCreateEducationalInstitutionDto.level_of_education,
+      country: accessorCreateEducationalInstitutionDto.country,
+      startDate: accessorCreateEducationalInstitutionDto.start_date,
+      endDate: accessorCreateEducationalInstitutionDto.end_date,
     };
 
-    const workCompany = await this.workCompaniesService.create(payload);
+    const workCompany = await this.educationalInstitutionsService.create(payload);
 
     return {
       work_company: this.workCompanyResource.convert(workCompany),

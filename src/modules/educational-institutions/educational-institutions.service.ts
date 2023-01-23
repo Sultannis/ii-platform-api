@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEducationalInstitutionDto } from './dto/create-educational-institution.dto';
 import { UpdateEducationalInstitutionDto } from './dto/update-educational-institution.dto';
+import { EducationalInstitutionsRepository } from './educational-institutions.repository';
 
 @Injectable()
 export class EducationalInstitutionsService {
-  create(createEducationalInstitutionDto: CreateEducationalInstitutionDto) {
-    return 'This action adds a new educationalInstitution';
+  constructor(
+    private readonly educationalInstitutionsRepository: EducationalInstitutionsRepository
+  ) {}
+
+  async create(payload: CreateEducationalInstitutionDto) {
+    return this.educationalInstitutionsRepository.insertAndFetch(payload)
   }
 
-  findAll() {
-    return `This action returns all educationalInstitutions`;
+  findAll(userId: number) {
+    return this.educationalInstitutionsRepository.
   }
 
   findOne(id: number) {

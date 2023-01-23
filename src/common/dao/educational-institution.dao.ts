@@ -16,7 +16,7 @@ export class EducationalInstitutionDao {
   description?: string;
 
   @Column({ name: 'level_of_education', type: 'varchar' })
-  position: string;
+  levelOfEducation: string;
 
   @Column({ name: 'country', type: 'varchar' })
   country: string;
