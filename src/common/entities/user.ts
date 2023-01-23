@@ -1,4 +1,4 @@
-import { Characteristic } from './characteristic';
+import { UserCharacteristic } from './characteristic';
 import { WorkCompany } from './work-company';
 
 export class User {
@@ -19,6 +19,6 @@ export class User {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
-  characteristics: Characteristic[];
+  characteristics: UserCharacteristic[];
   workCompanies: WorkCompany[];
 }

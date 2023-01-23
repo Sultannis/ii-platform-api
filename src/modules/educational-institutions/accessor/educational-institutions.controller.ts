@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EducationalInstitutionsService } from '../educational-institutions.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CreateEducationalInstitutionDto } from '../dto/create-educational-institution.dto';
 import { UpdateEducationalInstitutionDto } from '../dto/update-educational-institution.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { AccessorCreateWorkCompanyDto } from 'src/modules/work-companies/accessor/dto/accessor-create-work-company.dto';
+import { CreateWorkCompanyDto } from 'src/modules/work-companies/dto/create-work-company.dto';
+import { RequestUser } from 'src/modules/auth/entities/request-user';
+import { EducationalInstitutionsService } from '../educational-institutions.service';
 
 @ApiTags('Educational-institutions')
 @Controller('educational-institutions')
 export class EducationalInstitutionsController {
   constructor(
-    private readonly workCompaniesService: WorkCompaniesService,
-    private readonly workCompanyResource: WorkCompanyResource,
+    private readonly workCompaniesService: EducationalInstitutionsService,
+    private readonly workCompanyResource: EducationalInstitutionResource,
   ) {}
 
   @UseGuards(JwtAuthGuard)

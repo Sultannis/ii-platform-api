@@ -14,7 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllPeopleDto } from './dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
 import { CharacteristicsService } from 'src/modules/characteristics/characteristics.service';
-import { Characteristic } from 'src/common/entities/characteristic';
+import { UserCharacteristic } from 'src/common/entities/characteristic';
 
 @Injectable()
 export class UsersService {
@@ -117,7 +117,7 @@ export class UsersService {
 
   private async processAndSaveUserCharacteristics(
     characteristics: string[],
-    userCharacteristics: Characteristic[],
+    userCharacteristics: UserCharacteristic[],
     userId: number,
   ) {
     const promisesToSaveCharacteristicsAndUserRelation = characteristics.map(
@@ -141,7 +141,7 @@ export class UsersService {
     );
 
     const promisesToDeleteCharacteristics = userCharacteristics.map(
-      async (userCharacteristic: Characteristic) => {
+      async (userCharacteristic: UserCharacteristic) => {
         if (!characteristics.includes(userCharacteristic.name)) {
           await this.usersRepository.deleteUserCharacteristicByCharacteristicId(
             userId,

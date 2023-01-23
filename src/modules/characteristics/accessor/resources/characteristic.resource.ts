@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Characteristic } from 'src/common/entities/characteristic';
+import { UserCharacteristic } from 'src/common/entities/characteristic';
 
 @Injectable()
 export class CharacteristicResource {
-  convert(characteristic: Characteristic) {
+  convert(characteristic: UserCharacteristic) {
     return {
       id: +characteristic.id,
       name: characteristic.name,
