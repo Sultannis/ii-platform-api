@@ -2,33 +2,85 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { EducationalInstitutionsService } from '../educational-institutions.service';
 import { CreateEducationalInstitutionDto } from '../dto/create-educational-institution.dto';
 import { UpdateEducationalInstitutionDto } from '../dto/update-educational-institution.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Educational-institutions')
 @Controller('educational-institutions')
 export class EducationalInstitutionsController {
-  constructor(private readonly educationalInstitutionsService: EducationalInstitutionsService) {}
+  constructor(
+    private readonly workCompaniesService: WorkCompaniesService,
+    private readonly workCompanyResource: WorkCompanyResource,
+  ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createEducationalInstitutionDto: CreateEducationalInstitutionDto) {
-    return this.educationalInstitutionsService.create(createEducationalInstitutionDto);
+  async create(
+    @Request() req,
+    @Body() accessorCreateWorkCompanyDto: AccessorCreateWorkCompanyDto,
+  ) {
+    const user = req.user as RequestUser;
+
+    const payload: CreateWorkCompanyDto = {
+      userId: user.id,
+      companyName: accessorCreateWorkCompanyDto.company_name,
+      description: accessorCreateWorkCompanyDto.description,
+      position: accessorCreateWorkCompanyDto.position,
+      country: accessorCreateWorkCompanyDto.country,
+      startDate: accessorCreateWorkCompanyDto.start_date,
+      endDate: accessorCreateWorkCompanyDto.end_date,
+    };
+
+    const workCompany = await this.workCompaniesService.create(payload);
+
+    return {
+      work_company: this.workCompanyResource.convert(workCompany),
+    };
   }
 
   @Get()
-  findAll() {
-    return this.educationalInstitutionsService.findAll();
+  async findAll(@Query('user_id') userId: string) {
+    const workCompanies = await this.workCompaniesService.findAll(+userId);
+
+    return {
+      work_companies: workCompanies.map(this.workCompanyResource.convert),
+    };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.educationalInstitutionsService.findOne(+id);
+  @Get(':work_company_id')
+  async findOne(@Param('work_company_id') workCompanyId: string) {
+    const workCompany = await this.workCompaniesService.findOne(+workCompanyId);
+
+    return {
+      work_company: this.workCompanyResource.convert(workCompany),
+    };
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEducationalInstitutionDto: UpdateEducationalInstitutionDto) {
-    return this.educationalInstitutionsService.update(+id, updateEducationalInstitutionDto);
+  @Patch(':work_company_id')
+  async update(
+    @Param('work_company_id') workCompanyId: string,
+    @Body() accessorUpdateWorkCompanyDto: AccessorUpdateWorkCompanyDto,
+  ) {
+    const payload: UpdateWorkCompanyDto = {
+      companyName: accessorUpdateWorkCompanyDto.company_name,
+      description: accessorUpdateWorkCompanyDto.description,
+      position: accessorUpdateWorkCompanyDto.position,
+      country: accessorUpdateWorkCompanyDto.country,
+      startDate: accessorUpdateWorkCompanyDto.start_date,
+      endDate: accessorUpdateWorkCompanyDto.end_date,
+    };
+
+    const workCompany = await this.workCompaniesService.update(
+      +workCompanyId,
+      payload,
+    );
+
+    return {
+      work_company: this.workCompanyResource.convert(workCompany),
+    };
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.educationalInstitutionsService.remove(+id);
+  @Delete(':work_company_id')
+  async delete(@Param('work_company_id') workCompanyId: string) {
+    return await this.workCompaniesService.delete(+workCompanyId);
   }
 }
