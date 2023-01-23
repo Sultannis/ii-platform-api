@@ -17,7 +17,7 @@ export class WorkCompanyDao {
   @Column({ name: 'user_id', type: 'bigint' })
   userId: number;
 
-  @Column({ name: 'company_Name', type: 'varchar' })
+  @Column({ name: 'company_name', type: 'varchar' })
   companyName: string;
 
   @Column({ name: 'description', type: 'varchar', nullable: true })

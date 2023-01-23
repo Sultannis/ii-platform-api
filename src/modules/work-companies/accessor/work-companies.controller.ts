@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   Query,
+  Req,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { WorkCompaniesService } from '../work-companies.service';
 import { CreateWorkCompanyDto } from '../dto/create-work-company.dto';
@@ -15,6 +18,7 @@ import { AccessorCreateWorkCompanyDto } from './dto/accessor-create-work-company
 import { WorkCompanyResource } from './resources/work-company.resource';
 import { AccessorUpdateWorkCompanyDto } from './dto/accessor-update-work-company.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 @ApiTags('Work-companies')
 @Controller('work-companies')
@@ -24,10 +28,15 @@ export class WorkCompaniesController {
     private readonly workCompanyResource: WorkCompanyResource,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(
+    @Request() req,
     @Body() accessorCreateWorkCompanyDto: AccessorCreateWorkCompanyDto,
   ) {
+    const user = req.user;
+    console.log(user);
+
     const payload: CreateWorkCompanyDto = {
       companyName: accessorCreateWorkCompanyDto.company_name,
       description: accessorCreateWorkCompanyDto.description,

@@ -14,10 +14,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any): Promise<RequestUser> {
+  validate(payload: Record<string, string | number>): RequestUser {
     return {
-      id: +payload.id,
-      type: payload.type,
+      id: payload.id as number,
+      type: payload.type as string,
     };
   }
 }
