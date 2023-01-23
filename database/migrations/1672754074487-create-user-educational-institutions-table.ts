@@ -19,7 +19,7 @@ export class createUserEducationalInstitutionsTable1672754074487
             type: 'bigint',
           },
           {
-            name: 'name',
+            name: 'institution_name',
             type: 'varchar',
           },
           {
@@ -28,7 +28,7 @@ export class createUserEducationalInstitutionsTable1672754074487
             isNullable: true,
           },
           {
-            name: 'levelOfEducation',
+            name: 'level_of_education',
             type: 'varchar',
           },
           {
