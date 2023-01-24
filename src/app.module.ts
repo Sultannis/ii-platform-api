@@ -11,6 +11,7 @@ import { WorkCompanyDao } from './common/dao/work-company.dao';
 import { WorkCompaniesModule } from './modules/work-companies/work-companies.module';
 import { EducationalInstitutionsModule } from './modules/educational-institutions/educational-institutions.module';
 import { EducationalInstitutionDao } from './common/dao/educational-institution.dao';
+import { ContactsListsModule } from './modules/contacts-lists/contacts-lists.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { EducationalInstitutionDao } from './common/dao/educational-institution.
     CharacteristicsModule,
     WorkCompaniesModule,
     EducationalInstitutionsModule,
+    ContactsListsModule,
   ],
 })
 export class AppModule {}
