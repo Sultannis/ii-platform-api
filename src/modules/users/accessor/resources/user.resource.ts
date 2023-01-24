@@ -1,14 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/common/entities/user';
-import { EducationalInstitutionResource } from 'src/modules/educational-institutions/accessor/resources/educational-institution.resource';
-import { WorkCompanyResource } from 'src/modules/work-companies/accessor/resources/work-company.resource';
 
 @Injectable()
 export class UserResource {
-  constructor(
-    private readonly workCompanyResource: WorkCompanyResource,
-    private readonly educationalInsitutionResource: EducationalInstitutionResource,
-  ) {}
+  constructor() {}
 
   convert(user: User) {
     return {
@@ -30,14 +25,6 @@ export class UserResource {
       deleted_at: user.deletedAt,
       characteristics: user.characteristics
         ? user.characteristics.map((characteristic) => characteristic.name)
-        : null,
-      work_companies: user.workCompanies
-        ? user.workCompanies.map(this.workCompanyResource.convert)
-        : null,
-      educational_insitutitons: user.educationalInstitutions
-        ? user.educationalInstitutions.map(
-            this.educationalInsitutionResource.convert,
-          )
         : null,
     };
   }
