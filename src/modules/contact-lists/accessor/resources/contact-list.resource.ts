@@ -5,8 +5,8 @@ import { ContactList } from 'src/common/entities/contact-list';
 export class ContactListResource {
   convert(contactList: ContactList) {
     return {
-      id: contactList.id,
-      user_id: contactList.userId,
+      id: +contactList.id,
+      user_id: +contactList.userId,
       phone_number: contactList.phoneNumber,
       linkedin_link: contactList.linkedinLink,
       github_link: contactList.githubLink,

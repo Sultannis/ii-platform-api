@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ContactList } from 'src/common/entities/contact-list';
 import { ContactListsRepository } from './contact-lists.repositoty';
 import { CreateContactsListDto } from './dto/create-contact-list.dto';
@@ -10,28 +14,44 @@ export class ContactListsService {
     private readonly contactListsRepository: ContactListsRepository,
   ) {}
 
-  async create(createContactsListDto: CreateContactsListDto): Promise<ContactList> {
-    const userContactList = await this.contactListsRepository.findOneByUserId(createContactsListDto.userId)
-    if(userContactList) {
-      throw new ConflictException('User contact list already exist');
+  async create(
+    createContactsListDto: CreateContactsListDto,
+  ): Promise<ContactList> {
+    const userContactList = await this.contactListsRepository.findOneByUserId(
+      createContactsListDto.userId,
+    );
+    if (userContactList) {
+      throw new ConflictException(`User's contact list already exist`);
     }
 
-    return this.contactListsRepository.insertAndFetch(createContactsListDto)
+    return this.contactListsRepository.insertAndFetch(createContactsListDto);
   }
 
-  findAll() {
-    return `This action returns all contactsLists`;
+  async findOneByUserId(userId: number): Promise<ContactList> {
+    const contactList = await this.contactListsRepository.findOneByUserId(
+      userId,
+    );
+    if (!contactList) {
+      throw new NotFoundException('Contact list does not exist');
+    }
+
+    return contactList;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contactsList`;
-  }
+  async update(
+    contactListId: number,
+    payload: UpdateContactsListDto,
+  ): Promise<ContactList> {
+    const contactList = await this.contactListsRepository.findOneById(
+      contactListId,
+    );
+    if (!contactList) {
+      throw new NotFoundException('Contact list does not exist');
+    }
 
-  update(id: number, updateContactsListDto: UpdateContactsListDto) {
-    return `This action updates a #${id} contactsList`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} contactsList`;
+    return this.contactListsRepository.updateAndFetchById(
+      contactListId,
+      payload,
+    );
   }
 }

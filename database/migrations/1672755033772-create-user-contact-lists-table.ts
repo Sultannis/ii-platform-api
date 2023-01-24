@@ -54,6 +54,7 @@ export class createUserContactListsTable1672755033772
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'users',
+            onDelete: 'CASCADE',
           },
         ],
       }),

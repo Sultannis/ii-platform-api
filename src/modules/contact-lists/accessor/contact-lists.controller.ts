@@ -1,47 +1,55 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ContactListsService } from '../contact-lists.service';
-import { CreateContactsListDto } from '../dto/create-contact-list.dto';
 import { UpdateContactsListDto } from '../dto/update-contact-list.dto';
+import { AccessorFindUserContactListDto } from './dto/accessor-find-user-contact-list.dto';
+import { AccessorUpdateUserContactListDto } from './dto/accessor-update-user-contact-list.dto';
+import { ContactListResource } from './resources/contact-list.resource';
 
 @ApiTags('Contact-lists')
-@Controller('contacts-lists')
+@Controller('contact-lists')
 export class ContactListsController {
-  constructor(private readonly contactsListsService: ContactListsService) {}
+  constructor(
+    private readonly contactsListsService: ContactListsService,
+    private readonly contactListResource: ContactListResource,
+  ) {}
 
-  @Post()
-  create(@Body() createContactsListDto: CreateContactsListDto) {
-    return this.contactsListsService.create(createContactsListDto);
+  @Get('/one')
+  async findOne(@Query() { user_id: userId }: AccessorFindUserContactListDto) {
+    const contactList = await this.contactsListsService.findOneByUserId(userId);
+
+    return {
+      contact_list: this.contactListResource.convert(contactList),
+    };
   }
 
-  @Get()
-  findAll() {
-    return this.contactsListsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contactsListsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateContactsListDto: UpdateContactsListDto,
+  @Patch(':contact_list_id')
+  async update(
+    @Param('contact_list_id') contactListId: string,
+    @Body() accessorUpdateUserContactListDto: AccessorUpdateUserContactListDto,
   ) {
-    return this.contactsListsService.update(+id, updateContactsListDto);
-  }
+    const payload: UpdateContactsListDto = {
+      phoneNumber: accessorUpdateUserContactListDto.phone_number,
+      linkedinLink: accessorUpdateUserContactListDto.linkedin_link,
+      githubLink: accessorUpdateUserContactListDto.github_link,
+      telegramNickname: accessorUpdateUserContactListDto.telegram_nickname,
+    };
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contactsListsService.remove(+id);
+    const contactList = await this.contactsListsService.update(
+      +contactListId,
+      payload,
+    );
+
+    return {
+      contact_list: this.contactListResource.convert(contactList),
+    };
   }
 }
