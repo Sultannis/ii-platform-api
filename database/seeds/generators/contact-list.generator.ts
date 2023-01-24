@@ -6,6 +6,6 @@ export const generateContactList = (userId: number) => {
     phoneNumber: faker.phone.number('+7##########'),
     linkedinLink: faker.internet.url(),
     githubLink: faker.internet.url(),
-    telegram_username: faker.internet.userName(),
+    telegram_nickname: faker.internet.userName(),
   };
 };
