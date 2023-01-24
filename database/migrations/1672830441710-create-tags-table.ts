@@ -21,11 +21,6 @@ export class createTagsTable1672830441710 implements MigrationInterface {
             default: 'now()',
             type: 'timestamptz',
           },
-          {
-            name: 'deleted_at',
-            type: 'timestamptz',
-            isNullable: true,
-          },
         ],
       }),
     );
