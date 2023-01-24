@@ -32,5 +32,5 @@ export class TagDao {
     },
   })
   @ManyToMany(() => IdeaDao)
-  users: IdeaDao[];
+  ideas?: IdeaDao[];
 }

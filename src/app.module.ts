@@ -15,7 +15,7 @@ import { ContactListsModule } from './modules/contact-lists/contact-lists.module
 import { ContactListDao } from './common/dao/contact-list.dao';
 import { IdeaDao } from './common/dao/idea.dao';
 import { TagDao } from './common/dao/tag.dao';
-import { UserTagDao } from './common/dao/user-tag.dao';
+import { IdeaImageDao } from './common/dao/idea-image.dao';
 
 @Module({
   imports: [
@@ -33,9 +33,9 @@ import { UserTagDao } from './common/dao/user-tag.dao';
         WorkCompanyDao,
         EducationalInstitutionDao,
         ContactListDao,
-        IdeaDao,
         TagDao,
-        UserTagDao,
+        IdeaDao,
+        IdeaImageDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,

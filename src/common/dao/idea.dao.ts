@@ -7,9 +7,11 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IdeaImageDao } from './idea-image.dao';
 import { TagDao } from './tag.dao';
 import { UserDao } from './user.dao';
 
@@ -58,5 +60,8 @@ export class IdeaDao {
       referencedColumnName: 'id',
     },
   })
-  tags: TagDao[];
+  tags?: TagDao[];
+
+  @OneToMany(() => IdeaImageDao, (ideaImage) => ideaImage.idea)
+  images?: IdeaImageDao[];
 }

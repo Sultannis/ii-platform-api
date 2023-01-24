@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IdeaDao } from './idea.dao';
 
 @Entity('idea_images')
 export class IdeaImageDao {
@@ -21,4 +23,7 @@ export class IdeaImageDao {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   created_at: string;
+
+  @ManyToOne(() => IdeaDao, (idea) => idea.images)
+  idea?: IdeaDao;
 }
