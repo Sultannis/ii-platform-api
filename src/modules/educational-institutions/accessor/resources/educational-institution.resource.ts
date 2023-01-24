@@ -7,7 +7,7 @@ export class EducationalInstitutionResource {
       user_id: +educationalInstitution.userId,
       institution_name: educationalInstitution.institutionName,
       description: educationalInstitution.description,
-      levelOfEducation: educationalInstitution.levelOfEducation,
+      level_of_education: educationalInstitution.levelOfEducation,
       country: educationalInstitution.country,
       start_date: educationalInstitution.startDate,
       end_date: educationalInstitution.endDate,
