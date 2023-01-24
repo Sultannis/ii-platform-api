@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common/exceptions';
+import { EducationalInstitution } from 'src/common/entities/educational-institution';
 import { CreateEducationalInstitutionDto } from './dto/create-educational-institution.dto';
 import { UpdateEducationalInstitutionDto } from './dto/update-educational-institution.dto';
 import { EducationalInstitutionsRepository } from './educational-institutions.repository';
@@ -6,26 +8,44 @@ import { EducationalInstitutionsRepository } from './educational-institutions.re
 @Injectable()
 export class EducationalInstitutionsService {
   constructor(
-    private readonly educationalInstitutionsRepository: EducationalInstitutionsRepository
+    private readonly educationalInstitutionsRepository: EducationalInstitutionsRepository,
   ) {}
 
   async create(payload: CreateEducationalInstitutionDto) {
-    return this.educationalInstitutionsRepository.insertAndFetch(payload)
+    return this.educationalInstitutionsRepository.insertAndFetch(payload);
   }
 
-  findAll(userId: number) {
-    return this.educationalInstitutionsRepository.
+  findAll(userId: number): Promise<EducationalInstitution[]> {
+    return this.educationalInstitutionsRepository.findAllByUserId(userId);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} educationalInstitution`;
+  async update(
+    institutionId: number,
+    payload: UpdateEducationalInstitutionDto,
+  ) {
+    const institution =
+      await this.educationalInstitutionsRepository.findOneById(institutionId);
+    if (!institution) {
+      throw new NotFoundException(
+        'User educational institution does not exist',
+      );
+    }
+
+    return this.educationalInstitutionsRepository.updateAndFetchOneById(
+      institutionId,
+      payload,
+    );
   }
 
-  update(id: number, updateEducationalInstitutionDto: UpdateEducationalInstitutionDto) {
-    return `This action updates a #${id} educationalInstitution`;
-  }
+  async delete(institutionId: number): Promise<void> {
+    const institution =
+      await this.educationalInstitutionsRepository.findOneById(institutionId);
+    if (!institution) {
+      throw new NotFoundException(
+        'User educational institution does not exist',
+      );
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} educationalInstitution`;
+    await this.educationalInstitutionsRepository.deleteById(institutionId);
   }
 }

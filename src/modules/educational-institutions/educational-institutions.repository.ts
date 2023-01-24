@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { EducationalInstitutionDao } from 'src/common/dao/educational-institution.dao';
 import { EducationalInstitution } from 'src/common/entities/educational-institution';
 import { DeleteResult, Repository } from 'typeorm';
@@ -8,6 +9,7 @@ import { UpdateEducationalInstitutionDto } from './dto/update-educational-instit
 @Injectable()
 export class EducationalInstitutionsRepository {
   constructor(
+    @InjectRepository(EducationalInstitutionDao)
     private readonly educationalInstitutionsRepository: Repository<EducationalInstitutionDao>,
   ) {}
 
@@ -16,6 +18,12 @@ export class EducationalInstitutionsRepository {
   ): Promise<EducationalInstitution> {
     const institution = this.educationalInstitutionsRepository.create(payload);
     return this.educationalInstitutionsRepository.save(institution);
+  }
+
+  findOneById(institutionId: number): Promise<EducationalInstitution> {
+    return this.educationalInstitutionsRepository.findOneBy({
+      id: institutionId,
+    });
   }
 
   findAllByUserId(userId: number): Promise<EducationalInstitution[]> {

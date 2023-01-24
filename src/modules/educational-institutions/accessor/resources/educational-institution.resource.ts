@@ -12,7 +12,6 @@ export class EducationalInstitutionResource {
       start_date: educationalInstitution.startDate,
       end_date: educationalInstitution.endDate,
       created_at: educationalInstitution.createdAt,
-      deleted_at: educationalInstitution.deletedAt,
     };
   }
 }

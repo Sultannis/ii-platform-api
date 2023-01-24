@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
@@ -17,6 +18,8 @@ import { EducationalInstitutionResource } from './resources/educational-institut
 import { Request as RequestType } from 'express';
 import { CreateEducationalInstitutionDto } from '../dto/create-educational-institution.dto';
 import { AccessorCreateEducationalInstitutionDto } from './dto/accessor-create-educational-institution.dto';
+import { AccessorUpdateEducationalInstitutionDto } from './dto/accessor-update-educational-institution.dto';
+import { UpdateEducationalInstitutionDto } from '../dto/update-educational-institution.dto';
 
 @ApiTags('Educational-institutions')
 @Controller('educational-institutions')
@@ -46,57 +49,62 @@ export class EducationalInstitutionsController {
       endDate: accessorCreateEducationalInstitutionDto.end_date,
     };
 
-    const workCompany = await this.educationalInstitutionsService.create(payload);
+    const educationalInstitution =
+      await this.educationalInstitutionsService.create(payload);
 
     return {
-      work_company: this.workCompanyResource.convert(workCompany),
+      educational_institution: this.educationalInstitutionResource.convert(
+        educationalInstitution,
+      ),
     };
   }
 
   @Get()
   async findAll(@Query('user_id') userId: string) {
-    const workCompanies = await this.workCompaniesService.findAll(+userId);
+    const educationalInstitutions =
+      await this.educationalInstitutionsService.findAll(+userId);
 
     return {
-      work_companies: workCompanies.map(this.workCompanyResource.convert),
+      educational_institutions: educationalInstitutions.map(
+        this.educationalInstitutionResource.convert,
+      ),
     };
   }
 
-  @Get(':work_company_id')
-  async findOne(@Param('work_company_id') workCompanyId: string) {
-    const workCompany = await this.workCompaniesService.findOne(+workCompanyId);
-
-    return {
-      work_company: this.workCompanyResource.convert(workCompany),
-    };
-  }
-
-  @Patch(':work_company_id')
+  @Patch(':educational_institution_id')
   async update(
-    @Param('work_company_id') workCompanyId: string,
-    @Body() accessorUpdateWorkCompanyDto: AccessorUpdateWorkCompanyDto,
+    @Param('educational_institution_id') educationalInstitutionId: string,
+    @Body()
+    accessorUpdateWorkCompanyDto: AccessorUpdateEducationalInstitutionDto,
   ) {
-    const payload: UpdateWorkCompanyDto = {
-      companyName: accessorUpdateWorkCompanyDto.company_name,
+    const payload: UpdateEducationalInstitutionDto = {
+      institutionName: accessorUpdateWorkCompanyDto.institution_name,
       description: accessorUpdateWorkCompanyDto.description,
-      position: accessorUpdateWorkCompanyDto.position,
+      levelOfEducation: accessorUpdateWorkCompanyDto.level_of_education,
       country: accessorUpdateWorkCompanyDto.country,
       startDate: accessorUpdateWorkCompanyDto.start_date,
       endDate: accessorUpdateWorkCompanyDto.end_date,
     };
 
-    const workCompany = await this.workCompaniesService.update(
-      +workCompanyId,
-      payload,
-    );
+    const educationalInstitution =
+      await this.educationalInstitutionsService.update(
+        +educationalInstitutionId,
+        payload,
+      );
 
     return {
-      work_company: this.workCompanyResource.convert(workCompany),
+      educational_institution: this.educationalInstitutionResource.convert(
+        educationalInstitution,
+      ),
     };
   }
 
-  @Delete(':work_company_id')
-  async delete(@Param('work_company_id') workCompanyId: string) {
-    return await this.workCompaniesService.delete(+workCompanyId);
+  @Delete(':educational_institution_id')
+  async delete(
+    @Param('educational_institution_id') educationalInstitutionId: string,
+  ) {
+    return await this.educationalInstitutionsService.delete(
+      +educationalInstitutionId,
+    );
   }
 }

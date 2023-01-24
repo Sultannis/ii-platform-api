@@ -1,9 +1,9 @@
 import { IsDateString, IsOptional, IsString } from 'class-validator';
 
-export class AccessorUpdateWorkCompanyDto {
+export class AccessorUpdateEducationalInstitutionDto {
   @IsOptional()
   @IsString()
-  company_name?: string;
+institution_name?: string;
 
   @IsOptional()
   @IsString()
@@ -11,7 +11,7 @@ export class AccessorUpdateWorkCompanyDto {
 
   @IsOptional()
   @IsString()
-  position?: string;
+  level_of_education?: string;
 
   @IsOptional()
   @IsString()
