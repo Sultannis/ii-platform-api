@@ -3,8 +3,8 @@ import { EducationalInstitution } from 'src/common/entities/educational-institut
 export class EducationalInstitutionResource {
   convert(educationalInstitution: EducationalInstitution) {
     return {
-      id: educationalInstitution.id,
-      user_id: educationalInstitution.userId,
+      id: +educationalInstitution.id,
+      user_id: +educationalInstitution.userId,
       institution_name: educationalInstitution.institutionName,
       description: educationalInstitution.description,
       levelOfEducation: educationalInstitution.levelOfEducation,

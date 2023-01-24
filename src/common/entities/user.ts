@@ -1,4 +1,5 @@
 import { UserCharacteristic } from './characteristic';
+import { EducationalInstitution } from './educational-institution';
 import { WorkCompany } from './work-company';
 
 export class User {
@@ -21,4 +22,5 @@ export class User {
   deletedAt?: string;
   characteristics: UserCharacteristic[];
   workCompanies: WorkCompany[];
+  educationalInstitutions: EducationalInstitution[];
 }

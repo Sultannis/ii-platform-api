@@ -10,6 +10,7 @@ import { UserCharacteristicDao } from './common/dao/user-characteristic.dao';
 import { WorkCompanyDao } from './common/dao/work-company.dao';
 import { WorkCompaniesModule } from './modules/work-companies/work-companies.module';
 import { EducationalInstitutionsModule } from './modules/educational-institutions/educational-institutions.module';
+import { EducationalInstitutionDao } from './common/dao/educational-institution.dao';
 
 @Module({
   imports: [
@@ -25,12 +26,16 @@ import { EducationalInstitutionsModule } from './modules/educational-institution
         CharacteristicDao,
         UserCharacteristicDao,
         WorkCompanyDao,
+        EducationalInstitutionDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
-      ssl: process.env.ENVIRONMENT === 'development' ? false : {
-        ca: connectionConfig.sslCert,
-      },
+      ssl:
+        process.env.ENVIRONMENT === 'development'
+          ? false
+          : {
+              ca: connectionConfig.sslCert,
+            },
     }),
     AuthModule,
     UsersModule,

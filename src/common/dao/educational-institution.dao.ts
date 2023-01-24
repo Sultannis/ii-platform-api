@@ -49,7 +49,7 @@ export class EducationalInstitutionDao {
   })
   updatedAt: string;
 
-  @ManyToOne(() => UserDao, (user) => user.workCompanies)
+  @ManyToOne(() => UserDao, (user) => user.educationalInstitutions)
   @JoinColumn({ name: 'user_id' })
   user?: UserDao;
 }

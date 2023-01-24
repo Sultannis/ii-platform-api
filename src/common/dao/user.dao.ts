@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CharacteristicDao } from './characteristic.dao';
+import { EducationalInstitutionDao } from './educational-institution.dao';
 import { WorkCompanyDao } from './work-company.dao';
 
 @Entity('users')
@@ -100,4 +101,7 @@ export class UserDao {
 
   @OneToMany(() => WorkCompanyDao, (workCompany) => workCompany.user)
   workCompanies: WorkCompanyDao[];
+
+  @OneToMany(() => EducationalInstitutionDao, (educationalInstitution) => educationalInstitution.user)
+  educationalInstitutions: EducationalInstitutionDao[];
 }

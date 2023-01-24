@@ -12,7 +12,8 @@ import { EducationalInstitutionResource } from './accessor/resources/educational
   providers: [
     EducationalInstitutionsService,
     EducationalInstitutionsRepository,
-    EducationalInstitutionResource
+    EducationalInstitutionResource,
   ],
+  exports: [EducationalInstitutionResource],
 })
 export class EducationalInstitutionsModule {}
