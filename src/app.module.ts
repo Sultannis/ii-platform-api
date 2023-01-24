@@ -11,7 +11,8 @@ import { WorkCompanyDao } from './common/dao/work-company.dao';
 import { WorkCompaniesModule } from './modules/work-companies/work-companies.module';
 import { EducationalInstitutionsModule } from './modules/educational-institutions/educational-institutions.module';
 import { EducationalInstitutionDao } from './common/dao/educational-institution.dao';
-import { ContactsListsModule } from './modules/contacts-lists/contacts-lists.module';
+import { ContactListsModule } from './modules/contact-lists/contact-lists.module';
+import { ContactListDao } from './common/dao/contact-list.dao';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ContactsListsModule } from './modules/contacts-lists/contacts-lists.mod
         UserCharacteristicDao,
         WorkCompanyDao,
         EducationalInstitutionDao,
+        ContactListDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
@@ -43,7 +45,7 @@ import { ContactsListsModule } from './modules/contacts-lists/contacts-lists.mod
     CharacteristicsModule,
     WorkCompaniesModule,
     EducationalInstitutionsModule,
-    ContactsListsModule,
+    ContactListsModule,
   ],
 })
 export class AppModule {}

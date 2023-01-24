@@ -6,10 +6,12 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { CharacteristicDao } from './characteristic.dao';
+import { ContactListDao } from './contact-list.dao';
 import { EducationalInstitutionDao } from './educational-institution.dao';
 import { WorkCompanyDao } from './work-company.dao';
 
@@ -102,6 +104,12 @@ export class UserDao {
   @OneToMany(() => WorkCompanyDao, (workCompany) => workCompany.user)
   workCompanies: WorkCompanyDao[];
 
-  @OneToMany(() => EducationalInstitutionDao, (educationalInstitution) => educationalInstitution.user)
+  @OneToMany(
+    () => EducationalInstitutionDao,
+    (educationalInstitution) => educationalInstitution.user,
+  )
   educationalInstitutions: EducationalInstitutionDao[];
+
+  @OneToOne(() => ContactListDao, (contactList) => contactList.user)
+  contactList: ContactListDao;
 }

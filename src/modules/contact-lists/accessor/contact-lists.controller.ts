@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ContactsListsService } from './contacts-lists.service';
-import { CreateContactsListDto } from './dto/create-contacts-list.dto';
-import { UpdateContactsListDto } from './dto/update-contacts-list.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ContactListsService } from '../contact-lists.service';
+import { CreateContactsListDto } from '../dto/create-contact-list.dto';
+import { UpdateContactsListDto } from '../dto/update-contact-list.dto';
 
 @Controller('contacts-lists')
-export class ContactsListsController {
-  constructor(private readonly contactsListsService: ContactsListsService) {}
+export class ContactListsController {
+  constructor(private readonly contactsListsService: ContactListsService) {}
 
   @Post()
   create(@Body() createContactsListDto: CreateContactsListDto) {
@@ -23,7 +31,10 @@ export class ContactsListsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContactsListDto: UpdateContactsListDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateContactsListDto: UpdateContactsListDto,
+  ) {
     return this.contactsListsService.update(+id, updateContactsListDto);
   }
 
