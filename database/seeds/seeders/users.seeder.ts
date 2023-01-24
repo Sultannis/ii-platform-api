@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { DataSource } from 'typeorm';
+import { generateContactList } from '../generators/contact-list.generator';
 import { generateEducationalInstitution } from '../generators/educational-insitution.generator';
 import { generateUser } from '../generators/user.generator';
 import { generateWorkCompany } from '../generators/work-company.generator';
@@ -11,16 +12,19 @@ export const seedUsersWithRelations = async (dataSource: DataSource) => {
     'UserCharacteristicDao',
   );
   const workCompaniesRepository = dataSource.getRepository('WorkCompanyDao');
-  const educationalInsitutionsRepository = dataSource.getRepository('EducationalInstitutionDao');
+  const educationalInsitutionsRepository = dataSource.getRepository(
+    'EducationalInstitutionDao',
+  );
 
   try {
     for (let i = 0; i < 40; i++) {
       const user = usersRepository.create(generateUser());
       await usersRepository.save(user);
-      await contactListsRepository.insert({ userId: user.id });
+
+      await contactListsRepository.insert(generateContactList(user.id));
 
       for (let i = 0; i < 5; i++) {
-        const characteristicId = faker.datatype.number({min: 1, max: 40});
+        const characteristicId = faker.datatype.number({ min: 1, max: 40 });
 
         await userCharacteristicsRepository.insert({
           userId: user.id,
@@ -32,8 +36,10 @@ export const seedUsersWithRelations = async (dataSource: DataSource) => {
         await workCompaniesRepository.insert(generateWorkCompany(user.id));
       }
 
-      for(let i =0; i < 3; i++) {
-        await educationalInsitutionsRepository.insert(generateEducationalInstitution(user.id))
+      for (let i = 0; i < 3; i++) {
+        await educationalInsitutionsRepository.insert(
+          generateEducationalInstitution(user.id),
+        );
       }
     }
   } catch (error: unknown) {
