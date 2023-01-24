@@ -54,11 +54,6 @@ export class createUserEducationalInstitutionsTable1672754074487
             type: 'timestamptz',
             default: 'now()',
           },
-          {
-            name: 'deleted_at',
-            type: 'timestamptz',
-            isNullable: true,
-          },
         ],
         foreignKeys: [
           {

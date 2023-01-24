@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UserDao } from './user.dao';
 
 @Entity('user_educational_institutions')
@@ -40,9 +48,6 @@ export class EducationalInstitutionDao {
     default: 'now()',
   })
   updatedAt: string;
-
-  @Column({ name: 'deleted_at', type: 'timestamptz', nullable: true })
-  deletedAt: string;
 
   @ManyToOne(() => UserDao, (user) => user.workCompanies)
   @JoinColumn({ name: 'user_id' })

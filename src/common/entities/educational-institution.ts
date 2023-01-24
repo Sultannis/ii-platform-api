@@ -11,6 +11,5 @@ export class EducationalInstitution {
   endDate: string;
   createdAt: string;
   updatedAt: string;
-  deletedAt: string;
   user?: User;
 }

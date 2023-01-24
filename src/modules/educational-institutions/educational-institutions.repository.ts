@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EducationalInstitutionDao } from 'src/common/dao/educational-institution.dao';
 import { EducationalInstitution } from 'src/common/entities/educational-institution';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateEducationalInstitutionDto } from './dto/create-educational-institution.dto';
 import { UpdateEducationalInstitutionDto } from './dto/update-educational-institution.dto';
 
@@ -27,17 +27,20 @@ export class EducationalInstitutionsRepository {
   }
 
   async updateAndFetchOneById(
-    workCompanyId: number,
+    educationalInstitutionId: number,
     payload: UpdateEducationalInstitutionDto,
-  ): Promise<WorkCompany> {
-    await this.workCompaniesRepository.update(workCompanyId, payload);
+  ): Promise<EducationalInstitution> {
+    await this.educationalInstitutionsRepository.update(
+      educationalInstitutionId,
+      payload,
+    );
 
-    return this.workCompaniesRepository.findOneBy({
-      id: workCompanyId,
+    return this.educationalInstitutionsRepository.findOneBy({
+      id: educationalInstitutionId,
     });
   }
 
   deleteById(workCompanyId: number): Promise<DeleteResult> {
-    return this.workCompaniesRepository.delete(workCompanyId);
+    return this.educationalInstitutionsRepository.delete(workCompanyId);
   }
 }
