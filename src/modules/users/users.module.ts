@@ -9,12 +9,16 @@ import { UserResource } from './accessor/resources/user.resource';
 import { CharacteristicsModule } from '../characteristics/characteristics.module';
 import { UserCharacteristicDao } from 'src/common/dao/user-characteristic.dao';
 import { WorkCompaniesModule } from '../work-companies/work-companies.module';
+import { EducationalInstitutionsModule } from '../educational-institutions/educational-institutions.module';
+import { ContactListsModule } from '../contact-lists/contact-lists.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserDao, UserCharacteristicDao]),
     CharacteristicsModule,
     WorkCompaniesModule,
+    EducationalInstitutionsModule,
+    ContactListsModule,
   ],
   controllers: [UsersController],
   providers: [UsersService, AuthService, UsersRepository, UserResource],

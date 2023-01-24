@@ -9,6 +9,13 @@ import { CharacteristicsModule } from './modules/characteristics/characteristics
 import { UserCharacteristicDao } from './common/dao/user-characteristic.dao';
 import { WorkCompanyDao } from './common/dao/work-company.dao';
 import { WorkCompaniesModule } from './modules/work-companies/work-companies.module';
+import { EducationalInstitutionsModule } from './modules/educational-institutions/educational-institutions.module';
+import { EducationalInstitutionDao } from './common/dao/educational-institution.dao';
+import { ContactListsModule } from './modules/contact-lists/contact-lists.module';
+import { ContactListDao } from './common/dao/contact-list.dao';
+import { IdeaDao } from './common/dao/idea.dao';
+import { TagDao } from './common/dao/tag.dao';
+import { IdeaImageDao } from './common/dao/idea-image.dao';
 
 @Module({
   imports: [
@@ -24,17 +31,27 @@ import { WorkCompaniesModule } from './modules/work-companies/work-companies.mod
         CharacteristicDao,
         UserCharacteristicDao,
         WorkCompanyDao,
+        EducationalInstitutionDao,
+        ContactListDao,
+        TagDao,
+        IdeaDao,
+        IdeaImageDao,
       ],
       migrations: ['../database/migrations/*{.ts,.js}'],
       synchronize: false,
-      ssl: process.env.ENVIRONMENT === 'development' ? false : {
-        ca: connectionConfig.sslCert,
-      },
+      ssl:
+        process.env.ENVIRONMENT === 'development'
+          ? false
+          : {
+              ca: connectionConfig.sslCert,
+            },
     }),
     AuthModule,
     UsersModule,
     CharacteristicsModule,
     WorkCompaniesModule,
+    EducationalInstitutionsModule,
+    ContactListsModule,
   ],
 })
 export class AppModule {}

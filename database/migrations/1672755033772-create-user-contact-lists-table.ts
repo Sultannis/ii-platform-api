@@ -21,18 +21,22 @@ export class createUserContactListsTable1672755033772
           {
             name: 'phone_number',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'linkedin_link',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'github_link',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'telegram_nickname',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -44,17 +48,13 @@ export class createUserContactListsTable1672755033772
             type: 'timestamptz',
             default: 'now()',
           },
-          {
-            name: 'deleted_at',
-            type: 'timestamptz',
-            isNullable: true,
-          },
         ],
         foreignKeys: [
           {
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'users',
+            onDelete: 'CASCADE',
           },
         ],
       }),

@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker/locale/en';
-import { getRandomOccupation } from '../helpers/get-random-occupation';
 import { GeneratedUser } from '../types/generated-user';
 
 export const generateUser = (): GeneratedUser => {
@@ -21,7 +20,7 @@ export const generateUser = (): GeneratedUser => {
     email,
     nickname,
     birthDate: faker.date.birthdate().toISOString(),
-    occupation: getRandomOccupation(),
+    occupation: faker.name.jobType(),
     residenceCountry: faker.address.country(),
     residenceCity: faker.address.cityName(),
     bio: faker.lorem.words(10),

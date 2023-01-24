@@ -13,6 +13,10 @@ export class createIdeaImagesTable1672831901675 implements MigrationInterface {
             type: 'bigint',
           },
           {
+            name: 'idea_id',
+            type: 'bigint',
+          },
+          {
             name: 'path',
             type: 'varchar',
           },
@@ -26,15 +30,19 @@ export class createIdeaImagesTable1672831901675 implements MigrationInterface {
             default: 'now()',
             type: 'timestamptz',
           },
+        ],
+        foreignKeys: [
           {
-            name: 'deleted_at',
-            type: 'timestamptz',
-            isNullable: true,
+            columnNames: ['idea_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'ideas',
           },
         ],
       }),
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('idea_images');
+  }
 }

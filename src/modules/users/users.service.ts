@@ -14,7 +14,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { FindAllPeopleDto } from './dto/find-all-people.dto';
 import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
 import { CharacteristicsService } from 'src/modules/characteristics/characteristics.service';
-import { Characteristic } from 'src/common/entities/characteristic';
+import { UserCharacteristic } from 'src/common/entities/characteristic';
+import { ContactListsService } from '../contact-lists/contact-lists.service';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +23,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
     private readonly authService: AuthService,
     private readonly characteristicsService: CharacteristicsService,
+    private readonly contactListService: ContactListsService,
   ) {}
 
   async register(
@@ -40,6 +42,8 @@ export class UsersService {
       ...payload,
       password: hashedPassword,
     });
+
+    await this.contactListService.create({ userId: user.id });
 
     const token = this.authService.generateUserAuthToken({
       id: user.id,
@@ -117,7 +121,7 @@ export class UsersService {
 
   private async processAndSaveUserCharacteristics(
     characteristics: string[],
-    userCharacteristics: Characteristic[],
+    userCharacteristics: UserCharacteristic[],
     userId: number,
   ) {
     const promisesToSaveCharacteristicsAndUserRelation = characteristics.map(
@@ -141,7 +145,7 @@ export class UsersService {
     );
 
     const promisesToDeleteCharacteristics = userCharacteristics.map(
-      async (userCharacteristic: Characteristic) => {
+      async (userCharacteristic: UserCharacteristic) => {
         if (!characteristics.includes(userCharacteristic.name)) {
           await this.usersRepository.deleteUserCharacteristicByCharacteristicId(
             userId,

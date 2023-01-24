@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Characteristic } from 'src/common/entities/characteristic';
+import { UserCharacteristic } from 'src/common/entities/characteristic';
 import { CharacteristicsRepository } from './characteristics.repository';
 import { CreateCharacteristicDto } from './dto/create-characteristic.dto';
 import { UpdateCharacteristicDto } from './dto/update-characteristic.dto';
@@ -16,18 +16,18 @@ export class CharacteristicsService {
 
   async createWithoutPresenceCheck(
     payload: CreateCharacteristicDto,
-  ): Promise<Characteristic> {
+  ): Promise<UserCharacteristic> {
     return this.characteristicsRepository.insertAndFetch(payload);
   }
 
-  async create(payload: CreateCharacteristicDto): Promise<Characteristic> {
+  async create(payload: CreateCharacteristicDto): Promise<UserCharacteristic> {
     const characteristic = await this.characteristicsRepository.findOneByName(
       payload.name,
     );
 
     if (characteristic) {
       throw new ConflictException(
-        'Characteristic with provided name already exist',
+        'UserCharacteristic with provided name already exist',
       );
     }
 
@@ -35,20 +35,20 @@ export class CharacteristicsService {
   }
 
   findAllByUserId(userId: number) {
-    return this.characteristicsRepository.findAllByUserId(userId)
+    return this.characteristicsRepository.findAllByUserId(userId);
   }
 
-  findOneByNameWithoutAbsenceCheck(name: string): Promise<Characteristic> {
+  findOneByNameWithoutAbsenceCheck(name: string): Promise<UserCharacteristic> {
     return this.characteristicsRepository.findOneByName(name);
   }
 
-  async findOneByName(name: string): Promise<Characteristic> {
+  async findOneByName(name: string): Promise<UserCharacteristic> {
     const characteristic = await this.characteristicsRepository.findOneByName(
       name,
     );
 
     if (!characteristic) {
-      throw new NotFoundException('Characteristic does not exist');
+      throw new NotFoundException('UserCharacteristic does not exist');
     }
 
     return characteristic;
