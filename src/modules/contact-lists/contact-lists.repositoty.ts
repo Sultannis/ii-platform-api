@@ -25,6 +25,12 @@ export class ContactListsRepository {
     });
   }
 
+  findOneByUserId(userId: number): Promise<ContactList> {
+    return this.contactListsRepository.findOneBy({
+      userId,
+    });
+  }
+
   async updateAndFetchById(
     contactListId: number,
     payload: UpdateContactsListDto,

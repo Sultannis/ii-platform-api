@@ -1,11 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { ContactList } from 'src/common/entities/contact-list';
+import { ContactListsRepository } from './contact-lists.repositoty';
 import { CreateContactsListDto } from './dto/create-contact-list.dto';
 import { UpdateContactsListDto } from './dto/update-contact-list.dto';
 
 @Injectable()
 export class ContactListsService {
-  create(createContactsListDto: CreateContactsListDto) {
-    return 'This action adds a new contactsList';
+  constructor(
+    private readonly contactListsRepository: ContactListsRepository,
+  ) {}
+
+  async create(createContactsListDto: CreateContactsListDto): Promise<ContactList> {
+    const userContactList = await this.contactListsRepository.findOneByUserId(createContactsListDto.userId)
+    if(userContactList) {
+      throw new ConflictException('User contact list already exist');
+    }
+
+    return this.contactListsRepository.insertAndFetch(createContactsListDto)
   }
 
   findAll() {

@@ -13,6 +13,7 @@ import {
 import { CharacteristicDao } from './characteristic.dao';
 import { ContactListDao } from './contact-list.dao';
 import { EducationalInstitutionDao } from './educational-institution.dao';
+import { IdeaDao } from './idea.dao';
 import { WorkCompanyDao } from './work-company.dao';
 
 @Entity('users')
@@ -112,4 +113,7 @@ export class UserDao {
 
   @OneToOne(() => ContactListDao, (contactList) => contactList.user)
   contactList: ContactListDao;
+
+  @OneToMany(() => IdeaDao, (idea) => idea.user)
+  ideas: IdeaDao[];
 }
