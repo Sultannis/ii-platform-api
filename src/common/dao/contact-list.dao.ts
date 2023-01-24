@@ -18,16 +18,16 @@ export class ContactListDao {
   userId: number;
 
   @Column({ name: 'phone_number', type: 'varchar', nullable: true })
-  phoneNumber: string;
+  phoneNumber?: string;
 
   @Column({ name: 'linkedin_link', type: 'varchar', nullable: true })
   linkedinLink?: string;
 
   @Column({ name: 'github_link', type: 'varchar', nullable: true })
-  githubLink: string;
+  githubLink?: string;
 
   @Column({ name: 'telegram_nickname', type: 'varchar', nullable: true })
-  telegramNickname: string;
+  telegramNickname?: string;
 
   @CreateDateColumn({
     name: 'created_at',
