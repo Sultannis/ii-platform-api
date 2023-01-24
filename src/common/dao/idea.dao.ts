@@ -4,10 +4,13 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TagDao } from './tag.dao';
 import { UserDao } from './user.dao';
 
 @Entity('ideas')
@@ -42,4 +45,18 @@ export class IdeaDao {
   @ManyToOne(() => UserDao, (user) => user.ideas)
   @JoinColumn({ name: 'user_id' })
   user?: UserDao;
+
+  @ManyToMany(() => TagDao)
+  @JoinTable({
+    name: 'idea_tags',
+    joinColumn: {
+      name: 'idea_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'tag_id',
+      referencedColumnName: 'id',
+    },
+  })
+  tags: TagDao[];
 }

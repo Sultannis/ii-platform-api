@@ -88,6 +88,18 @@ export class UserDao {
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt?: string;
 
+  @OneToMany(() => WorkCompanyDao, (workCompany) => workCompany.user)
+  workCompanies: WorkCompanyDao[];
+
+  @OneToMany(
+    () => EducationalInstitutionDao,
+    (educationalInstitution) => educationalInstitution.user,
+  )
+  educationalInstitutions: EducationalInstitutionDao[];
+
+  @OneToMany(() => IdeaDao, (idea) => idea.user)
+  ideas: IdeaDao[];
+
   @ManyToMany(() => CharacteristicDao)
   @JoinTable({
     name: 'user_characteristics',
@@ -102,18 +114,6 @@ export class UserDao {
   })
   characteristics: CharacteristicDao[];
 
-  @OneToMany(() => WorkCompanyDao, (workCompany) => workCompany.user)
-  workCompanies: WorkCompanyDao[];
-
-  @OneToMany(
-    () => EducationalInstitutionDao,
-    (educationalInstitution) => educationalInstitution.user,
-  )
-  educationalInstitutions: EducationalInstitutionDao[];
-
   @OneToOne(() => ContactListDao, (contactList) => contactList.user)
   contactList: ContactListDao;
-
-  @OneToMany(() => IdeaDao, (idea) => idea.user)
-  ideas: IdeaDao[];
 }
