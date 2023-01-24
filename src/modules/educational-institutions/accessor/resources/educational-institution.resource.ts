@@ -1,5 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { EducationalInstitution } from 'src/common/entities/educational-institution';
 
+@Injectable()
 export class EducationalInstitutionResource {
   convert(educationalInstitution: EducationalInstitution) {
     return {
