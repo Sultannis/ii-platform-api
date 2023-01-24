@@ -32,12 +32,17 @@ export class createIdeaTagsTable1672830844663 implements MigrationInterface {
             referencedColumnNames: ['id'],
             referencedTableName: 'ideas',
           },
+          {
+            columnNames: ['tag_id'],
+            referencedColumnNames: ['id'],
+            referencedTableName: 'tags',
+          },
         ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('ideas');
+    await queryRunner.dropTable('idea_tags');
   }
 }
