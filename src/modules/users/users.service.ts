@@ -157,10 +157,8 @@ export class UsersService {
 
     try {
       await Promise.all(promisesToSaveCharacteristicsAndUserRelation);
-      const user = await this.usersRepository.findOneWithRelationsById(userId);
       await Promise.all(promisesToDeleteCharacteristics);
     } catch (err) {
-      console.log(err);
       throw new ConflictException('User characteristics was not saved');
     }
   }

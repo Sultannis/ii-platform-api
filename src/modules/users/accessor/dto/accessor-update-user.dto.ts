@@ -3,38 +3,38 @@ import { IsArray, IsDateString, IsOptional, IsString } from 'class-validator';
 export class AccessorUpdateUserDto {
   @IsOptional()
   @IsString()
-  first_name: string;
+  first_name?: string;
 
   @IsOptional()
   @IsString()
-  last_name: string;
+  last_name?: string;
 
   @IsOptional()
   @IsString()
-  nickname: string;
+  nickname?: string;
 
   @IsOptional()
   @IsDateString()
-  birth_date: string;
+  birth_date?: string;
 
   @IsOptional()
   @IsString()
-  residence_country: string;
+  residence_country?: string;
 
   @IsOptional()
   @IsString()
-  residence_city: string;
+  residence_city?: string;
 
   @IsOptional()
   @IsString()
-  occupation: string;
+  occupation?: string;
 
   @IsOptional()
   @IsString()
-  bio: string;
+  bio?: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  characteristics: string[];
+  characteristics?: string[];
 }

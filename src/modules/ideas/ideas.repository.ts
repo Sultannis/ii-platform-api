@@ -4,6 +4,7 @@ import { IdeaDao } from 'src/common/dao/idea.dao';
 import { Idea } from 'src/common/entities/idea';
 import { Repository } from 'typeorm';
 import { CreateIdeaDto } from './dto/create-idea.dto';
+import { FindIdeasDto } from './dto/find-ideas.dto';
 import { UpdateIdeaDto } from './dto/update-idea.dto';
 
 @Injectable()
@@ -28,13 +29,27 @@ export class IdeasRepository {
   findOneByIdWithRelations(ideaId: number): Promise<Idea> {
     return this.ideasRepository.findOne({
       where: {
-        id: ideaId
+        id: ideaId,
       },
       relations: ['images'],
     });
   }
 
-  findAll(userId: number): Promise<Idea[]> {
+  findAll(payload: FindIdeasDto): Promise<[ideas: Idea[], total: number]> {
+    const { page, perPage, startTimestamp } = payload;
+    const query = this.ideasRepository
+      .createQueryBuilder('idea')
+      .skip((page - 1) * 20)
+      .take(perPage);
+
+    if (startTimestamp) {
+      query.where('idea.createdAt <= :startTimestamp', { startTimestamp });
+    }
+
+    return query.getManyAndCount();
+  }
+
+  findAllByUserId(userId: number): Promise<Idea[]> {
     return this.ideasRepository.find({
       where: userId ? { authorId: userId } : {},
     });
