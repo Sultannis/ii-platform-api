@@ -20,7 +20,7 @@ export class IdeasRepository {
     return this.ideasRepository.save(idea);
   }
 
-  findOnyById(ideaId: number): Promise<Idea> {
+  findOneById(ideaId: number): Promise<Idea> {
     return this.ideasRepository.findOneBy({
       id: ideaId,
     });
