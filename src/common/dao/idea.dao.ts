@@ -32,7 +32,7 @@ export class IdeaDao {
   @Column({ name: 'description', type: 'text' })
   description: string;
 
-  @Column({ name: 'likes', type: 'int' })
+  @Column({ name: 'likes', type: 'int', default: 0 })
   likes: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })

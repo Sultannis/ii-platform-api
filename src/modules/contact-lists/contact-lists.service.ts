@@ -1,9 +1,12 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { ContactList } from 'src/common/entities/contact-list';
+import { UsersService } from '../users/users.service';
 import { ContactListsRepository } from './contact-lists.repositoty';
 import { CreateContactsListDto } from './dto/create-contact-list.dto';
 import { UpdateContactsListDto } from './dto/update-contact-list.dto';
@@ -12,6 +15,8 @@ import { UpdateContactsListDto } from './dto/update-contact-list.dto';
 export class ContactListsService {
   constructor(
     private readonly contactListsRepository: ContactListsRepository,
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
   ) {}
 
   async create(
@@ -28,6 +33,8 @@ export class ContactListsService {
   }
 
   async findOneByUserId(userId: number): Promise<ContactList> {
+    const user = await this.usersService.findOneById(userId);
+
     const contactList = await this.contactListsRepository.findOneByUserId(
       userId,
     );
@@ -35,7 +42,7 @@ export class ContactListsService {
       throw new NotFoundException('Contact list does not exist');
     }
 
-    return contactList;
+    return { email: user.email, ...contactList };
   }
 
   async update(

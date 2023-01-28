@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserDao } from 'src/common/dao/user.dao';
 import { UsersService } from './users.service';
@@ -18,7 +18,7 @@ import { ContactListsModule } from '../contact-lists/contact-lists.module';
     CharacteristicsModule,
     WorkCompaniesModule,
     EducationalInstitutionsModule,
-    ContactListsModule,
+    forwardRef(() => ContactListsModule),
   ],
   controllers: [UsersController],
   providers: [UsersService, AuthService, UsersRepository, UserResource],

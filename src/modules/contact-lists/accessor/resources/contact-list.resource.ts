@@ -7,6 +7,7 @@ export class ContactListResource {
     return {
       id: +contactList.id,
       user_id: +contactList.userId,
+      email: contactList.email,
       phone_number: contactList.phoneNumber,
       linkedin_link: contactList.linkedinLink,
       github_link: contactList.githubLink,
