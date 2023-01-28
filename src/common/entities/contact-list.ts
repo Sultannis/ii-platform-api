@@ -1,7 +1,8 @@
-import { User } from "./user";
+import { User } from './user';
 
 export class ContactList {
   id: number;
+  email?: string;
   userId: number;
   phoneNumber?: string;
   linkedinLink?: string;
