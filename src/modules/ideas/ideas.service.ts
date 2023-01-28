@@ -14,7 +14,7 @@ export class IdeasService {
   ) {}
 
   async create(payload: CreateIdeaDto): Promise<Idea> {
-    await this.usersService.findOneById(payload.autorId);
+    await this.usersService.findOneById(payload.authorId);
 
     return this.ideasRepository.insertAndFetch(payload);
   }
@@ -34,9 +34,12 @@ export class IdeasService {
     return idea;
   }
 
-  async updateAndFetchById(ideaId: number, payload: UpdateIdeaDto): Promise<Idea> {
-    const idea = await this.ideasRepository.findOneById(ideaId) 
-    if(!idea) {
+  async updateAndFetchById(
+    ideaId: number,
+    payload: UpdateIdeaDto,
+  ): Promise<Idea> {
+    const idea = await this.ideasRepository.findOneById(ideaId);
+    if (!idea) {
       throw new NotFoundException('Idea does not exist');
     }
 
@@ -44,11 +47,11 @@ export class IdeasService {
   }
 
   async delete(ideaId: number): Promise<Idea> {
-    const idea = await this.ideasRepository.findOneById(ideaId)
-    if(!idea) {
+    const idea = await this.ideasRepository.findOneById(ideaId);
+    if (!idea) {
       throw new NotFoundException('Idea does not exist');
     }
 
-    return this.ideasRepository.softDelete(ideaId)
+    return this.ideasRepository.softDelete(ideaId);
   }
 }

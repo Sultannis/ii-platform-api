@@ -1,5 +1,5 @@
 export class CreateIdeaDto {
-  autorId: number;
+  authorId: number;
   title: string;
   subtitle: string;
   description: string;
