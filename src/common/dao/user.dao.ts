@@ -97,7 +97,7 @@ export class UserDao {
   )
   educationalInstitutions: EducationalInstitutionDao[];
 
-  @OneToMany(() => IdeaDao, (idea) => idea.user)
+  @OneToMany(() => IdeaDao, (idea) => idea.author)
   ideas: IdeaDao[];
 
   @ManyToMany(() => CharacteristicDao)
