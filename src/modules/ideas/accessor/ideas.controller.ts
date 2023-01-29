@@ -8,6 +8,7 @@ import {
   Query,
   Patch,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -36,6 +37,15 @@ export class IdeasController {
       authorId: user.id,
       ...payload,
     });
+
+    return {
+      idea: this.ideaResource.convert(idea),
+    };
+  }
+
+  @Get(':idea_id')
+  async findOne(@Param('idea_id') ideaId: string) {
+    const idea = await this.ideasService.findOne(+ideaId);
 
     return {
       idea: this.ideaResource.convert(idea),
@@ -73,6 +83,15 @@ export class IdeasController {
     @Body() payload: AccessorUpdateIdeaDto,
   ) {
     const idea = await this.ideasService.updateAndFetchById(+ideaId, payload);
+
+    return {
+      idea: this.ideaResource.convert(idea),
+    };
+  }
+
+  @Delete(':idea_id')
+  async delete(@Param('idea_id') ideaId: string) {
+    const idea = await this.ideasService.delete(+ideaId);
 
     return {
       idea: this.ideaResource.convert(idea),
