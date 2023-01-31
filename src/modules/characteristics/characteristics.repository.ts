@@ -16,6 +16,7 @@ export class CharacteristicsRepository {
     payload: CreateCharacteristicDto,
   ): Promise<UserCharacteristic> {
     const characteristic = this.characteristicsRepository.create(payload);
+
     return this.characteristicsRepository.save(characteristic);
   }
 
@@ -23,13 +24,5 @@ export class CharacteristicsRepository {
     return this.characteristicsRepository.findOneBy({
       name,
     });
-  }
-
-  findAllByUserId(userId: number): Promise<UserCharacteristic[]> {
-    return this.characteristicsRepository
-      .createQueryBuilder()
-      .relation('characteristics')
-      .of(userId)
-      .loadMany();
   }
 }

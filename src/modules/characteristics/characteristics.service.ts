@@ -34,10 +34,6 @@ export class CharacteristicsService {
     return this.characteristicsRepository.insertAndFetch(payload);
   }
 
-  findAllByUserId(userId: number) {
-    return this.characteristicsRepository.findAllByUserId(userId);
-  }
-
   findOneByNameWithoutAbsenceCheck(name: string): Promise<UserCharacteristic> {
     return this.characteristicsRepository.findOneByName(name);
   }
