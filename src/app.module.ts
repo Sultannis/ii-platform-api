@@ -17,6 +17,7 @@ import { IdeaDao } from './common/dao/idea.dao';
 import { TagDao } from './common/dao/tag.dao';
 import { IdeaImageDao } from './common/dao/idea-image.dao';
 import { IdeasModule } from './modules/ideas/ideas.module';
+import { TagsModule } from './modules/tags/tags.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { IdeasModule } from './modules/ideas/ideas.module';
     EducationalInstitutionsModule,
     ContactListsModule,
     IdeasModule,
+    TagsModule,
   ],
 })
 export class AppModule {}
