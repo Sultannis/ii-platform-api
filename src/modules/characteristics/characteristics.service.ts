@@ -24,10 +24,9 @@ export class CharacteristicsService {
     const characteristic = await this.characteristicsRepository.findOneByName(
       payload.name,
     );
-
     if (characteristic) {
       throw new ConflictException(
-        'UserCharacteristic with provided name already exist',
+        'Characteristic with provided name already exist',
       );
     }
 
@@ -44,13 +43,20 @@ export class CharacteristicsService {
     );
 
     if (!characteristic) {
-      throw new NotFoundException('UserCharacteristic does not exist');
+      throw new NotFoundException('Characteristic does not exist');
     }
 
     return characteristic;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} characteristic`;
+  async remove(characteristicId: number) {
+    const characteristic = await this.characteristicsRepository.findOneById(
+      characteristicId,
+    );
+    if (!characteristic) {
+      throw new NotFoundException('Characteristic does not exist');
+    }
+
+    await this.characteristicsRepository.deleteById(characteristicId);
   }
 }
