@@ -50,10 +50,6 @@ export class CharacteristicsService {
     return characteristic;
   }
 
-  update(id: number, updateCharacteristicDto: UpdateCharacteristicDto) {
-    return `This action updates a #${id} characteristic`;
-  }
-
   remove(id: number) {
     return `This action removes a #${id} characteristic`;
   }
