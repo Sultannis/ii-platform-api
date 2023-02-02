@@ -29,6 +29,7 @@
     "migration:generate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.264.0",
     "@faker-js/faker": "^7.6.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
