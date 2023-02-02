@@ -11,7 +11,7 @@ export class WorkCompaniesService {
     private readonly workCompaniesRepository: WorkCompaniesRepository,
   ) {}
 
-  create(createWorkCompanyDto: CreateWorkCompanyDto) {    
+  create(createWorkCompanyDto: CreateWorkCompanyDto) {
     return this.workCompaniesRepository.create(createWorkCompanyDto);
   }
 
