@@ -76,8 +76,16 @@ export class UsersService {
     return [user, token];
   }
 
-  async uploadUserAvatar(userId: number, image: Express.Multer.File) {
+  async uploadUserAvatar(
+    userId: number,
+    image: Express.Multer.File,
+  ): Promise<User> {
+    const user = await this.usersRepository.findOneById(userId);
+    if (!user) {
+      throw new NotFoundException('User does not exist');
+    }
 
+    return user;
   }
 
   findAllWithStartTimestamp(
