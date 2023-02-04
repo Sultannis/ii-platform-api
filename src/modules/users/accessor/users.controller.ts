@@ -6,7 +6,11 @@ import {
   Param,
   Get,
   Query,
+  UseInterceptors,
+  UploadedFile,
+  HostParam,
 } from '@nestjs/common';
+import { Express } from 'express';
 import { UsersService } from '../users.service';
 import { UserResource } from './resources/user.resource';
 import { AccessorLoginUserDto } from './dto/accessor-login-user.dto';
@@ -18,6 +22,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { AccessorFindAllPeopleDto } from './dto/accessor-find-all-people.dto';
 import { AccessorFetchRecomendedPeopleDto } from './dto/accessor-fetch-recomended-people.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @Controller('users')
@@ -59,6 +64,19 @@ export class UsersController {
       auth: {
         token,
       },
+      user: this.userResource.convert(user),
+    };
+  }
+
+  @Post(':user_id/avatar')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadAvatar(
+    @Param() userId: string,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    const user = await this.usersService.uploadUserAvatar(+userId, image);
+
+    return {
       user: this.userResource.convert(user),
     };
   }

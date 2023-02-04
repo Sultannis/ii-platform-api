@@ -76,6 +76,10 @@ export class UsersService {
     return [user, token];
   }
 
+  async uploadUserAvatar(userId: number, image: Express.Multer.File) {
+
+  }
+
   findAllWithStartTimestamp(
     payload: FindAllPeopleDto,
   ): Promise<[users: User[], total: number]> {

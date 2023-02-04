@@ -6,9 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { IdeaDao } from 'src/common/dao/idea.dao';
 import { UsersModule } from '../users/users.module';
 import { IdeaResource } from './accessor/resources/idea.resource';
+import { IdeaImageDao } from 'src/common/dao/idea-image.dao';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([IdeaDao]), UsersModule],
+  imports: [TypeOrmModule.forFeature([IdeaDao, IdeaImageDao]), UsersModule],
   controllers: [IdeasController],
   providers: [IdeasService, IdeasRepository, IdeaResource],
 })
