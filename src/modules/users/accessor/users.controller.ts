@@ -71,7 +71,7 @@ export class UsersController {
   @Post(':user_id/avatar')
   @UseInterceptors(FileInterceptor('image'))
   async uploadAvatar(
-    @Param() userId: string,
+    @Param('user_id') userId: string,
     @UploadedFile() image: Express.Multer.File,
   ) {
     const user = await this.usersService.uploadUserAvatar(+userId, image);

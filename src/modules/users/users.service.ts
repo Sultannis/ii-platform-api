@@ -16,6 +16,7 @@ import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
 import { CharacteristicsService } from 'src/modules/characteristics/characteristics.service';
 import { UserCharacteristic } from 'src/common/entities/characteristic';
 import { ContactListsService } from '../contact-lists/contact-lists.service';
+import { ImagesService } from '../images/images.service';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +25,7 @@ export class UsersService {
     private readonly authService: AuthService,
     private readonly characteristicsService: CharacteristicsService,
     private readonly contactListService: ContactListsService,
+    private readonly imagesService: ImagesService,
   ) {}
 
   async register(
@@ -84,6 +86,8 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
+
+    await this.imagesService.processImageForStorage(image.buffer);
 
     return user;
   }
