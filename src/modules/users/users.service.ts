@@ -87,8 +87,10 @@ export class UsersService {
       throw new NotFoundException('User does not exist');
     }
 
-    await this.imagesService.processImageForStorage(image.buffer);
+    const processedImageBuffer =
+      await this.imagesService.processImageForStorage(image.buffer);
 
+    console.log(processedImageBuffer);
     return user;
   }
 

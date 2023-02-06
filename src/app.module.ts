@@ -19,6 +19,7 @@ import { IdeaImageDao } from './common/dao/idea-image.dao';
 import { IdeasModule } from './modules/ideas/ideas.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { ImagesModule } from './modules/images/images.module';
+import { StorageModule } from './modules/storage/storage.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { ImagesModule } from './modules/images/images.module';
     IdeasModule,
     TagsModule,
     ImagesModule,
+    StorageModule,
   ],
 })
 export class AppModule {}
