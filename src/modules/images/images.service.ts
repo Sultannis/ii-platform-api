@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import sharp from 'sharp';
-import { S3Client } from '@aws-sdk/client-s3';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class ImagesService {
-  constructor() {
-    
-  }
+  constructor(private readonly storageService: StorageService) {}
 
   async processImageForStorage(imageBuffer: Buffer): Promise<Buffer> {
     const meta = await sharp(imageBuffer).toFormat('webp').toBuffer();
@@ -14,7 +12,7 @@ export class ImagesService {
     return meta;
   }
 
-  async uploadImageToStorage(
-    
-  ) {}
+  uploadImageToStorage(imageBuffer: Buffer) {
+    return this.storageService.uploadFile(imageBuffer);
+  }
 }

@@ -90,7 +90,8 @@ export class UsersService {
     const processedImageBuffer =
       await this.imagesService.processImageForStorage(image.buffer);
 
-    console.log(processedImageBuffer);
+    await this.imagesService.uploadImageToStorage(processedImageBuffer);
+
     return user;
   }
 
