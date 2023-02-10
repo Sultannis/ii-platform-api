@@ -1,8 +1,11 @@
-import { PutObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+import {
+  PutObjectCommand,
+  RestoreObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { HttpException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import { storageConfig } from 'src/common/configs/storage.config';
-import { Readable } from 'stream';
 
 @Injectable()
 export class StorageService {
@@ -14,15 +17,17 @@ export class StorageService {
     },
   });
 
-  async uploadFile(buffer: Buffer): Promise<void> {
+  async uploadFile(buffer: Buffer) {
     try {
-      await this.client.send(
+      const result = await this.client.send(
         new PutObjectCommand({
           Bucket: 'ii-platform',
           Key: 'test-keydsf.webp',
           Body: buffer,
         }),
       );
+
+      return result;
     } catch (err) {
       console.log(err);
       throw new HttpException('Error during uploading file to storage', 133);
