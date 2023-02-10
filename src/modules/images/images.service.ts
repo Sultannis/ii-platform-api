@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import sharp from 'sharp';
+import { v4 as uuidv4 } from 'uuid';
+import { Injectable } from '@nestjs/common';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable()
@@ -12,7 +13,17 @@ export class ImagesService {
     return meta;
   }
 
-  uploadImageToStorage(imageBuffer: Buffer) {
-    return this.storageService.uploadFile(imageBuffer);
+  async uploadImageToStorage(
+    imageBuffer: Buffer,
+    fileKey?: string,
+  ): Promise<string> {
+    const uuidKey = fileKey ? fileKey : uuidv4();
+    await this.storageService.uploadFile(imageBuffer, uuidKey);
+
+    return uuidKey;
+  }
+
+  deleteImageFromStorage(imageKey: string): Promise<void> {
+    return this.storageService.deleteFile(imageKey);
   }
 }

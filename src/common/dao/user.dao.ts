@@ -67,8 +67,13 @@ export class UserDao {
   })
   bio?: string;
 
-  @Column({ name: 'avatar_url', type: 'varchar', nullable: true })
-  avatarUrl?: string;
+  @Column({
+    name: 'avatar_file_key',
+    type: 'varchar',
+    nullable: true,
+    length: 255,
+  })
+  avatarFileKey?: string;
 
   @Column({ name: 'role', type: 'smallint', default: 0 })
   role: number;

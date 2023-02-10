@@ -89,12 +89,15 @@ export class UsersService {
 
     const processedImageBuffer =
       await this.imagesService.processImageForStorage(image.buffer);
-
-    const result = await this.imagesService.uploadImageToStorage(
+    const fileKey = await this.imagesService.uploadImageToStorage(
       processedImageBuffer,
+      user.avatarFileKey,
     );
 
-    console.log(result);
+    if(!user.avatarFileKey) {
+      return this.usersRepository.setUserAvatarFileKeyAndFetchById(user.id, fileKey)
+    }
+
     return user;
   }
 
