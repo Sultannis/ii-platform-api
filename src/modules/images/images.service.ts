@@ -7,10 +7,11 @@ import { StorageService } from '../storage/storage.service';
 export class ImagesService {
   constructor(private readonly storageService: StorageService) {}
 
-  async processImageForStorage(imageBuffer: Buffer): Promise<Buffer> {
-    const meta = await sharp(imageBuffer).toFormat('webp').toBuffer();
-
-    return meta;
+  async processImageForStorage(imageBuffer: Buffer) {
+    return sharp(imageBuffer)
+      .resize({ width: 400, height: 400 })
+      .webp()
+      .toBuffer();
   }
 
   async uploadImageToStorage(
