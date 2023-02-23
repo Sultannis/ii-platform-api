@@ -11,6 +11,7 @@ import { UserCharacteristicDao } from 'src/common/dao/user-characteristic.dao';
 import { WorkCompaniesModule } from '../work-companies/work-companies.module';
 import { EducationalInstitutionsModule } from '../educational-institutions/educational-institutions.module';
 import { ContactListsModule } from '../contact-lists/contact-lists.module';
+import { ImagesModule } from '../images/images.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ContactListsModule } from '../contact-lists/contact-lists.module';
     CharacteristicsModule,
     WorkCompaniesModule,
     EducationalInstitutionsModule,
+    ImagesModule,
     forwardRef(() => ContactListsModule),
   ],
   controllers: [UsersController],

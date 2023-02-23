@@ -16,6 +16,7 @@ import { FindRecomendedPeopleDto } from './dto/find-recomended-people.dto';
 import { CharacteristicsService } from 'src/modules/characteristics/characteristics.service';
 import { UserCharacteristic } from 'src/common/entities/characteristic';
 import { ContactListsService } from '../contact-lists/contact-lists.service';
+import { ImagesService } from '../images/images.service';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +25,7 @@ export class UsersService {
     private readonly authService: AuthService,
     private readonly characteristicsService: CharacteristicsService,
     private readonly contactListService: ContactListsService,
+    private readonly imagesService: ImagesService,
   ) {}
 
   async register(
@@ -74,6 +76,29 @@ export class UsersService {
     });
 
     return [user, token];
+  }
+
+  async uploadUserAvatar(
+    userId: number,
+    image: Express.Multer.File,
+  ): Promise<User> {
+    const user = await this.usersRepository.findOneById(userId);
+    if (!user) {
+      throw new NotFoundException('User does not exist');
+    }
+
+    const processedImageBuffer =
+      await this.imagesService.processImageForStorage(image.buffer);
+    const fileKey = await this.imagesService.uploadImageToStorage(
+      processedImageBuffer,
+      user.avatarFileKey,
+    );
+
+    if(!user.avatarFileKey) {
+      return this.usersRepository.setUserAvatarFileKeyAndFetchById(user.id, fileKey)
+    }
+
+    return user;
   }
 
   findAllWithStartTimestamp(

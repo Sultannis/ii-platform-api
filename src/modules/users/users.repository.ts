@@ -72,6 +72,7 @@ export class UsersRepository {
 
   create(payload: RegisterUserDto): Promise<User> {
     const user = this.usersRepository.create(payload);
+
     return this.usersRepository.save(user);
   }
 
@@ -108,6 +109,17 @@ export class UsersRepository {
     payload: Omit<UpdateUserDto, 'characteristics'>,
   ): Promise<User> {
     await this.usersRepository.update(userId, payload);
+
+    return this.usersRepository.findOneBy({
+      id: userId,
+    });
+  }
+
+  async setUserAvatarFileKeyAndFetchById(
+    userId: number,
+    fileKey: string,
+  ): Promise<User> {
+    await this.usersRepository.update(userId, { avatarFileKey: fileKey });
 
     return this.usersRepository.findOneBy({
       id: userId,

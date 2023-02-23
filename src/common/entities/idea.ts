@@ -12,7 +12,7 @@ export class Idea {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
-  user?: User;
+  author?: User;
   tags?: Tag[];
   images?: IdeaImage[];
 }

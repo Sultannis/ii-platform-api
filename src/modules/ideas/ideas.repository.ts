@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IdeaImageDao } from 'src/common/dao/idea-image.dao';
 import { IdeaDao } from 'src/common/dao/idea.dao';
 import { Idea } from 'src/common/entities/idea';
 import { Repository } from 'typeorm';
@@ -12,6 +13,8 @@ export class IdeasRepository {
   constructor(
     @InjectRepository(IdeaDao)
     private readonly ideasRepository: Repository<IdeaDao>,
+    @InjectRepository(IdeaImageDao)
+    private readonly ideaImagesRepository: Repository<IdeaImageDao>,
   ) {}
 
   insertAndFetch(payload: CreateIdeaDto): Promise<Idea> {

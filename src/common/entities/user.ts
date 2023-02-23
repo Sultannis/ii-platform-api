@@ -13,7 +13,7 @@ export class User {
   residenceCountry?: string;
   residenceCity?: string;
   bio?: string;
-  avatarUrl?: string;
+  avatarFileKey?: string;
   role: number;
   password: string;
   confirmedAt?: string;

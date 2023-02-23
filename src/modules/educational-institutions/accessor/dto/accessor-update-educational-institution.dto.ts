@@ -3,7 +3,7 @@ import { IsDateString, IsOptional, IsString } from 'class-validator';
 export class AccessorUpdateEducationalInstitutionDto {
   @IsOptional()
   @IsString()
-institution_name?: string;
+  institution_name?: string;
 
   @IsOptional()
   @IsString()

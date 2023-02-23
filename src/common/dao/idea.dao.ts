@@ -45,8 +45,8 @@ export class IdeaDao {
   deletedAt?: string;
 
   @ManyToOne(() => UserDao, (user) => user.ideas)
-  @JoinColumn({ name: 'user_id' })
-  user?: UserDao;
+  @JoinColumn({ name: 'author_id' })
+  author?: UserDao;
 
   @ManyToMany(() => TagDao)
   @JoinTable({
