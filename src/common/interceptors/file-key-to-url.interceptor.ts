@@ -21,6 +21,9 @@ export class FileKeyToUrlInterceptor implements NestInterceptor<any, any> {
           responseDataParameterValueToProcess: unknown,
         ) => {
           if (Array.isArray(responseDataParameterValueToProcess)) {
+            if (typeof responseDataParameterValueToProcess[0] !== 'object') {
+              return responseDataParameterValueToProcess;
+            }
             return responseDataParameterValueToProcess.map((item) =>
               recursiveToLookForUrlParams(item),
             );
